@@ -22,6 +22,25 @@ Session::~Session() {
 	delete m_user;
 }
 
+string Session::encrypt(const string &word) const {
+#ifdef __linux__
+	unsigned char hash[SHA256_DIGEST_LENGTH];
+	SHA256_CTX sha256;
+	SHA256_Init(&sha256);
+	SHA256_Update(&sha256, word.c_str(), word.length());
+	SHA256_Final(hash, &sha256);
+	string result = string();
+	stringstream sstream;
+	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+		sstream << hex << (int) hash[i];
+		result = sstream.str();
+	}
+#elif _WIN32
+    // TODO: Windows hashing code should go here, important to modify string called "result"
+#endif
+	return result;
+}
+
 bool Session::isAuthorized(int priv) {
 	if (!bIsLoggedIn) return false;
 	return (m_user->getCaps() & priv);
@@ -249,25 +268,6 @@ void Session::setSessionCapabilities() {
 	default:
 		break;
 	}
-}
-
-string Session::encrypt(const string &word) const {
-#ifdef __linux__
-	unsigned char hash[SHA256_DIGEST_LENGTH];
-	SHA256_CTX sha256;
-	SHA256_Init(&sha256);
-	SHA256_Update(&sha256, word.c_str(), word.length());
-	SHA256_Final(hash, &sha256);
-	string result = string();
-	stringstream sstream;
-	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-		sstream << hex << (int) hash[i];
-		result = sstream.str();
-	}
-#elif _WIN32
-    // TODO: Windows hashing code should go here, important to modify string called "result"
-#endif
-	return result;
 }
 
 Person* Session::getPerson(const string &username) {
