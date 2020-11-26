@@ -325,7 +325,6 @@ bool Database::insertPerson(Person *p) {
 	sqlite3_stmt *stmt;
 
 	string sql = "INSERT OR REPLACE INTO PERSONS VALUES (?,?,?,?,?,?,?,?,?);";
-
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare insert statment " << sql.c_str() << " " << rc
