@@ -71,8 +71,6 @@ public:
 	bool canDeleteCustomer() {return bCustDelete;}
 	bool canActivateCustomer() {return bCustActivate;}
 	bool canDeactivateCustomer() {return bCustDeactivate;}
-
-
 };
 
 #endif /* SRC_EMPLOYEE_H_ */

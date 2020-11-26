@@ -50,7 +50,6 @@ bool Session::updateAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
-
 	return true;
 }
 
@@ -68,7 +67,6 @@ bool Session::deleteAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
-
 	return true;
 }
 
@@ -174,7 +172,6 @@ bool Session::printAdminInfo(Admin *admin) {
     cout << endl;
 
     if (admin && admin->getUserName() != m_user->getUserName()) delete admin;
-
     return true;
 }
 
@@ -199,7 +196,6 @@ bool Session::ListAllAdmins() {
 		printAdminInfo(admin);
 
 	admins.clear();
-
 	return true;
 }
 
@@ -234,7 +230,6 @@ bool Session::updateEmployee(Employee *emp) {
 		if (emp) delete emp;
 		return false;
 	}
-
 	return true;
 }
 
@@ -381,7 +376,6 @@ bool Session::printEmployeeInfo(Employee *emp) {
     cout << endl;
 
     if (emp && emp->getUserName() != m_user->getUserName()) delete emp;
-
 	return true;
 }
 
@@ -406,7 +400,6 @@ bool Session::ListAllEmployees() {
  * */
 
 void Ui::ui_create_admin() {
-
 	string username;
 	string firstname;
 	string lastname;
@@ -538,15 +531,12 @@ void Ui::ui_create_admin() {
 				<< "Error creating the administrator please contact the super admin"
 				<< endl;
 		return;
-	} else {
-		cout
-				<< "Administrator was created successfully, please login to continue working"
-				<< endl;
-	}
+	} else
+		cout << "Administrator was created successfully, please login to continue working"
+			<< endl;
 }
 
 void Ui::ui_update_admin() {
-
 	string username;
 	string firstname;
 	string lastname;
@@ -667,15 +657,12 @@ void Ui::ui_update_admin() {
 		cerr << "Error updating " << username
 				<< " please contact the super admin" << endl;
 		return;
-	} else {
-		cout
-				<< "Administrator was updated successfully, please login to continue working"
-				<< endl;
-	}
+	} else
+		cout << "Administrator was updated successfully, please login to continue working"
+			<< endl;
 }
 
 void Ui::ui_delete_admin() {
-
 	string username = "";
 	Admin *tmp;
 	cout << "Enter administrator's user name to delete: ";
@@ -687,10 +674,9 @@ void Ui::ui_delete_admin() {
 			return;
 		} else
 			cout << "Deleted admin account: " << username << endl;
-	} else {
+	} else
 		cout << "Failed to query the deleting desired Admin: " << username
-				<< endl;
-	}
+			<< endl;
 }
 
 void Ui::ui_activate_admin() {
@@ -736,7 +722,6 @@ void Ui::ui_deactivate_admin() {
 }
 
 void Ui::ui_print_admin() {
-
 	string username;
 		cout << "Admin username: ";
 		cin >> username;
@@ -762,7 +747,6 @@ void Ui::ui_listall_admin() {
 }
 
 void Ui::ui_create_employee() {
-
 	string username;
 	string firstname;
 	string lastname;
@@ -977,10 +961,9 @@ void Ui::ui_create_employee() {
 		cerr << "Error creating the Employee please contact the super admin"
 				<< endl;
 		return;
-	} else {
+	} else
 		cout << "Employee was created successfully, please login to continue working"
-				<< endl;
-	}
+			<< endl;
 
 }
 
@@ -1015,7 +998,6 @@ void Ui::ui_update_employee() {
 	tmp->setFirstName(firstname);
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
-
 	tmp->isLocked() ? tmp->lock() : tmp->unlock();
 
 	do {
@@ -1190,16 +1172,12 @@ void Ui::ui_update_employee() {
 		cerr << "Error updating " << username << " please contact the admin"
 				<< endl;
 		return;
-	} else {
-		cout
-				<< "Employee was updated successfully, please login to continue working"
-				<< endl;
-	}
-
+	} else
+		cout << "Employee was updated successfully, please login to continue working"
+			<< endl;
 }
 
 void Ui::ui_delete_employee() {
-
 	string username = "";
 	Employee *tmp;
 	cout << "Enter Emplyee's user name to delete: ";
@@ -1214,12 +1192,10 @@ void Ui::ui_delete_employee() {
 			cout << "Deleted employee account: " << username << endl;
 	} else
 		cout << "Failed to query the deleting desired Employee: " << username
-				<< endl;
-
+			<< endl;
 }
 
 void Ui::ui_activate_employee() {
-
 	string username;
 	Employee *tmp;
 
@@ -1236,11 +1212,10 @@ void Ui::ui_activate_employee() {
 				<< " please contact the admins" << endl;
 	} else
 		cout << "Employee was activated successfully, please login to continue working"
-				<< endl;
+			<< endl;
 }
 
 void Ui::ui_deactivate_employee() {
-
 	string username;
 	Employee *tmp;
 
@@ -1257,11 +1232,10 @@ void Ui::ui_deactivate_employee() {
 				<< " please contact the admins" << endl;
 	} else
 		cout << "Employee was activated successfully, please login to continue working"
-				<< endl;
+			<< endl;
 }
 
 void Ui::ui_print_employee() {
-
 	string username;
 	cout << "Employee username: ";
 	cin >> username;
@@ -1271,10 +1245,8 @@ void Ui::ui_print_employee() {
 		return;
 	}
 
-	if (!m_session->printEmployeeInfo(emp)) {
+	if (!m_session->printEmployeeInfo(emp))
 		cerr << "Error printing employee info" << endl;
-	}
-
 }
 
 void Ui::ui_listall_employee() {

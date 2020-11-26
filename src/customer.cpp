@@ -21,28 +21,23 @@ using namespace std;
  * */
 
 bool Session::withdraw(const int sum) {
-
 	Customer *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
 
 	int oldBalance = cust->getAccount()->getBalance();
-	if (cust->getAccount()->getBalance() < sum) {
+	if (cust->getAccount()->getBalance() < sum)
 		return false;
-	}
 
 	cust->getAccount()->setBalance(oldBalance - sum);
-
 	// Stricktly verify since it is user money
 	if (cust->getAccount()->getBalance() == (oldBalance - sum))
 		if (m_db->insertAccount(cust->getAccount()))
 			return true;
-
 	return false;
 }
 
 bool Session::transfer(const int to, const int sum) {
-
 	Customer *cust = dynamic_cast<Customer*>(this->m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
@@ -67,7 +62,6 @@ bool Session::transfer(const int to, const int sum) {
 }
 
 bool Session::deposit(const int sum) {
-
 	Customer *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
@@ -79,7 +73,6 @@ bool Session::deposit(const int sum) {
 	if (cust->getAccount()->getBalance() == (oldBalance + sum))
 		if (m_db->insertAccount(cust->getAccount()))
 			return true;
-
 	return false;
 }
 
@@ -138,9 +131,8 @@ void Ui::ui_transfer_own() {
 		cerr << "Amount or bank account are invalid" << endl;
 		return;
 	}
-	else {
+	else
 		cout << "Successfull transfer" << endl;
-	}
 }
 
 void Ui::ui_deposit_own() {
@@ -161,9 +153,8 @@ void Ui::ui_deposit_own() {
 		cerr << "Invalid deposit" << endl;
 		return;
 	}
-	else {
+	else
 		cout << "Successfull deposit" << endl;
-	}
 }
 
 void Ui::ui_withdraw() {
@@ -184,9 +175,8 @@ void Ui::ui_withdraw() {
 		cerr << "Invalid withdrawal" << endl;
 		return;
 	}
-	else {
+	else
 		cout << "Successfull withdrawal" << endl;
-	}
 }
 
 void Ui::ui_print_own_customer() {

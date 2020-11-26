@@ -31,7 +31,6 @@ bool Session::createAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
-
 	return true;
 }
 
@@ -46,7 +45,6 @@ bool Session::updateAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
-
 	return true;
 }
 
@@ -61,7 +59,6 @@ bool Session::deleteAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
-
 	return true;
 }
 
@@ -78,7 +75,6 @@ bool Session::activateAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
-
 	return true;
 }
 
@@ -95,12 +91,10 @@ bool Session::deactivateAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
-
 	return true;
 }
 
 bool Session::printAccountInfo(Account *acct) {
-
 	if (!acct || (typeid(*acct) != typeid(Account)))
 		return false;
 
@@ -143,7 +137,6 @@ bool Session::printAccountInfo(Account *acct) {
 	cout << endl;
 
 	if (acct && acct_owner && acct_owner->getId() != m_user->getId()) delete acct;
-
 	return true;
 }
 
@@ -160,7 +153,6 @@ bool Session::ListAllAccounts() {
 		printAccountInfo(account);
 
 	accounts.clear();
-
 	return true;
 }
 
@@ -178,7 +170,6 @@ bool Session::createCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
-
 	return true;
 }
 
@@ -196,7 +187,6 @@ bool Session::updateCustomer(Customer *customer) {  // REVISIT ME
 		if (customer) delete customer;
 		return false;
 	}
-
 	return true;
 }
 
@@ -233,7 +223,6 @@ bool Session::activateCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
-
 	return true;
 }
 
@@ -253,7 +242,6 @@ bool Session::deactivateCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
-
 	return true;
 }
 
@@ -302,7 +290,6 @@ bool Session::printCustomerInfo(Customer *customer) {
     cout << endl;
 
     if (customer && customer->getId() != m_user->getId()) delete customer;
-
 	return true;
 }
 
@@ -318,7 +305,6 @@ bool Session::ListAllCustomers() {
 		printCustomerInfo(customer);
 
 	customers.clear();
-
 	return true;
 }
 
@@ -329,7 +315,6 @@ bool Session::printEmployeeInfo() {
 }
 
 bool Session::transfer(Account *from, Account *to, const int sum) {
-
 	if (!from || !to || sum > from->getBalance())
 		return false;
 
@@ -351,12 +336,10 @@ bool Session::transfer(Account *from, Account *to, const int sum) {
 		if (to) delete to;
 		return false;
 	}
-
 	return true;
 }
 
 bool Session::deposit(Account *acct, const int sum) {
-
 	if (typeid(*acct) != typeid(Account))
 		return false;
 
@@ -385,7 +368,6 @@ void Ui::ui_print_own_employee() {
 }
 
 void Ui::ui_create_customer() {
-
 	string username;
 	string firstname;
 	string lastname;
@@ -432,14 +414,12 @@ void Ui::ui_create_customer() {
 		cerr << "Error creating the customer please contact the an  administrator"
 			<< endl;
 		return;
-	} else {
+	} else
 		cout << "Customer was created successfully, please login to continue working"
 			<< endl;
-	}
 }
 
 void Ui::ui_update_customer() {
-
 	string username;
 	string firstname;
 	string lastname;
@@ -475,14 +455,12 @@ void Ui::ui_update_customer() {
 		cerr << "Error updating " << username
 				<< " please contact an admin" << endl;
 		return;
-	} else {
+	} else
 		cout << "Customer was updated successfully, please login to continue working"
 			<< endl;
-	}
 }
 
 void Ui::ui_delete_customer() {
-
 	string username = "";
 	Customer *tmp;
 	cout << "Enter Customer's user name to delete: ";
@@ -501,7 +479,6 @@ void Ui::ui_delete_customer() {
 }
 
 void Ui::ui_activate_customer() {
-
 	string username;
 	Customer *tmp;
 
@@ -523,7 +500,6 @@ void Ui::ui_activate_customer() {
 }
 
 void Ui::ui_deactivate_customer() {
-
 	string username;
 	Customer *tmp;
 
@@ -544,7 +520,6 @@ void Ui::ui_deactivate_customer() {
 }
 
 void Ui::ui_print_customer() {
-
 	string username;
 	cout << "Customer username: ";
 	cin >> username;
@@ -565,7 +540,6 @@ void Ui::ui_listall_customer() {
 }
 
 void Ui::ui_create_account() {
-
 	Account *acct = new Account();
 	acct->setId(m_session->genAccountId());
 	string customer_name = "";
@@ -583,13 +557,12 @@ void Ui::ui_create_account() {
 	if (!m_session->createAccount(acct)) {
 		cerr << "Error creating an account" << endl;
 		return;
-	} else {
+	} else
 		cout << "Account " << acct->getId() << " created successfully" << endl;
-	}
+
 }
 
 void Ui::ui_update_account() {
-
 	int account_number;
 	cout << "Enter account number: ";
 	cin >> account_number;
@@ -625,13 +598,12 @@ void Ui::ui_update_account() {
 			break;
 	}
 
-	if (newbalance > 0) {
+	if (newbalance > 0)
 		acct->setBalance(newbalance);
-	}
 
-	if (!m_session->createAccount(acct)) {
+	if (!m_session->createAccount(acct))
 		cerr << "Error creating an account" << endl;
-	} else {
+	 else {
 		cout << "Account created successfully" << endl;
 		delete acct;
 	}
@@ -656,10 +628,9 @@ void Ui::ui_delete_account() {
 		cerr << "No such account"<< endl;
 		return;
 	}
-
-	if (!m_session->deleteAccount(tmp)) {
+	if (!m_session->deleteAccount(tmp))
 		cerr << "Error deleting account" << endl;
-	} else
+	else
 		cout << "Account deleted Successfully" << endl;
 }
 
@@ -681,10 +652,9 @@ void Ui::ui_activate_account() {
 		cerr << "No such account" << endl;
 		return;
 	}
-
-	if (!m_session->activateAccount(acct)) {
+	if (!m_session->activateAccount(acct))
 		cerr << "Failed to activate account" << endl;
-	} else
+	 else
 		cout << "Account activated succesfully" << endl;
 }
 
@@ -716,7 +686,6 @@ void Ui::ui_deactivate_account() {
 }
 
 void Ui::ui_print_account() {
-
 	int account_number;
 	cout << "Enter account number:";
 	cin >> account_number;
@@ -735,11 +704,8 @@ void Ui::ui_print_account() {
 		cerr << "No such account" << endl;
 		return;
 	}
-
-	if (!m_session->printAccountInfo(tmp)) {
+	if (!m_session->printAccountInfo(tmp))
 		cerr << "Failed to print account info" << endl;
-	}
-
 }
 
 void Ui::ui_listall_account() {
@@ -803,10 +769,8 @@ void Ui::ui_transfer() {
 	if (!m_session->transfer(sacct, dacct, sum)) {
 		cerr << "Amount or bank accounts are invalid" << endl;
 	}
-	else {
+	else
 		cout << "Successfull transfer" << endl;
-	}
-
 }
 
 void Ui::ui_deposit() {
@@ -842,13 +806,10 @@ void Ui::ui_deposit() {
 		} else
 			break;
 	}
-
-
 	if (!m_session->deposit(acct, sum)) {
 		cerr << "Amount or bank account are invalid" << endl;
 	}
-	else {
+	else
 		cout << "Successfull deposit" << endl;
-	}
 }
 

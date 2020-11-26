@@ -95,7 +95,6 @@ bool Session::changePassword(Person *p, const string &newpassword) {
 	default:
 		return false;
 	}
-
 	return true;
 }
 
@@ -128,12 +127,10 @@ string Session::getSessionUserType() {
 }
 
 void Session::setSessionCapabilities() {
-
 	setUserType();
 	switch (m_userType) {
 	case CUSTOMER: {
 		Customer *tmpcust = dynamic_cast<Customer*>(m_user);
-
 		m_sessionCapabilities.push_back("Transfer money to another Account");
 		m_sessionCapabilities.push_back("Deposit");
 		m_sessionCapabilities.push_back("Withdraw");
@@ -148,40 +145,29 @@ void Session::setSessionCapabilities() {
 		Employee *tmpemp = dynamic_cast<Employee*>(m_user);
 		if (tmpemp->canCreateAccount())
 			m_sessionCapabilities.push_back("Create Account");
-
 		if (tmpemp->canUpdateAccount())
 			m_sessionCapabilities.push_back("Update Account");
-
 		if (tmpemp->canDeleteAccount())
 			m_sessionCapabilities.push_back("Delete Account");
-
 		if (tmpemp->canActivateAccount())
 			m_sessionCapabilities.push_back("Activate Account");
-
 		if (tmpemp->canDeactivateAccount())
 			m_sessionCapabilities.push_back("Deactivate Account");
-
 		if (tmpemp->canPrintAccountInfo()) {
 			m_sessionCapabilities.push_back("Print Account Information");
 			if (tmpemp->canListAllAccounts())
 				m_sessionCapabilities.push_back("List All Accounts");
 		}
-
 		if (tmpemp->canCreateCustomer())
 			m_sessionCapabilities.push_back("Create a new Customer");
-
 		if (tmpemp->canUpdateCustomer())
 			m_sessionCapabilities.push_back("Update Existing Customer");
-
 		if (tmpemp->canDeleteCustomer())
 			m_sessionCapabilities.push_back("Delete Customer");
-
 		if (tmpemp->canActivateCustomer())
 			m_sessionCapabilities.push_back("Activate Customer");
-
 		if (tmpemp->canDeactivateCustomer())
 			m_sessionCapabilities.push_back("Deactivate Customer");
-
 		if (tmpemp->canPrintCustomerInfo()) {
 			m_sessionCapabilities.push_back("Print Customer Information");
 			if (tmpemp->canListAllCustomers())
@@ -198,88 +184,61 @@ void Session::setSessionCapabilities() {
 		Admin *tmpadmin = dynamic_cast<Admin*>(m_user);
 		if (tmpadmin->canCreateAdmin())
 			m_sessionCapabilities.push_back("Create Administrator");
-
 		if (tmpadmin->canUpdateAdmin())
 			m_sessionCapabilities.push_back("Update Administrator");
-
 		if (tmpadmin->canDeleteAdmin())
 			m_sessionCapabilities.push_back("Delete Administrator");
-
 		if (tmpadmin->canActivateAdmin())
 			m_sessionCapabilities.push_back("Activate Administrator");
-
 		if (tmpadmin->canDeactivateAdmin())
 			m_sessionCapabilities.push_back("Deactivate Administrator");
-
 		if (tmpadmin->canPrintAdminInfo()) {
 			m_sessionCapabilities.push_back("Print Administrator Information");
 			if (tmpadmin->canListAllAdmin())
 				m_sessionCapabilities.push_back("List All Administrators");
 		}
-
 		if (tmpadmin->canCreateEmployee())
 			m_sessionCapabilities.push_back("Create Employee");
-
 		if (tmpadmin->canUpdateEmployee())
 			m_sessionCapabilities.push_back("Update Employee");
-
 		if (tmpadmin->canDeleteEmployee())
 			m_sessionCapabilities.push_back("Delete Employee");
-
 		if (tmpadmin->canActivateEmployee())
 			m_sessionCapabilities.push_back("Activate Employee");
-
 		if (tmpadmin->canDeactivateEmployee())
 			m_sessionCapabilities.push_back("Deactivate Employee");
-
 		if (tmpadmin->canPrintEmployeeInfo())
 			m_sessionCapabilities.push_back("Print Employee Information");
-
 		if (tmpadmin->canListAllEmployee())
 			m_sessionCapabilities.push_back("List All Employees");
-
 		if (tmpadmin->canCreateAccount())
 			m_sessionCapabilities.push_back("Create Account");
-
 		if (tmpadmin->canUpdateAccount())
 			m_sessionCapabilities.push_back("Update Account");
-
 		if (tmpadmin->canDeleteAccount())
 			m_sessionCapabilities.push_back("Delete Account");
-
 		if (tmpadmin->canActivateAccount())
 			m_sessionCapabilities.push_back("Activate Account");
-
 		if (tmpadmin->canDeactivateAccount())
 			m_sessionCapabilities.push_back("Deactivate Account");
-
 		if (tmpadmin->canListAllAccounts())
 			m_sessionCapabilities.push_back("List All Accounts");
-
 		if (tmpadmin->canPrintAccountInfo())
 			m_sessionCapabilities.push_back("Print Account Information");
-
 		if (tmpadmin->canCreateCustomer())
 			m_sessionCapabilities.push_back("Create a new Customer");
-
 		if (tmpadmin->canUpdateCustomer())
 			m_sessionCapabilities.push_back("Update Existing Customer");
-
 		if (tmpadmin->canDeleteCustomer())
 			m_sessionCapabilities.push_back("Delete Customer");
-
 		if (tmpadmin->canActivateCustomer())
 			m_sessionCapabilities.push_back("Activate Customer");
-
 		if (tmpadmin->canDeactivateCustomer())
 			m_sessionCapabilities.push_back("Deactivate Customer");
-
 		if (tmpadmin->canPrintCustomerInfo())
 			m_sessionCapabilities.push_back("Print Customer Information");
-
 		if (tmpadmin->canListAllCustomers())
 			m_sessionCapabilities.push_back("List All Customers");
-
 		m_sessionCapabilities.push_back("Print my Administrator Information");
 		m_sessionCapabilities.push_back("Transfer Money between accounts");
 		m_sessionCapabilities.push_back("Deposit Money to Customer");

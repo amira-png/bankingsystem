@@ -16,7 +16,6 @@ class Customer : public Person{
 
 private:
 	Account *m_account;
-
 public:
 	Customer() : m_account(nullptr) {}
 	virtual ~Customer() = default;
@@ -28,5 +27,3 @@ public:
 };
 
 #endif /* SRC_CUSTOMER_H_ */
-
-
