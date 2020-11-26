@@ -18,3 +18,4 @@ target_link_libraries(main -lsqlite3)
 
 ADD_EXECUTABLE(bankingsystem src/main.cpp)
 target_link_libraries(bankingsystem main)
+
