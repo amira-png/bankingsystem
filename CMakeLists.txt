@@ -9,13 +9,10 @@ ADD_LIBRARY(main
     src/database.cpp 
     src/session.cpp 
     src/userinterface.cpp 
-    src/main.cpp
 )
 
 target_link_libraries(main -lcrypto) 
 target_link_libraries(main -lsmartcols)
 target_link_libraries(main -lsqlite3)
-
-ADD_EXECUTABLE(bankingsystem src/main.cpp)
+add_executable(bankingsystem src/main.cpp)
 target_link_libraries(bankingsystem main)
-
