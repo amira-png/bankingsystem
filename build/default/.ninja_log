@@ -1,0 +1,12 @@
+# ninja log v5
+3	632	1606423556146575526	CMakeFiles/bankingsystem.dir/src/main.cpp.o	62a435e5bbeb2dd3
+3	740	1606423556253238801	CMakeFiles/main.dir/src/main.cpp.o	460eae7a0627f21c
+0	775	1606423556289904302	CMakeFiles/main.dir/src/customer.cpp.o	fb3e499af43c20bc
+1	1357	1606423556869885854	CMakeFiles/main.dir/src/session.cpp.o	619e5b017f706202
+0	1613	1606423557126544357	CMakeFiles/main.dir/src/employee.cpp.o	d8db0c72f60a3151
+2	1677	1606423557193208902	CMakeFiles/main.dir/src/userinterface.cpp.o	34ed367d0e0f38d7
+1	2213	1606423557726525272	CMakeFiles/main.dir/src/database.cpp.o	a34b192d92e6e3f1
+0	2271	1606423557786523363	CMakeFiles/main.dir/src/admin.cpp.o	cfca040d026bbd1f
+2272	2287	1606423557799856274	libmain.a	51627c4eaa9b45da
+2287	2396	1606423557909852774	bankingsystem	92b193d11430d295
+0	4	0	clean	a31eedcededa8236

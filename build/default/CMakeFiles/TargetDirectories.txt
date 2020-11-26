@@ -1,0 +1,4 @@
+/home/khaled/Documents/eclipse-workspace/bankingsystem/build/default/CMakeFiles/rebuild_cache.dir
+/home/khaled/Documents/eclipse-workspace/bankingsystem/build/default/CMakeFiles/edit_cache.dir
+/home/khaled/Documents/eclipse-workspace/bankingsystem/build/default/CMakeFiles/main.dir
+/home/khaled/Documents/eclipse-workspace/bankingsystem/build/default/CMakeFiles/bankingsystem.dir
