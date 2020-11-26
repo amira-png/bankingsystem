@@ -47,7 +47,6 @@ Database::~Database() {
 }
 
 bool Database::initDB() {
-
 	int rc;
 	rc = sqlite3_open_v2(DBNAME, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
 
@@ -59,7 +58,7 @@ bool Database::initDB() {
 	rc = sqlite3_busy_timeout(db, 0);
 	if (rc)
 		cerr << "Error setting busy handler for the future bank database: "
-				<< sqlite3_errmsg(db) << endl;
+			<< sqlite3_errmsg(db) << endl;
 	return true;
 }
 
@@ -84,12 +83,10 @@ bool Database::createAccountsTable() {
 		sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 		return true;
 	}
-
 	return false;
 }
 
 bool Database::createPersonsTable() {
-
 	char *zErrMsg = nullptr;
 	int rc;
 
@@ -119,7 +116,6 @@ bool Database::createPersonsTable() {
 }
 
 bool Database::insertAccount(Account *acct) {
-
 	const char *zErrMsg;
 	int rc;
 	sqlite3_stmt *stmt;
@@ -178,12 +174,10 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 	sqlite3_finalize(stmt);
-
 	return true;
 }
 
 bool Database::deleteAccount(Account *acct) {
-
 	const char *zErrMsg;
 	int rc;
 	sqlite3_stmt *stmt;
@@ -216,13 +210,11 @@ bool Database::deleteAccount(Account *acct) {
 				<< sqlite3_errmsg(db) << endl;
 		return false;
 	}
-
 	sqlite3_finalize(stmt);
 	return true;
 }
 
 Account* Database::retrieveAccount(const int account_id) const{
-
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
@@ -272,7 +264,6 @@ Account* Database::retrieveAccount(const int account_id) const{
 }
 
 Account* Database::retrieveAccountByCustomer(const int customer_id) const{
-
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
@@ -319,7 +310,6 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 }
 
 bool Database::insertPerson(Person *p) {
-
 	const char *zErrMsg;
 	int rc;
 	sqlite3_stmt *stmt;
@@ -431,7 +421,6 @@ bool Database::insertPerson(Person *p) {
 }
 
 bool Database::deletePerson(Person *p) {
-
 	const char *zErrMsg;
 	int rc;
 	sqlite3_stmt *stmt;
@@ -481,7 +470,6 @@ int Database::setUserType(Person *p) {
 }
 
 Person* Database::retrievePerson(const string &username) const {
-
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
@@ -617,7 +605,6 @@ Person* Database::retrievePerson(const string &username) const {
 }
 
 int Database::computeUserCaps(Person *p) {
-
 	int usertype = setUserType(p);
 	vector<int> allcaps;
 	int usercaps = 0;
@@ -631,136 +618,94 @@ int Database::computeUserCaps(Person *p) {
 
 	case Session::EMPLOYEE: {
 		Employee *emp = dynamic_cast<Employee*>(p);
-		if (emp->canCreateAccount()) {
+		if (emp->canCreateAccount())
 			allcaps.push_back(Session::ACCOUNT_CREATE);
-		}
-		if (emp->canUpdateAccount()) {
+		if (emp->canUpdateAccount())
 			allcaps.push_back(Session::ACCOUNT_UPDATE);
-		}
-		if (emp->canDeleteAccount()) {
+		if (emp->canDeleteAccount())
 			allcaps.push_back(Session::ACCOUNT_DELETE);
-		}
-		if (emp->canActivateAccount()) {
+		if (emp->canActivateAccount())
 			allcaps.push_back(Session::ACCOUNT_ACTIVATE);
-		}
-		if (emp->canDeactivateAccount()) {
+		if (emp->canDeactivateAccount())
 			allcaps.push_back(Session::ACCOUNT_DEACTIVATE);
-		}
-		if (emp->canListAllAccounts()) {
+		if (emp->canListAllAccounts())
 			allcaps.push_back(Session::ACCOUNT_LIST_ALL);
-		}
-		if (emp->canPrintAccountInfo()) {
+		if (emp->canPrintAccountInfo())
 			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
-		}
-		if (emp->canCreateCustomer()) {
+		if (emp->canCreateCustomer())
 			allcaps.push_back(Session::CUSTOMER_CREATE);
-		}
-		if (emp->canUpdateCustomer()) {
+		if (emp->canUpdateCustomer())
 			allcaps.push_back(Session::CUSTOMER_UPDATE);
-		}
-		if (emp->canDeleteCustomer()) {
+		if (emp->canDeleteCustomer())
 			allcaps.push_back(Session::CUSTOMER_DELETE);
-		}
-		if (emp->canActivateCustomer()) {
+		if (emp->canActivateCustomer())
 			allcaps.push_back(Session::CUSTOMER_ACTIVATE);
-		}
-		if (emp->canDeactivateCustomer()) {
+		if (emp->canDeactivateCustomer())
 			allcaps.push_back(Session::CUSTOMER_DEACTIVATE);
-		}
-		if (emp->canListAllCustomers()) {
+		if (emp->canListAllCustomers())
 			allcaps.push_back(Session::CUSTOMER_LIST_ALL);
-		}
-		if (emp->canPrintCustomerInfo()) {
+		if (emp->canPrintCustomerInfo())
 			allcaps.push_back(Session::CUSTOMER_PRINT_INFO);
-		}
 		break;
 	}
 	case Session::ADMIN: {
 		Admin *adm = dynamic_cast<Admin*>(p);
-		if (adm->canCreateAdmin()) {
+		if (adm->canCreateAdmin())
 			allcaps.push_back(Session::ADMIN_CREATE);
-		}
-		if (adm->canUpdateAdmin()) {
+		if (adm->canUpdateAdmin())
 			allcaps.push_back(Session::ADMIN_UPDATE);
-		}
-		if (adm->canDeleteAdmin()) {
+		if (adm->canDeleteAdmin())
 			allcaps.push_back(Session::ADMIN_DELETE);
-		}
-		if (adm->canActivateAdmin()) {
+		if (adm->canActivateAdmin())
 			allcaps.push_back(Session::ADMIN_ACTIVATE);
-		}
-		if (adm->canDeactivateAdmin()) {
+		if (adm->canDeactivateAdmin())
 			allcaps.push_back(Session::ADMIN_DEACTIVATE);
-		}
-		if (adm->canPrintAdminInfo()) {
+		if (adm->canPrintAdminInfo())
 			allcaps.push_back(Session::ADMIN_PRINT_INFO);
-		}
-		if (adm->canListAllAdmin()) {
+		if (adm->canListAllAdmin())
 			allcaps.push_back(Session::ADMIN_LIST_ALL);
-		}
-		if (adm->canCreateEmployee()) {
+		if (adm->canCreateEmployee())
 			allcaps.push_back(Session::EMPLOYEE_CREATE);
-		}
-		if (adm->canUpdateEmployee()) {
+		if (adm->canUpdateEmployee())
 			allcaps.push_back(Session::EMPLOYEE_UPDATE);
-		}
-		if (adm->canDeleteEmployee()) {
+		if (adm->canDeleteEmployee())
 			allcaps.push_back(Session::EMPLOYEE_DELETE);
-		}
-		if (adm->canActivateEmployee()) {
+		if (adm->canActivateEmployee())
 			allcaps.push_back(Session::EMPLOYEE_ACTIVATE);
-		}
-		if (adm->canDeactivateEmployee()) {
+		if (adm->canDeactivateEmployee())
 			allcaps.push_back(Session::EMPLOYEE_DEACTIVATE);
-		}
-		if (adm->canPrintEmployeeInfo()) {
+		if (adm->canPrintEmployeeInfo())
 			allcaps.push_back(Session::EMPLOYEE_PRINT_INFO);
-		}
-		if (adm->canListAllEmployee()) {
+		if (adm->canListAllEmployee())
 			allcaps.push_back(Session::EMPLOYEE_LIST_ALL);
-		}
-		if (adm->canCreateAccount()) {
+		if (adm->canCreateAccount())
 			allcaps.push_back(Session::ACCOUNT_CREATE);
-		}
-		if (adm->canUpdateAccount()) {
+		if (adm->canUpdateAccount())
 			allcaps.push_back(Session::ACCOUNT_UPDATE);
-		}
-		if (adm->canDeleteAccount()) {
+		if (adm->canDeleteAccount())
 			allcaps.push_back(Session::ACCOUNT_DELETE);
-		}
-		if (adm->canActivateAccount()) {
+		if (adm->canActivateAccount())
 			allcaps.push_back(Session::ACCOUNT_ACTIVATE);
-		}
-		if (adm->canDeactivateAccount()) {
+		if (adm->canDeactivateAccount())
 			allcaps.push_back(Session::ACCOUNT_DEACTIVATE);
-		}
-		if (adm->canListAllAccounts()) {
+		if (adm->canListAllAccounts())
 			allcaps.push_back(Session::ACCOUNT_LIST_ALL);
-		}
-		if (adm->canPrintAccountInfo()) {
+		if (adm->canPrintAccountInfo())
 			allcaps.push_back(Session::ACCOUNT_PRINT_INFO);
-		}
-		if (adm->canCreateCustomer()) {
+		if (adm->canCreateCustomer())
 			allcaps.push_back(Session::CUSTOMER_CREATE);
-		}
-		if (adm->canUpdateCustomer()) {
+		if (adm->canUpdateCustomer())
 			allcaps.push_back(Session::CUSTOMER_UPDATE);
-		}
-		if (adm->canDeleteCustomer()) {
+		if (adm->canDeleteCustomer())
 			allcaps.push_back(Session::CUSTOMER_DELETE);
-		}
-		if (adm->canActivateCustomer()) {
+		if (adm->canActivateCustomer())
 			allcaps.push_back(Session::CUSTOMER_ACTIVATE);
-		}
-		if (adm->canDeactivateCustomer()) {
+		if (adm->canDeactivateCustomer())
 			allcaps.push_back(Session::CUSTOMER_DEACTIVATE);
-		}
-		if (adm->canListAllCustomers()) {
+		if (adm->canListAllCustomers())
 			allcaps.push_back(Session::CUSTOMER_LIST_ALL);
-		}
-		if (adm->canPrintCustomerInfo()) {
+		if (adm->canPrintCustomerInfo())
 			allcaps.push_back(Session::CUSTOMER_PRINT_INFO);
-		}
 		break;
 	}
 	default:
@@ -773,7 +718,6 @@ int Database::computeUserCaps(Person *p) {
 }
 
 int Database::generateAccountNumber() {
-
 	const char *zErrMsg = nullptr;
 	int rc;
 	sqlite3_stmt *stmt = nullptr;
@@ -804,7 +748,6 @@ int Database::generateAccountNumber() {
 }
 
 int Database::generatePersonNumber() {
-
 	const char *zErrMsg = nullptr;
 	int rc;
 	sqlite3_stmt *stmt = nullptr;
@@ -834,7 +777,6 @@ int Database::generatePersonNumber() {
 }
 
 vector<Person*> Database::getAllPersons(const int person_type) {
-
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
@@ -908,7 +850,6 @@ vector<Person*> Database::getAllPersons(const int person_type) {
 }
 
 bool Database::userExists(const string &username) const {
-
 	const char *zErrMsg = nullptr;
 	int rc;
 	sqlite3_stmt *stmt = nullptr;
@@ -980,7 +921,6 @@ bool Database::accountExists(const int account_id) const {
 }
 
 vector<Account*> Database::getAllAccounts() {
-
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
@@ -1054,13 +994,11 @@ int Database::getUsersCount() {
 		sqlite3_close(db);
 		exit(-1);
 	}
-
 	sqlite3_finalize(stmt);
 	return total;
 }
 
 Customer* Database::retrieveCustomerByAccount(const int accountid) const {
-
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
@@ -1104,9 +1042,8 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 		LASTNAME)));
 		natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
 		NATIONALID)));
-		password = string(
-				reinterpret_cast<const char*>(sqlite3_column_text(stmt,
-				PASSWORD)));
+		password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
+		PASSWORD)));
 		usertype = sqlite3_column_int(stmt, USERTYPE);
 		lockstatus = sqlite3_column_int(stmt, USERLOCK);
 		caps = sqlite3_column_int(stmt, USERCAPS);
@@ -1129,13 +1066,11 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 		sqlite3_finalize(stmt);
 		return person;
 	}
-
 	sqlite3_finalize(stmt);
 	return nullptr;
 }
 
 vector<Admin*> Database::getAllAdmins() {
-
 	vector<Admin*> admins;
 	vector<Person*> persons = getAllPersons(Session::ADMIN);
 	if (!persons.size())
@@ -1167,12 +1102,10 @@ vector<Admin*> Database::getAllAdmins() {
 	persons.clear();
 
 	if (admins.size()) return admins;
-
 	return vector<Admin*>();
 }
 
 vector<Employee*> Database::getAllEmployees() {
-
 	vector<Employee*> employees;
 	vector<Person*> persons = getAllPersons(Session::EMPLOYEE);
 	if (!persons.size())
@@ -1210,12 +1143,10 @@ vector<Employee*> Database::getAllEmployees() {
 	persons.clear();
 
 	if (employees.size()) return employees;
-
 	return vector<Employee*>();
 }
 
 vector<Customer*> Database::getAllCustomers() {
-
 	vector<Customer*> customers;
 	vector<Person*> persons = getAllPersons(Session::CUSTOMER);
 	if (!persons.size())
@@ -1241,6 +1172,5 @@ vector<Customer*> Database::getAllCustomers() {
 	persons.clear();
 
 	if (customers.size()) return customers;
-
 	return vector<Customer*>();
 }
