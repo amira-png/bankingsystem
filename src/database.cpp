@@ -31,7 +31,6 @@ Database::Database() :
 			cerr << "Error creating the persons table" << endl;
 			exit(-2);
 		}
-
 		if (!createAccountsTable()) {
 			cerr << "Error creating the accounts table" << endl;
 			exit(-2);
