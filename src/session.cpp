@@ -150,11 +150,12 @@ void Session::setSessionCapabilities() {
 	switch (m_userType) {
 	case CUSTOMER: {
 		Customer *tmpcust = dynamic_cast<Customer*>(m_user);
-		m_sessionCapabilities.push_back("Transfer money to another Account");
-		m_sessionCapabilities.push_back("Deposit");
-		m_sessionCapabilities.push_back("Withdraw");
-		if (tmpcust->getAccount()->getId() != 0)
+		if (tmpcust->getAccount()->getId() != 0) {
+			m_sessionCapabilities.push_back("Transfer money to another Account");
+			m_sessionCapabilities.push_back("Deposit");
+			m_sessionCapabilities.push_back("Withdraw");
 			m_sessionCapabilities.push_back("Print my account Information");
+		}
 		m_sessionCapabilities.push_back("Print my customer Information");
 		m_sessionCapabilities.push_back("Change own Password");
 		break;

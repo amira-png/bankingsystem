@@ -25,6 +25,9 @@ bool Session::withdraw(const int sum) {
 	if (!cust || !bIsLoggedIn)
 		return false;
 
+	if (cust->getAccount()->getId() <= 0)
+		return false;
+
 	int oldBalance = cust->getAccount()->getBalance();
 	if (cust->getAccount()->getBalance() < sum)
 		return false;
@@ -40,6 +43,9 @@ bool Session::withdraw(const int sum) {
 bool Session::transfer(const int to, const int sum) {
 	Customer *cust = dynamic_cast<Customer*>(this->m_user);
 	if (!cust || !bIsLoggedIn)
+		return false;
+
+	if (cust->getAccount()->getId() <= 0)
 		return false;
 
 	int oldBalance = cust->getAccount()->getBalance();
@@ -64,6 +70,9 @@ bool Session::transfer(const int to, const int sum) {
 bool Session::deposit(const int sum) {
 	Customer *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
+		return false;
+
+	if (cust->getAccount()->getId() <= 0)
 		return false;
 
 	int oldBalance = cust->getAccount()->getBalance();
