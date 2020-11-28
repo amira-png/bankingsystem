@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <string>
-#include <string.h>
 #include "database.h"
 #include "session.h"
 #include <assert.h>
@@ -69,7 +68,7 @@ bool Database::createAccountsTable() {
 			"ID				INT			PRIMARY KEY NOT NULL,"
 			"LOCKED			BOOLEAN		NOT NULL,"
 			"OWNER			INT			NOT NULL UNIQUE,"
-			"BALANCE		INT			NOT NULL,"
+			"BALANCE		REAL			NOT NULL,"
 			"FOREIGN KEY(OWNER)	REFERENCES	PERSONS(ID));";
 
 	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);

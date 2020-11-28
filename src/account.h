@@ -14,7 +14,7 @@ class Account{
 private:
 	bool bLocked;
 	int m_id;
-	long m_balance;
+	float m_balance;
 	int m_customerId;
 
 public:
