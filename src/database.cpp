@@ -47,12 +47,10 @@ Database::~Database() {
 bool Database::initDB() {
 	int rc;
 	rc = sqlite3_open_v2(DBNAME, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
-
 	if (rc) {
 		cerr << "Error opening the future bank database: " << sqlite3_errmsg(db) << endl;
 		return false;
 	}
-
 	rc = sqlite3_busy_timeout(db, 0);
 	if (rc)
 		cerr << "Error setting busy handler for the future bank database: "
@@ -119,7 +117,6 @@ bool Database::insertAccount(Account *acct) {
 	sqlite3_stmt *stmt;
 
 	string sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?);";
-
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare insert statment " << sql.c_str() << " " << rc
@@ -181,9 +178,6 @@ bool Database::deleteAccount(Account *acct) {
 	sqlite3_stmt *stmt;
 
 	string sql = "DELETE FROM ACCOUNTS WHERE ID = ?;";
-	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
-	assert(rc == SQLITE_OK);
-
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare delete statment " << sql.c_str() << " " << rc
@@ -424,9 +418,6 @@ bool Database::deletePerson(Person *p) {
 	sqlite3_stmt *stmt;
 
 	string sql = "DELETE FROM PERSONS WHERE USERNAME = ?;";
-	rc = sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
-	assert(rc == SQLITE_OK);
-
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare delete statment " << sql.c_str() << " " << rc
