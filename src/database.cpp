@@ -153,7 +153,7 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 4, acct->getBalance());
+	rc = sqlite3_bind_double(stmt, 4, acct->getBalance());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -213,7 +213,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 	int accountid = 0;
 	int lockstatus = 0;
 	int custid = 0;
-	int balance = 0;
+	float balance = 0;
 
 	string sql = "SELECT * from ACCOUNTS WHERE ID = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -262,7 +262,7 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 	int accountid = 0;
 	int lockstatus = 0;
 	int custid = 0;
-	int balance = 0;
+	float balance = 0;
 
 	string sql = "SELECT * FROM ACCOUNTS WHERE OWNER = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);

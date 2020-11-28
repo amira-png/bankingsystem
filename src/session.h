@@ -113,11 +113,11 @@ public:
 	int genAccountId();
 
 	// Customer methods
-	bool withdraw(const int sum);
-	bool transfer(const int to, const int sum);
+	bool withdraw(const float sum);
+	bool transfer(const int to, const float sum);
 	bool printCustomerInfo();
 	bool printAccountInfo();
-	bool deposit(const int sum);
+	bool deposit(const float sum);
 
 	// Employee methods
 	bool createAccount(Account *acct);
@@ -130,8 +130,8 @@ public:
 	bool deleteCustomer(Customer *customer);
 	bool activateCustomer(Customer *customer);
 	bool deactivateCustomer(Customer *customer);
-	bool transfer(Account *from, Account *to, const int sum);
-	bool deposit(Account *acct, const int sum);
+	bool transfer(Account *from, Account *to, const float sum);
+	bool deposit(Account *acct, const float sum);
 	bool ListAllCustomers();
 	bool printCustomerInfo(Customer *cust);
 	bool printAccountInfo(Account *acct);

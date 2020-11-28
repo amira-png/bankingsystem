@@ -20,7 +20,7 @@ using namespace std;
  * Session methods
  * */
 
-bool Session::withdraw(const int sum) {
+bool Session::withdraw(const float sum) {
 	Customer *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
@@ -28,7 +28,7 @@ bool Session::withdraw(const int sum) {
 	if (cust->getAccount()->getId() <= 0)
 		return false;
 
-	int oldBalance = cust->getAccount()->getBalance();
+	float oldBalance = cust->getAccount()->getBalance();
 	if (cust->getAccount()->getBalance() < sum)
 		return false;
 
@@ -40,7 +40,7 @@ bool Session::withdraw(const int sum) {
 	return false;
 }
 
-bool Session::transfer(const int to, const int sum) {
+bool Session::transfer(const int to, const float sum) {
 	Customer *cust = dynamic_cast<Customer*>(this->m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
@@ -48,7 +48,7 @@ bool Session::transfer(const int to, const int sum) {
 	if (cust->getAccount()->getId() <= 0)
 		return false;
 
-	int oldBalance = cust->getAccount()->getBalance();
+	float oldBalance = cust->getAccount()->getBalance();
 	if (cust->getAccount()->getBalance() < sum)
 		return false;
 
@@ -67,7 +67,7 @@ bool Session::transfer(const int to, const int sum) {
 	return false;
 }
 
-bool Session::deposit(const int sum) {
+bool Session::deposit(const float sum) {
 	Customer *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
@@ -75,7 +75,7 @@ bool Session::deposit(const int sum) {
 	if (cust->getAccount()->getId() <= 0)
 		return false;
 
-	int oldBalance = cust->getAccount()->getBalance();
+	float oldBalance = cust->getAccount()->getBalance();
 	cust->getAccount()->setBalance(sum + oldBalance);
 
 	// Stricktly verify since it is user money
@@ -109,7 +109,7 @@ bool Session::printAccountInfo() {
 
 void Ui::ui_transfer_own() {
 	int account_number;
-	int sum;
+	float sum;
 
 	cout << "Enter destination account number: ";
 	cin >> account_number;
@@ -145,7 +145,7 @@ void Ui::ui_transfer_own() {
 }
 
 void Ui::ui_deposit_own() {
-	int sum;
+	float sum;
 	cout << "Enter sum: ";
 	cin >> sum;
 	while (1) {
@@ -167,7 +167,7 @@ void Ui::ui_deposit_own() {
 }
 
 void Ui::ui_withdraw() {
-	int sum;
+	float sum;
 	cout << "Enter sum: ";
 	cin >> sum;
 	while (1) {

@@ -33,7 +33,7 @@ public:
 	void setId(const int id) {m_id = id;}
 	int getId() {return m_id;}
 	double getBalance() {return m_balance;}
-	void setBalance(double newBalance) {m_balance = newBalance;}
+	void setBalance(float newBalance) {m_balance = newBalance;}
 	int getCustomerId() {return m_customerId;}
 	void setCustomerId(const int custid) {m_customerId = custid;}
 };

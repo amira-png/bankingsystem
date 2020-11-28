@@ -314,15 +314,15 @@ bool Session::printEmployeeInfo() {
 	return printEmployeeInfo(emp);
 }
 
-bool Session::transfer(Account *from, Account *to, const int sum) {
+bool Session::transfer(Account *from, Account *to, const float sum) {
 	if (!from || !to || sum > from->getBalance())
 		return false;
 
-	int oldFromBalance = from->getBalance();
-	int oldToBalance = to->getBalance();
+	float oldFromBalance = from->getBalance();
+	float oldToBalance = to->getBalance();
 
-	int newFromBalance = oldFromBalance - sum;
-	int newToBalance = oldToBalance + sum;
+	float newFromBalance = oldFromBalance - sum;
+	float newToBalance = oldToBalance + sum;
 
 	from->setBalance(newFromBalance);
 	to->setBalance(newToBalance);
@@ -339,14 +339,14 @@ bool Session::transfer(Account *from, Account *to, const int sum) {
 	return true;
 }
 
-bool Session::deposit(Account *acct, const int sum) {
+bool Session::deposit(Account *acct, const float sum) {
 	if (typeid(*acct) != typeid(Account))
 		return false;
 
 	if (!acct)
 		return false;
 
-	int newBalance = acct->getBalance() + sum;
+	float newBalance = acct->getBalance() + sum;
 	acct->setBalance(newBalance);
 
 	if (!m_db->insertAccount(acct)){
@@ -715,7 +715,7 @@ void Ui::ui_listall_account() {
 void Ui::ui_transfer() {
 	int source_account_number;
 	int destination_account_number;
-	int sum;
+	float sum;
 
 	cout << "Enter source account number: ";
 	cin >> source_account_number;
@@ -775,7 +775,7 @@ void Ui::ui_transfer() {
 
 void Ui::ui_deposit() {
 	int account_number;
-	int sum;
+	float sum;
 
 	cout << "Enter account number: ";
 	cin >> account_number;
