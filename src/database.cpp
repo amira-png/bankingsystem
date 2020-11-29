@@ -968,7 +968,7 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 	int lockstatus = 0;
 	int caps = 0;
 
-	string sql = "SELECT * from PERSONS WHERE ID = (SELECT OWNER FROM ACCOUNTS WHERE ID = ?);";
+	string sql = "SELECT USERNAME from PERSONS WHERE ID = (SELECT OWNER FROM ACCOUNTS WHERE ID = ?);";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
@@ -990,35 +990,10 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
 		userid = sqlite3_column_int(stmt, USERID);
-		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
-		USERNAME)));
-		fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
-		FIRSTNAME)));
-		lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
-		LASTNAME)));
-		natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
-		NATIONALID)));
-		password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,
-		PASSWORD)));
-		usertype = sqlite3_column_int(stmt, USERTYPE);
-		lockstatus = sqlite3_column_int(stmt, USERLOCK);
-		caps = sqlite3_column_int(stmt, USERCAPS);
-	}
-
-	if (usertype == Session::CUSTOMER) {
-		Customer *person = new Customer();
-		person->setId(userid);
-		person->setUserName(uname);
-		person->setFirstName(fname);
-		person->setLastName(lname);
-		person->setNationalId(natid);
-		person->setPassword(password);
-		person->setUserType(usertype);
-		lockstatus ? person->lock() : person->unlock();
-		person->setCaps(caps);
+		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
+		Customer *person = dynamic_cast<Customer*>(retrievePerson(uname));
 		Account *acc = retrieveAccount(accountid);
-		if (acc)
-			person->setAccount(acc);
+		if (acc) person->setAccount(acc);
 		sqlite3_finalize(stmt);
 		return person;
 	}
