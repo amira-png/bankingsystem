@@ -78,6 +78,7 @@ bool Session::login(const string &username, const string &password) {
 		}
 
 		setSessionUser(p);
+		this->bIsLoggedIn = true;
 		return true;
 	}
 	return false;
