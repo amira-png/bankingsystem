@@ -33,11 +33,11 @@ private:
 	bool bCustPrintInfo;
 
 public:
-	Employee() : bAcctCreate(true),bAcctUpdate(true),
-				bAcctDelete(true), bAcctDeactivate(true), bAcctActivate(true),
-				bAcctListAll(false),bAcctPrintInfo(true),bCustCreate(true),
-				bCustUpdate(true),bCustDelete(true),bCustActivate(true),bCustDeactivate(true),
-				bCustListAll(false), bCustPrintInfo(true) {}
+	Employee() : bAcctCreate(false), bAcctUpdate(false),
+				bAcctDelete(false), bAcctDeactivate(false), bAcctActivate(false),
+				bAcctListAll(false), bAcctPrintInfo(false), bCustCreate(false),
+				bCustUpdate(false), bCustDelete(false), bCustActivate(false), bCustDeactivate(false),
+				bCustListAll(false), bCustPrintInfo(false) {}
 	virtual ~Employee() = default;
 
 	void cap_acctCreate(bool value) {bAcctCreate = value;}

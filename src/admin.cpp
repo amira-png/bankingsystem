@@ -347,14 +347,14 @@ bool Session::printEmployeeInfo(Employee *emp) {
     scols_line_set_data(line, 0, string("list all: " + cap_cust_listall).c_str());
 
     string cap_acct_create = emp->canCreateAccount() ? "yes" : "no";
-	string cap_acct_update = emp->canUpdateAccount() ? "yes" : "no";
-	string cap_acct_delete = emp->canDeleteAccount() ? "yes" : "no";
-	string cap_acct_activate = emp->canActivateAccount() ? "yes" : "no";
-	string cap_acct_deactivate = emp->canDeactivateAccount() ? "yes" : "no";
-	string cap_acct_print = emp->canPrintAccountInfo() ? "yes" : "no";
-	string cap_acct_listall = emp->canListAllAccounts() ? "yes" : "no";
+    string cap_acct_update = emp->canUpdateAccount() ? "yes" : "no";
+    string cap_acct_delete = emp->canDeleteAccount() ? "yes" : "no";
+    string cap_acct_activate = emp->canActivateAccount() ? "yes" : "no";
+    string cap_acct_deactivate = emp->canDeactivateAccount() ? "yes" : "no";
+    string cap_acct_print = emp->canPrintAccountInfo() ? "yes" : "no";
+    string cap_acct_listall = emp->canListAllAccounts() ? "yes" : "no";
 
-	line = role = scols_table_new_line(tb, privs);
+    line = role = scols_table_new_line(tb, privs);
     scols_line_set_data(line, 0, "Account");
     line = scols_table_new_line(tb, role);
     scols_line_set_data(line, 0, string("create: " + cap_acct_create).c_str());
@@ -446,94 +446,84 @@ void Ui::ui_create_admin() {
 		cout << "Can create other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminCreate(true);
-	else
-		tmp->cap_AdminCreate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Update other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminUpdate(true);
-	else
-		tmp->cap_AdminUpdate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Delete other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDelete(true);
-	else
-		tmp->cap_AdminDelete(false);
 	answer.clear();
 
 	do {
 		cout << "Can Activate other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminActivate(true);
-	else
-		tmp->cap_AdminActivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Deactivate other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDeactivate(true);
-	else
-		tmp->cap_AdminDeactivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can list all other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminListAll(true);
-	else
-		tmp->cap_AdminListAll(false);
 	answer.clear();
 
 	do {
 		cout << "Can print Administrators info? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminPrintInfo(true);
-	else
-		tmp->cap_AdminPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->createAdmin(tmp)) {
-		cerr
-				<< "Error creating the administrator please contact the super admin"
-				<< endl;
+		cerr << "Error creating the administrator" << endl;
 		return;
 	} else
-		cout << "Administrator was created successfully, please login to continue working"
-			<< endl;
+		cout << "Administrator was created successfully" << endl;
 }
 
 void Ui::ui_update_admin() {
@@ -566,100 +556,90 @@ void Ui::ui_update_admin() {
 	tmp->setFirstName(firstname);
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
-
 	tmp->isLocked() ? tmp->lock() : tmp->unlock();
 
 	do {
 		cout << "Can create other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminCreate(true);
-	else
-		tmp->cap_AdminCreate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Update other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminUpdate(true);
-	else
-		tmp->cap_AdminUpdate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Delete other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDelete(true);
-	else
-		tmp->cap_AdminDelete(false);
 	answer.clear();
 
 	do {
 		cout << "Can Activate other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminActivate(true);
-	else
-		tmp->cap_AdminActivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Deactivate other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDeactivate(true);
-	else
-		tmp->cap_AdminDeactivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can list all other Administrators? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminListAll(true);
-	else
-		tmp->cap_AdminListAll(false);
 	answer.clear();
 
 	do {
 		cout << "Can print Administrators info? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminPrintInfo(true);
-	else
-		tmp->cap_AdminPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->updateAdmin(tmp)) {
-		cerr << "Error updating " << username
-				<< " please contact the super admin" << endl;
+		cerr << "Error updating " << username << endl;
 		return;
 	} else
-		cout << "Administrator was updated successfully, please login to continue working"
-			<< endl;
+		cout << "Administrator was updated successfully" << endl;
 }
 
 void Ui::ui_delete_admin() {
@@ -693,12 +673,10 @@ void Ui::ui_activate_admin() {
 	} while (!tmp);
 
 	if (!m_session->activateAdmin(tmp)) {
-		cerr << "Error activating " << username
-				<< " please contact the super admin" << endl;
+		cerr << "Error activating " << username << endl;
 		return;
 	} else
-		cout << "Administrator was activated successfully, please login to continue working"
-			<< endl;
+		cout << "Administrator was activated successfully" << endl;
 }
 
 void Ui::ui_deactivate_admin() {
@@ -715,7 +693,7 @@ void Ui::ui_deactivate_admin() {
 
 	if (!m_session->deactivateAdmin(tmp)) {
 		cerr << "Error deactivating " << username
-				<< " administrator please contact the super admin" << endl;
+			<< " administrator please contact the super admin" << endl;
 		return;
 	} else
 		cout << "Administrator was deactivated successfully" << endl;
@@ -723,18 +701,18 @@ void Ui::ui_deactivate_admin() {
 
 void Ui::ui_print_admin() {
 	string username;
-		cout << "Admin username: ";
-		cin >> username;
-		Admin *admin = m_session->getAdmin(username);
-		if (!admin) {
-			cerr << "No such Admin" << endl;
-			return;
-		}
+	cout << "Admin username: ";
+	cin >> username;
+	Admin *admin = m_session->getAdmin(username);
+	if (!admin) {
+		cerr << "No such Admin" << endl;
+		return;
+	}
 
-		if (!m_session->printAdminInfo(admin)) {
-			cerr << "Error printing admin info" << endl;
-			return;
-		}
+	if (!m_session->printAdminInfo(admin)) {
+		cerr << "Error printing admin info" << endl;
+		return;
+	}
 }
 
 void Ui::ui_print_own_admin(){
@@ -784,7 +762,6 @@ void Ui::ui_create_employee() {
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
 	tmp->setPassword(m_session->encrypt(password));
-
 	tmp->lock();
 
 	string answer = "";
@@ -793,178 +770,161 @@ void Ui::ui_create_employee() {
 		cout << "Can create customer? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custCreate(true);
-	else
-		tmp->cap_custCreate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Update customers? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custUpdate(true);
-	else
-		tmp->cap_custUpdate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Delete customers? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDelete(true);
-	else
-		tmp->cap_custDelete(false);
 	answer.clear();
 
 	do {
 		cout << "Can Activate customer? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custActivate(true);
-	else
-		tmp->cap_custActivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Deactivate customer? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDeactivate(true);
-	else
-		tmp->cap_custDeactivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can list all customers? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custListAll(true);
-	else
-		tmp->cap_custListAll(false);
 	answer.clear();
 
 	do {
 		cout << "Can print customer info? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custPrintInfo(true);
-	else
-		tmp->cap_custPrintInfo(false);
 	answer.clear();
 
 	do {
 		cout << "Can create account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctCreate(true);
-	else
-		tmp->cap_acctCreate(false);
 	answer.clear();
 
 	do {
 		cout << "Can update account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctUpdate(true);
-	else
-		tmp->cap_acctUpdate(false);
 	answer.clear();
 
 	do {
 		cout << "Can delete account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDelete(true);
-	else
-		tmp->cap_acctDelete(false);
 	answer.clear();
 
 	do {
 		cout << "Can activate account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctActivate(true);
-	else
-		tmp->cap_acctActivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Deactivate account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDeactivate(true);
-	else
-		tmp->cap_acctDeactivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can list all accounts? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctListAll(true);
-	else
-		tmp->cap_acctListAll(false);
 	answer.clear();
 
 	do {
 		cout << "Can print account info? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctPrintInfo(true);
-	else
-		tmp->cap_acctPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->createEmployee(tmp)) {
-		cerr << "Error creating the Employee please contact the super admin"
-				<< endl;
+		cerr << "Error creating the Employee" << endl;
 		return;
 	} else
-		cout << "Employee was created successfully, please login to continue working"
-			<< endl;
-
+		cout << "Employee was created successfully" << endl;
 }
 
 void Ui::ui_update_employee() {
@@ -1004,177 +964,162 @@ void Ui::ui_update_employee() {
 		cout << "Can create customer? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custCreate(true);
-	else
-		tmp->cap_custCreate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Update customers? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custUpdate(true);
-	else
-		tmp->cap_custUpdate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Delete customers? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDelete(true);
-	else
-		tmp->cap_custDelete(false);
 	answer.clear();
 
 	do {
 		cout << "Can Activate customer? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custActivate(true);
-	else
-		tmp->cap_custActivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Deactivate customer? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDeactivate(true);
-	else
-		tmp->cap_custDeactivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can list all customers? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custListAll(true);
-	else
-		tmp->cap_custListAll(false);
 	answer.clear();
 
 	do {
 		cout << "Can print customer info? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custPrintInfo(true);
-	else
-		tmp->cap_custPrintInfo(false);
 	answer.clear();
 
 	do {
 		cout << "Can create account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctCreate(true);
-	else
-		tmp->cap_acctCreate(false);
 	answer.clear();
 
 	do {
 		cout << "Can update account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctUpdate(true);
-	else
-		tmp->cap_acctUpdate(false);
 	answer.clear();
 
 	do {
 		cout << "Can delete account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDelete(true);
-	else
-		tmp->cap_acctDelete(false);
 	answer.clear();
 
 	do {
 		cout << "Can activate account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctActivate(true);
-	else
-		tmp->cap_acctActivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can Deactivate account? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDeactivate(true);
-	else
-		tmp->cap_acctDeactivate(false);
 	answer.clear();
 
 	do {
 		cout << "Can list all accounts? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctListAll(true);
-	else
-		tmp->cap_acctListAll(false);
 	answer.clear();
 
 	do {
 		cout << "Can print account info? (y/N): ";
 		cin >> answer;
 	} while (!cin.fail()
-			&& (answer != "y" && answer != "n" && answer != "Y" && answer != "N"));
+			&& (answer != "y" && answer != "n" 
+			&& answer != "Y" && answer != "N"));
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctPrintInfo(true);
-	else
-		tmp->cap_acctPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->updateEmployee(tmp)) {
-		cerr << "Error updating " << username << " please contact the admin"
-				<< endl;
+		cerr << "Error updating " << username 
+			<< " please contact the admin" << endl;
 		return;
 	} else
-		cout << "Employee was updated successfully, please login to continue working"
-			<< endl;
+		cout << "Employee was updated successfully" << endl;
 }
 
 void Ui::ui_delete_employee() {
@@ -1208,11 +1153,9 @@ void Ui::ui_activate_employee() {
 	} while (!tmp);
 
 	if (!m_session->activateEmployee(tmp)) {
-		cerr << "Error activating " << username
-				<< " please contact the admins" << endl;
+		cerr << "Error activating " << username << endl;
 	} else
-		cout << "Employee was activated successfully, please login to continue working"
-			<< endl;
+		cout << "Employee was activated successfully" << endl;
 }
 
 void Ui::ui_deactivate_employee() {
@@ -1231,8 +1174,7 @@ void Ui::ui_deactivate_employee() {
 		cerr << "Error activating " << username
 				<< " please contact the admins" << endl;
 	} else
-		cout << "Employee was activated successfully, please login to continue working"
-			<< endl;
+		cout << "Employee was activated successfully" << endl;
 }
 
 void Ui::ui_print_employee() {

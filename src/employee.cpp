@@ -408,18 +408,15 @@ void Ui::ui_create_customer() {
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
 	tmp->setPassword(m_session->encrypt(password));
-
 	tmp->lock();
 
 	tmp->setAccount(nullptr);
 
 	if (!m_session->createCustomer(tmp)) {
-		cerr << "Error creating the customer please contact the an  administrator"
-			<< endl;
+		cerr << "Error creating the customer" << endl;
 		return;
 	} else
-		cout << "Customer was created successfully, please login to continue working"
-			<< endl;
+		cout << "Customer was created successfully"<< endl;
 }
 
 void Ui::ui_update_customer() {
@@ -455,12 +452,10 @@ void Ui::ui_update_customer() {
 	tmp->isLocked() ? tmp->lock() : tmp->unlock();
 
 	if (!m_session->updateCustomer(tmp)) {
-		cerr << "Error updating " << username
-				<< " please contact an admin" << endl;
+		cerr << "Error updating " << username << endl;
 		return;
 	} else
-		cout << "Customer was updated successfully, please login to continue working"
-			<< endl;
+		cout << "Customer was updated successfully" << endl;
 }
 
 void Ui::ui_delete_customer() {
@@ -494,12 +489,10 @@ void Ui::ui_activate_customer() {
 	} while (!tmp);
 
 	if (!m_session->activateCustomer(tmp)) {
-		cerr << "Error activating " << username
-				<< " please contact an Administrator" << endl;
+		cerr << "Error activating " << username << endl;
 		return;
 	} else
-		cout << "Customer was activated successfully, please login to continue working"
-			<< endl;
+		cout << "Customer was activated successfully" << endl;
 }
 
 void Ui::ui_deactivate_customer() {
@@ -515,8 +508,7 @@ void Ui::ui_deactivate_customer() {
 	} while (!tmp);
 
 	if (!m_session->deactivateCustomer(tmp)) {
-		cerr << "Error activating " << username
-				<< " please contact an Administrator" << endl;
+		cerr << "Error activating " << username << endl;
 		return;
 	} else
 		cout << "Customer was deactivated successfully" << endl;
