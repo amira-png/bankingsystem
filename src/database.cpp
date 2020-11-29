@@ -274,9 +274,6 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
 	int accountid = 0;
-	int lockstatus = 0;
-	int custid = 0;
-	float balance = 0;
 
 	string sql = "SELECT ID FROM ACCOUNTS WHERE OWNER = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -895,9 +892,6 @@ vector<Account*> Database::getAllAccounts() {
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
 	int accountid;
-	int lockstatus;
-	int custid;
-	int balance;
 	vector<Account*> list;
 
 	string sql = "SELECT ID from ACCOUNTS;";
