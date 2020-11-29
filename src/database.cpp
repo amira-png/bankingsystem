@@ -1044,13 +1044,13 @@ vector<Admin*> Database::getAllAdmins() {
 		adm->setUserType(p->getUserType());
 		adm->setCaps(p->getCaps());
 		p->isLocked() ? adm->lock():adm->unlock();
-		(caps & Session::ADMIN_CREATE) ? adm->cap_AdminCreate(true):adm->cap_AdminCreate(false);
-		(caps & Session::ADMIN_UPDATE) ? adm->cap_AdminUpdate(true):adm->cap_AdminUpdate(false);
-		(caps & Session::ADMIN_DELETE) ? adm->cap_AdminDelete(true):adm->cap_AdminDelete(false);
-		(caps & Session::ADMIN_ACTIVATE) ? adm->cap_AdminActivate(true):adm->cap_AdminActivate(false);
-		(caps & Session::ADMIN_DEACTIVATE) ? adm->cap_AdminDeactivate(true):adm->cap_AdminDeactivate(false);
-		(caps & Session::ADMIN_PRINT_INFO) ? adm->cap_AdminPrintInfo(true):adm->cap_AdminPrintInfo(false);
-		(caps & Session::ADMIN_LIST_ALL) ? adm->cap_AdminListAll(true):adm->cap_AdminListAll(false);
+		if (caps & Session::ADMIN_CREATE) adm->cap_AdminCreate(true);
+		if (caps & Session::ADMIN_UPDATE) adm->cap_AdminUpdate(true);
+		if (caps & Session::ADMIN_DELETE) adm->cap_AdminDelete(true);
+		if (caps & Session::ADMIN_ACTIVATE) adm->cap_AdminActivate(true);
+		if (caps & Session::ADMIN_DEACTIVATE) adm->cap_AdminDeactivate(true);
+		if (caps & Session::ADMIN_PRINT_INFO) adm->cap_AdminPrintInfo(true);
+		if (caps & Session::ADMIN_LIST_ALL) adm->cap_AdminListAll(true);
 		admins.push_back(adm);
 	}
 
@@ -1079,20 +1079,20 @@ vector<Employee*> Database::getAllEmployees() {
 		emp->setUserType(p->getUserType());
 		emp->setCaps(p->getCaps());
 		p->isLocked() ? emp->lock():emp->unlock();
-		(caps & Session::CUSTOMER_CREATE) ? emp->cap_custCreate(true):emp->cap_custCreate(false);
-		(caps & Session::CUSTOMER_UPDATE) ? emp->cap_custUpdate(true):emp->cap_custUpdate(false);
-		(caps & Session::CUSTOMER_DELETE) ? emp->cap_custDelete(true):emp->cap_custDelete(false);
-		(caps & Session::CUSTOMER_ACTIVATE) ? emp->cap_custActivate(true):emp->cap_custActivate(false);
-		(caps & Session::CUSTOMER_DEACTIVATE) ? emp->cap_custDeactivate(true):emp->cap_custDeactivate(false);
-		(caps & Session::CUSTOMER_PRINT_INFO) ? emp->cap_custPrintInfo(true):emp->cap_custPrintInfo(false);
-		(caps & Session::CUSTOMER_LIST_ALL) ? emp->cap_custListAll(true):emp->cap_custListAll(false);
-		(caps & Session::ACCOUNT_CREATE) ? emp->cap_acctCreate(true):emp->cap_acctCreate(false);
-		(caps & Session::ACCOUNT_UPDATE) ? emp->cap_acctUpdate(true):emp->cap_acctUpdate(false);
-		(caps & Session::ACCOUNT_DELETE) ? emp->cap_acctDelete(true):emp->cap_acctDelete(false);
-		(caps & Session::ACCOUNT_ACTIVATE) ? emp->cap_acctActivate(true):emp->cap_acctActivate(false);
-		(caps & Session::ACCOUNT_DEACTIVATE) ? emp->cap_acctDeactivate(true):emp->cap_acctDeactivate(false);
-		(caps & Session::ACCOUNT_PRINT_INFO) ? emp->cap_acctPrintInfo(true):emp->cap_acctPrintInfo(false);
-		(caps & Session::ACCOUNT_LIST_ALL) ? emp->cap_acctListAll(true):emp->cap_acctListAll(false);
+		if (caps & Session::CUSTOMER_CREATE)  emp->cap_custCreate(true);
+		if (caps & Session::CUSTOMER_UPDATE) emp->cap_custUpdate(true);
+		if (caps & Session::CUSTOMER_DELETE) emp->cap_custDelete(true);
+		if (caps & Session::CUSTOMER_ACTIVATE) emp->cap_custActivate(true);
+		if (caps & Session::CUSTOMER_DEACTIVATE) emp->cap_custDeactivate(true);
+		if (caps & Session::CUSTOMER_PRINT_INFO) emp->cap_custPrintInfo(true);
+		if (caps & Session::CUSTOMER_LIST_ALL) emp->cap_custListAll(true);
+		if (caps & Session::ACCOUNT_CREATE) emp->cap_acctCreate(true);
+		if (caps & Session::ACCOUNT_UPDATE) emp->cap_acctUpdate(true);
+		if (caps & Session::ACCOUNT_DELETE) emp->cap_acctDelete(true);
+		if (caps & Session::ACCOUNT_ACTIVATE) emp->cap_acctActivate(true);
+		if (caps & Session::ACCOUNT_DEACTIVATE) emp->cap_acctDeactivate(true);
+		if (caps & Session::ACCOUNT_PRINT_INFO) emp->cap_acctPrintInfo(true);
+		if (caps & Session::ACCOUNT_LIST_ALL) emp->cap_acctListAll(true);
 		employees.push_back(emp);
 	}
 	for (Person *p : persons) delete p;
