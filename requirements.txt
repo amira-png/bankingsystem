@@ -1,1 +1,2 @@
-sudo apt install libssl-dev libsqlite3-dev openssl sqlite libsmartcols1  libsmartcols-dev cmake
+sudo apt install libssl-dev libsqlite3-dev openssl sqlite libsmartcols1
+libsmartcols-dev cmake googletest libgtest-dev
