@@ -302,6 +302,53 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 	return acct;
 }
 
+Customer* Database::retrieveCustomerByAccount(const int accountid) const {
+	const char *zErrMsg = nullptr;
+	sqlite3_stmt *stmt = nullptr;
+	int rc;
+	int userid = 0;
+	string uname = "";
+	string fname = "";
+	string lname = "";
+	string natid = "";
+	string password = "";
+	int usertype = 0;
+	int lockstatus = 0;
+	int caps = 0;
+
+	string sql = "SELECT USERNAME from PERSONS WHERE ID = (SELECT OWNER FROM ACCOUNTS WHERE ID = ?);";
+	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
+	if (SQLITE_OK != rc) {
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
+				<< " " << sqlite3_errmsg(db) << endl;
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+		return nullptr;
+	}
+
+	rc = sqlite3_bind_int64(stmt, 1, accountid);
+	if (SQLITE_OK != rc) {
+		cerr << "Error binding value in select " << rc << " "
+				<< sqlite3_errmsg(db) << endl;
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+		return nullptr;
+	}
+
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		userid = sqlite3_column_int(stmt, USERID);
+		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
+		Customer *person = dynamic_cast<Customer*>(retrievePerson(uname));
+		Account *acc = retrieveAccount(accountid);
+		if (acc) person->setAccount(acc);
+		sqlite3_finalize(stmt);
+		return person;
+	}
+	sqlite3_finalize(stmt);
+	return nullptr;
+}
+
 bool Database::insertPerson(Person *p) {
 	const char *zErrMsg;
 	int rc;
@@ -766,15 +813,13 @@ int Database::generatePersonNumber() {
 	return maxid + 1;
 }
 
-vector<Person*> Database::getAllPersons(const int person_type) {
+int Database::getUsersCount() {
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
-	string uname;
+	int total = 0;
 
-	vector<Person*> list;
-
-	string sql = "SELECT USERNAME from PERSONS WHERE TYPE = ?";
+	string sql = "SELECT COUNT(*) from PERSONS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
@@ -784,33 +829,18 @@ vector<Person*> Database::getAllPersons(const int person_type) {
 		exit(-1);
 	}
 
-	rc = sqlite3_bind_int64(stmt, 1, person_type);
-	if (SQLITE_OK != rc) {
-		cerr << "Error binding value in select " << rc << " "
-				<< sqlite3_errmsg(db) << endl;
+	int step = sqlite3_step(stmt);
+	if (step == SQLITE_ROW) {
+		total = sqlite3_column_int(stmt, 0);
+
+	} else {
+		cerr << "Error retrieving persons count from the database" << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
 		exit(-1);
 	}
-
-	for (;;) {
-		int step = sqlite3_step(stmt);
-		if (step == SQLITE_DONE)
-			break;
-		else if (step == SQLITE_ROW) {
-			uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
-			Person *person = retrievePerson(uname);
-			list.push_back(person);
-
-		} else {
-			cerr << "Error retrieving users info from the database" << endl;
-			sqlite3_finalize(stmt);
-			sqlite3_close(db);
-			exit(-1);
-		}
-	}
 	sqlite3_finalize(stmt);
-	return list;
+	return total;
 }
 
 bool Database::userExists(const string &username) const {
@@ -921,13 +951,14 @@ vector<Account*> Database::getAllAccounts() {
 	return list;
 }
 
-int Database::getUsersCount() {
+vector<Person*> Database::getAllPersons(const int person_type) {
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
-	int total = 0;
+	string uname;
+	vector<Person*> list;
 
-	string sql = "SELECT COUNT(*) from PERSONS;";
+	string sql = "SELECT USERNAME from PERSONS WHERE TYPE = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
@@ -937,85 +968,42 @@ int Database::getUsersCount() {
 		exit(-1);
 	}
 
-	int step = sqlite3_step(stmt);
-	if (step == SQLITE_ROW) {
-		total = sqlite3_column_int(stmt, 0);
-
-	} else {
-		cerr << "Error retrieving persons count from the database" << endl;
-		sqlite3_finalize(stmt);
-		sqlite3_close(db);
-		exit(-1);
-	}
-	sqlite3_finalize(stmt);
-	return total;
-}
-
-Customer* Database::retrieveCustomerByAccount(const int accountid) const {
-	const char *zErrMsg = nullptr;
-	sqlite3_stmt *stmt = nullptr;
-	int rc;
-	int userid = 0;
-	string uname = "";
-	string fname = "";
-	string lname = "";
-	string natid = "";
-	string password = "";
-	int usertype = 0;
-	int lockstatus = 0;
-	int caps = 0;
-
-	string sql = "SELECT USERNAME from PERSONS WHERE ID = (SELECT OWNER FROM ACCOUNTS WHERE ID = ?);";
-	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
-	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
-				<< " " << sqlite3_errmsg(db) << endl;
-		sqlite3_finalize(stmt);
-		sqlite3_close(db);
-		return nullptr;
-	}
-
-	rc = sqlite3_bind_int64(stmt, 1, accountid);
+	rc = sqlite3_bind_int64(stmt, 1, person_type);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in select " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
-		return nullptr;
+		exit(-1);
 	}
 
-	int step = sqlite3_step(stmt);
-	if (step == SQLITE_ROW) {
-		userid = sqlite3_column_int(stmt, USERID);
-		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
-		Customer *person = dynamic_cast<Customer*>(retrievePerson(uname));
-		Account *acc = retrieveAccount(accountid);
-		if (acc) person->setAccount(acc);
-		sqlite3_finalize(stmt);
-		return person;
+	for (;;) {
+		int step = sqlite3_step(stmt);
+		if (step == SQLITE_DONE)
+			break;
+		else if (step == SQLITE_ROW) {
+			uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
+			Person *person = retrievePerson(uname);
+			list.push_back(person);
+
+		} else {
+			cerr << "Error retrieving users info from the database" << endl;
+			sqlite3_finalize(stmt);
+			sqlite3_close(db);
+			exit(-1);
+		}
 	}
 	sqlite3_finalize(stmt);
-	return nullptr;
+	return list;
 }
 
 vector<Admin*> Database::getAllAdmins() {
 	vector<Admin*> admins;
 	vector<Person*> persons = getAllPersons(Session::ADMIN);
-	if (!persons.size())
-		return vector<Admin*>();
-
+	if (!persons.size()) return vector<Admin*>();
 	for (Person *p : persons) {
-		Admin *adm = new Admin();
+		Admin *adm = dynamic_cast<Admin*>(p);
 		int caps = p->getCaps();
-		adm->setId(p->getId());
-		adm->setUserName(p->getUserName());
-		adm->setFirstName(p->getFirstName());
-		adm->setLastName(p->getLastName());
-		adm->setNationalId(p->getNationalId());
-		adm->setPassword(p->getPassword());
-		adm->setUserType(p->getUserType());
-		adm->setCaps(p->getCaps());
-		p->isLocked() ? adm->lock():adm->unlock();
 		if (caps & Session::ADMIN_CREATE) adm->cap_AdminCreate(true);
 		if (caps & Session::ADMIN_UPDATE) adm->cap_AdminUpdate(true);
 		if (caps & Session::ADMIN_DELETE) adm->cap_AdminDelete(true);
@@ -1025,10 +1013,7 @@ vector<Admin*> Database::getAllAdmins() {
 		if (caps & Session::ADMIN_LIST_ALL) adm->cap_AdminListAll(true);
 		admins.push_back(adm);
 	}
-
-	for (Person *p : persons) delete p;
 	persons.clear();
-
 	if (admins.size()) return admins;
 	return vector<Admin*>();
 }
@@ -1036,21 +1021,10 @@ vector<Admin*> Database::getAllAdmins() {
 vector<Employee*> Database::getAllEmployees() {
 	vector<Employee*> employees;
 	vector<Person*> persons = getAllPersons(Session::EMPLOYEE);
-	if (!persons.size())
-			return vector<Employee*>();
-
+	if (!persons.size()) return vector<Employee*>();
 	for (Person *p : persons) {
-		Employee *emp = new Employee();
+		Employee *emp = dynamic_cast<Employee*>(p);
 		int caps = p->getCaps();
-		emp->setId(p->getId());
-		emp->setUserName(p->getUserName());
-		emp->setFirstName(p->getFirstName());
-		emp->setLastName(p->getLastName());
-		emp->setNationalId(p->getNationalId());
-		emp->setPassword(p->getPassword());
-		emp->setUserType(p->getUserType());
-		emp->setCaps(p->getCaps());
-		p->isLocked() ? emp->lock():emp->unlock();
 		if (caps & Session::CUSTOMER_CREATE)  emp->cap_custCreate(true);
 		if (caps & Session::CUSTOMER_UPDATE) emp->cap_custUpdate(true);
 		if (caps & Session::CUSTOMER_DELETE) emp->cap_custDelete(true);
@@ -1067,9 +1041,7 @@ vector<Employee*> Database::getAllEmployees() {
 		if (caps & Session::ACCOUNT_LIST_ALL) emp->cap_acctListAll(true);
 		employees.push_back(emp);
 	}
-	for (Person *p : persons) delete p;
 	persons.clear();
-
 	if (employees.size()) return employees;
 	return vector<Employee*>();
 }
@@ -1077,28 +1049,14 @@ vector<Employee*> Database::getAllEmployees() {
 vector<Customer*> Database::getAllCustomers() {
 	vector<Customer*> customers;
 	vector<Person*> persons = getAllPersons(Session::CUSTOMER);
-	if (!persons.size())
-		return vector<Customer*>();
-
+	if (!persons.size()) return vector<Customer*>();
 	for (Person *p : persons) {
-		Customer *customer = new Customer();
-		customer->setId(p->getId());
-		customer->setUserName(p->getUserName());
-		customer->setFirstName(p->getFirstName());
-		customer->setLastName(p->getLastName());
-		customer->setNationalId(p->getNationalId());
-		customer->setPassword(p->getPassword());
-		customer->setUserType(p->getUserType());
-		customer->setCaps(p->getCaps());
-		p->isLocked() ? customer->lock():customer->unlock();
+		Customer *customer = dynamic_cast<Customer*>(p);
 		Account *acc = this->retrieveAccountByCustomer(customer->getId());
 		if (acc) customer->setAccount(acc);
 		customers.push_back(customer);
 	}
-
-	for (Person *p : persons) delete p;
 	persons.clear();
-
 	if (customers.size()) return customers;
 	return vector<Customer*>();
 }
