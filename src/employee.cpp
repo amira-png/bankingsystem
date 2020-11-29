@@ -176,7 +176,7 @@ bool Session::createCustomer(Customer *customer) {
 	return true;
 }
 
-bool Session::updateCustomer(Customer *customer) {  // REVISIT ME
+bool Session::updateCustomer(Customer *customer) {
 	if (!isAuthorized(Session::CUSTOMER_UPDATE))
 		return false;
 

@@ -54,36 +54,36 @@ public:
 		Employee::lock();
 	}
 	virtual ~Admin() = default;
-	void cap_AdminCreate(bool value)    {bAdminCreate = value;}
-	void cap_AdminUpdate(bool value)    {bAdminUpdate = value;}
-	void cap_AdminDelete(bool value)    {bAdminDelete = value;}
-	void cap_AdminListAll(bool value)   {bAdminListAll = value;}
+	void cap_AdminCreate(bool value) {bAdminCreate = value;}
+	void cap_AdminUpdate(bool value) {bAdminUpdate = value;}
+	void cap_AdminDelete(bool value) {bAdminDelete = value;}
+	void cap_AdminListAll(bool value) {bAdminListAll = value;}
 	void cap_AdminPrintInfo(bool value) {bAdminPrintInfo = value;}
-	void cap_AdminActivate(bool value)  {bAdminActivate = value;}
-	void cap_AdminDeactivate(bool value){bAdminDeactivate = value;}
+	void cap_AdminActivate(bool value) {bAdminActivate = value;}
+	void cap_AdminDeactivate(bool value) {bAdminDeactivate = value;}
 
-	void cap_EmployeeCreate(bool value)    {bEmployeeCreate = value;}
-	void cap_EmployeeUpdate(bool value)    {bEmployeeUpdate = value;}
-	void cap_EmployeeDelete(bool value)    {bEmployeeDelete = value;}
-	void cap_EmployeeListAll(bool value)   {bEmployeeListAll = value;}
+	void cap_EmployeeCreate(bool value) {bEmployeeCreate = value;}
+	void cap_EmployeeUpdate(bool value) {bEmployeeUpdate = value;}
+	void cap_EmployeeDelete(bool value) {bEmployeeDelete = value;}
+	void cap_EmployeeListAll(bool value) {bEmployeeListAll = value;}
 	void cap_EmployeePrintInfo(bool value) {bEmployeePrintInfo = value;}
-	void cap_EmployeeActivate(bool value)  {bEmployeeActivate = value;}
-	void cap_EmployeeDeactivate(bool value){bEmployeeDeactivate = value;}
+	void cap_EmployeeActivate(bool value) {bEmployeeActivate = value;}
+	void cap_EmployeeDeactivate(bool value) {bEmployeeDeactivate = value;}
 
-	bool canCreateAdmin()    {return bAdminCreate;}
-	bool canUpdateAdmin()    {return bAdminUpdate;}
-	bool canDeleteAdmin()    {return bAdminDelete;}
-	bool canActivateAdmin()  {return bAdminActivate;}
-	bool canDeactivateAdmin(){return bAdminDeactivate;}
-	bool canListAllAdmin()   {return bAdminListAll;}
+	bool canCreateAdmin() {return bAdminCreate;}
+	bool canUpdateAdmin() {return bAdminUpdate;}
+	bool canDeleteAdmin() {return bAdminDelete;}
+	bool canActivateAdmin() {return bAdminActivate;}
+	bool canDeactivateAdmin() {return bAdminDeactivate;}
+	bool canListAllAdmin() {return bAdminListAll;}
 	bool canPrintAdminInfo() {return bAdminPrintInfo;}
 
-	bool canCreateEmployee()     {return bEmployeeCreate;}
-	bool canUpdateEmployee()     {return bEmployeeUpdate;}
-	bool canDeleteEmployee()     {return bEmployeeDelete;}
-	bool canPrintEmployeeInfo()  {return bEmployeePrintInfo;}
-	bool canListAllEmployee()    {return bEmployeeListAll;}
-	bool canActivateEmployee()   {return bEmployeeActivate;}
+	bool canCreateEmployee() {return bEmployeeCreate;}
+	bool canUpdateEmployee() {return bEmployeeUpdate;}
+	bool canDeleteEmployee() {return bEmployeeDelete;}
+	bool canPrintEmployeeInfo() {return bEmployeePrintInfo;}
+	bool canListAllEmployee() {return bEmployeeListAll;}
+	bool canActivateEmployee() {return bEmployeeActivate;}
 	bool canDeactivateEmployee() {return bEmployeeDeactivate;}
 };
 

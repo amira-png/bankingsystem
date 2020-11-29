@@ -437,7 +437,6 @@ void Ui::ui_create_admin() {
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
 	tmp->setPassword(m_session->encrypt(password));
-
 	tmp->lock();
 
 	string answer = "";
