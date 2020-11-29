@@ -25,5 +25,6 @@ project(sessiontest)
 enable_testing()
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 add_executable(sessiontest src/tests/session_test.cpp )
-target_link_libraries(sessiontest prog gtest gtest_main -lsqlite3 -lsmartcols -lcrypto)
+target_link_libraries(sessiontest prog gtest gtest_main -lsqlite3 -lsmartcols
+	-lcrypto -lpthread)
 add_test( sessiontest sessiontest )
