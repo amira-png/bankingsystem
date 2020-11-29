@@ -118,19 +118,19 @@ bool Session::printAccountInfo(Account *acct) {
 	scols_table_new_column(tb, "", 0.1, SCOLS_FL_TREE);
 	line = accountid = scols_table_new_line(tb, NULL);
 	scols_line_set_data(line, 0, string("ID: "
-			+ to_string(acct->getId())).c_str());
+				+ to_string(acct->getId())).c_str());
 
 	line = label = scols_table_new_line(tb, accountid);
 	scols_line_set_data(line, 0, string("Label: "
 				+ acct->getAccountLabel()).c_str());
 	line = balance = scols_table_new_line(tb, accountid);
 	scols_line_set_data(line, 0, string("Balance: "
-			+ to_string(acct->getBalance())).c_str());
+				+ to_string(acct->getBalance())).c_str());
 	if (acct_owner) {
 		line = owner = scols_table_new_line(tb, accountid);
 		scols_line_set_data(line, 0, string("Owner: "
-				+ acct_owner->getFirstName()
-				+ " " + acct_owner->getLastName()).c_str());
+					+ acct_owner->getFirstName()
+					+ " " + acct_owner->getLastName()).c_str());
 	}
 	line = stat = scols_table_new_line(tb, accountid);
 	scols_line_set_data(line, 0, string("Locked: " + status).c_str());
@@ -268,31 +268,31 @@ bool Session::printCustomerInfo(Customer *customer) {
 
 	line = username = scols_table_new_line(tb, NULL);
 	scols_line_set_data(line, 0, string(customer->getUserName()).c_str());
-    line = fullname = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("Name: "
-    		+ string(customer->getFirstName()
-    		+ " " + customer->getLastName())).c_str());
-    line = id = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("ID: "
-    		+ to_string(customer->getId())).c_str());
-    line = natid = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("National ID: "
-    		+ customer->getNationalId()).c_str());
-    line = stat = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("Locked: " + status).c_str());
+	line = fullname = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("Name: "
+				+ string(customer->getFirstName()
+					+ " " + customer->getLastName())).c_str());
+	line = id = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("ID: "
+				+ to_string(customer->getId())).c_str());
+	line = natid = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("National ID: "
+				+ customer->getNationalId()).c_str());
+	line = stat = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("Locked: " + status).c_str());
 
-    Account *acc = customer->getAccount();
-    if (acc && acc->getId()!=0) {
-        line = account = scols_table_new_line(tb, username);
-        scols_line_set_data(line, 0, string("Account number: "
-        		+ to_string(acc->getId())).c_str());
-    }
+	Account *acc = customer->getAccount();
+	if (acc && acc->getId()!=0) {
+		line = account = scols_table_new_line(tb, username);
+		scols_line_set_data(line, 0, string("Account number: "
+					+ to_string(acc->getId())).c_str());
+	}
 
-    scols_print_table(tb);
-    scols_unref_table(tb);
-    cout << endl;
+	scols_print_table(tb);
+	scols_unref_table(tb);
+	cout << endl;
 
-    if (customer && customer->getId() != m_user->getId()) delete customer;
+	if (customer && customer->getId() != m_user->getId()) delete customer;
 	return true;
 }
 

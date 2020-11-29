@@ -136,43 +136,43 @@ bool Session::printAdminInfo(Admin *admin) {
 
 	line = username = scols_table_new_line(tb, NULL);
 	scols_line_set_data(line, 0, string(admin->getUserName()).c_str());
-    line = fullname = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("Name: "
-    		+ string(admin->getFirstName()
-    		+ " " + admin->getLastName())).c_str());
-    line = id = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("ID: "
-    		+ to_string(admin->getId())).c_str());
-    line = natid = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("National ID: "
-    		+ admin->getNationalId()).c_str());
-    line = stat = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("Locked: " + status).c_str());
-    line = privs =scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, "Privileges");
-    line = role = scols_table_new_line(tb, privs);
-    scols_line_set_data(line, 0, "Admin");
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("create: " + cap_admin_create).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("update: " + cap_admin_update).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("delete: " + cap_admin_delete).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("activate: " + cap_admin_activate).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("deactivate: " + cap_admin_deactivate).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("print info: " + cap_admin_print).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("list all: " + cap_admin_listall).c_str());
+	line = fullname = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("Name: "
+				+ string(admin->getFirstName()
+				+ " " + admin->getLastName())).c_str());
+	line = id = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("ID: "
+				+ to_string(admin->getId())).c_str());
+	line = natid = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("National ID: "
+				+ admin->getNationalId()).c_str());
+	line = stat = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("Locked: " + status).c_str());
+	line = privs =scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, "Privileges");
+	line = role = scols_table_new_line(tb, privs);
+	scols_line_set_data(line, 0, "Admin");
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("create: " + cap_admin_create).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("update: " + cap_admin_update).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("delete: " + cap_admin_delete).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("activate: " + cap_admin_activate).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("deactivate: " + cap_admin_deactivate).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("print info: " + cap_admin_print).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("list all: " + cap_admin_listall).c_str());
 
-    scols_print_table(tb);
-    scols_unref_table(tb);
-    cout << endl;
+	scols_print_table(tb);
+	scols_unref_table(tb);
+	cout << endl;
 
-    if (admin && admin->getUserName() != m_user->getUserName()) delete admin;
-    return true;
+	if (admin && admin->getUserName() != m_user->getUserName()) delete admin;
+	return true;
 }
 
 bool Session::printAdminInfo() {
@@ -298,7 +298,7 @@ bool Session::printEmployeeInfo(Employee *emp) {
 	if (!m_db->userExists(emp->getUserName()))
 		return false;
 
-    string status = emp->isLocked() ? "Yes" : "No";
+	string status = emp->isLocked() ? "Yes" : "No";
 	string cap_cust_create = emp->canCreateCustomer() ? "yes" : "no";
 	string cap_cust_update = emp->canUpdateCustomer() ? "yes" : "no";
 	string cap_cust_delete = emp->canDeleteCustomer() ? "yes" : "no";
@@ -316,66 +316,66 @@ bool Session::printEmployeeInfo(Employee *emp) {
 
 	line = username = scols_table_new_line(tb, NULL);
 	scols_line_set_data(line, 0, string(emp->getUserName()).c_str());
-    line = fullname = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("Name: "
-    		+ string(emp->getFirstName() + " " + emp->getLastName())).c_str());
-    line = id = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("ID: "
-    		+ to_string(emp->getId())).c_str());
-    line = natid = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("National ID: "
-    		+ emp->getNationalId()).c_str());
-    line = stat = scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, string("Locked: " + status).c_str());
-    line = privs =scols_table_new_line(tb, username);
-    scols_line_set_data(line, 0, "Privileges");
-    line = role = scols_table_new_line(tb, privs);
-    scols_line_set_data(line, 0, "Customer");
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("create: " + cap_cust_create).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("update: " + cap_cust_update).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("delete: " + cap_cust_delete).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("activate: " + cap_cust_activate).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("deactivate: " + cap_cust_deactivate).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("print info: " + cap_cust_print).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("list all: " + cap_cust_listall).c_str());
+	line = fullname = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("Name: "
+				+ string(emp->getFirstName() + " " + emp->getLastName())).c_str());
+	line = id = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("ID: "
+				+ to_string(emp->getId())).c_str());
+	line = natid = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("National ID: "
+				+ emp->getNationalId()).c_str());
+	line = stat = scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, string("Locked: " + status).c_str());
+	line = privs =scols_table_new_line(tb, username);
+	scols_line_set_data(line, 0, "Privileges");
+	line = role = scols_table_new_line(tb, privs);
+	scols_line_set_data(line, 0, "Customer");
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("create: " + cap_cust_create).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("update: " + cap_cust_update).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("delete: " + cap_cust_delete).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("activate: " + cap_cust_activate).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("deactivate: " + cap_cust_deactivate).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("print info: " + cap_cust_print).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("list all: " + cap_cust_listall).c_str());
 
-    string cap_acct_create = emp->canCreateAccount() ? "yes" : "no";
-    string cap_acct_update = emp->canUpdateAccount() ? "yes" : "no";
-    string cap_acct_delete = emp->canDeleteAccount() ? "yes" : "no";
-    string cap_acct_activate = emp->canActivateAccount() ? "yes" : "no";
-    string cap_acct_deactivate = emp->canDeactivateAccount() ? "yes" : "no";
-    string cap_acct_print = emp->canPrintAccountInfo() ? "yes" : "no";
-    string cap_acct_listall = emp->canListAllAccounts() ? "yes" : "no";
+	string cap_acct_create = emp->canCreateAccount() ? "yes" : "no";
+	string cap_acct_update = emp->canUpdateAccount() ? "yes" : "no";
+	string cap_acct_delete = emp->canDeleteAccount() ? "yes" : "no";
+	string cap_acct_activate = emp->canActivateAccount() ? "yes" : "no";
+	string cap_acct_deactivate = emp->canDeactivateAccount() ? "yes" : "no";
+	string cap_acct_print = emp->canPrintAccountInfo() ? "yes" : "no";
+	string cap_acct_listall = emp->canListAllAccounts() ? "yes" : "no";
 
-    line = role = scols_table_new_line(tb, privs);
-    scols_line_set_data(line, 0, "Account");
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("create: " + cap_acct_create).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("update: " + cap_acct_update).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("delete: " + cap_acct_delete).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("activate: " + cap_acct_activate).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("deactivate: " + cap_acct_deactivate).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("print info: " + cap_acct_print).c_str());
-    line = scols_table_new_line(tb, role);
-    scols_line_set_data(line, 0, string("list all: " + cap_acct_listall).c_str());
+	line = role = scols_table_new_line(tb, privs);
+	scols_line_set_data(line, 0, "Account");
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("create: " + cap_acct_create).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("update: " + cap_acct_update).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("delete: " + cap_acct_delete).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("activate: " + cap_acct_activate).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("deactivate: " + cap_acct_deactivate).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("print info: " + cap_acct_print).c_str());
+	line = scols_table_new_line(tb, role);
+	scols_line_set_data(line, 0, string("list all: " + cap_acct_listall).c_str());
 
-    scols_print_table(tb);
-    scols_unref_table(tb);
-    cout << endl;
+	scols_print_table(tb);
+	scols_unref_table(tb);
+	cout << endl;
 
-    if (emp && emp->getUserName() != m_user->getUserName()) delete emp;
+	if (emp && emp->getUserName() != m_user->getUserName()) delete emp;
 	return true;
 }
 
@@ -692,8 +692,7 @@ void Ui::ui_deactivate_admin() {
 	} while (!tmp);
 
 	if (!m_session->deactivateAdmin(tmp)) {
-		cerr << "Error deactivating " << username
-			<< " administrator please contact the super admin" << endl;
+		cerr << "Error deactivating " << username << endl;
 		return;
 	} else
 		cout << "Administrator was deactivated successfully" << endl;
@@ -1115,8 +1114,7 @@ void Ui::ui_update_employee() {
 	answer.clear();
 
 	if (!m_session->updateEmployee(tmp)) {
-		cerr << "Error updating " << username 
-			<< " please contact the admin" << endl;
+		cerr << "Error updating " << username << endl;
 		return;
 	} else
 		cout << "Employee was updated successfully" << endl;
@@ -1171,8 +1169,7 @@ void Ui::ui_deactivate_employee() {
 	} while (!tmp);
 
 	if (!m_session->deactivateEmployee(tmp)) {
-		cerr << "Error activating " << username
-				<< " please contact the admins" << endl;
+		cerr << "Error activating " << username << endl;
 	} else
 		cout << "Employee was activated successfully" << endl;
 }
