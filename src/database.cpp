@@ -63,10 +63,11 @@ bool Database::createAccountsTable() {
 	int rc;
 
 	string sql = "CREATE TABLE IF NOT EXISTS ACCOUNTS("
-			"ID				INT			PRIMARY KEY NOT NULL,"
-			"LOCKED			BOOLEAN		NOT NULL,"
-			"OWNER			INT			NOT NULL UNIQUE,"
+			"ID				INT				PRIMARY KEY NOT NULL,"
+			"LOCKED			BOOLEAN			NOT NULL,"
+			"OWNER			INT				NOT NULL UNIQUE,"
 			"BALANCE		REAL			NOT NULL,"
+			"LABEL			TEXT			NOT NULL,"
 			"FOREIGN KEY(OWNER)	REFERENCES	PERSONS(ID));";
 
 	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
@@ -76,7 +77,7 @@ bool Database::createAccountsTable() {
 		sqlite3_free(zErrMsg);
 		return false;
 	} else {
-		sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+		//sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 		return true;
 	}
 	return false;
@@ -105,7 +106,7 @@ bool Database::createPersonsTable() {
 		sqlite3_free(zErrMsg);
 		return false;
 	} else {
-		sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+		//sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
 		return true;
 	}
 	return false;
@@ -116,7 +117,7 @@ bool Database::insertAccount(Account *acct) {
 	int rc;
 	sqlite3_stmt *stmt;
 
-	string sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?);";
+	string sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?,?);";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare insert statment " << sql.c_str() << " " << rc
@@ -154,6 +155,16 @@ bool Database::insertAccount(Account *acct) {
 	}
 
 	rc = sqlite3_bind_double(stmt, 4, acct->getBalance());
+	if (SQLITE_OK != rc) {
+		cerr << "Error binding value in insert " << rc << " "
+				<< sqlite3_errmsg(db) << endl;
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+		return false;
+	}
+
+	rc = sqlite3_bind_text(stmt, 5, acct->getAccountLabel().c_str(),
+			acct->getAccountLabel().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -214,6 +225,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 	int lockstatus = 0;
 	int custid = 0;
 	float balance = 0;
+	string label = "";
 
 	string sql = "SELECT * from ACCOUNTS WHERE ID = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -240,6 +252,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 		lockstatus = sqlite3_column_int(stmt, 1);
 		custid = sqlite3_column_int(stmt, 2);
 		balance = sqlite3_column_int(stmt, 3);
+		label = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)));
 	}
 
 	if (accountid > 0) {
@@ -247,6 +260,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 		acct->setId(accountid);
 		acct->setBalance(balance);
 		acct->setCustomerId(custid);
+		acct->setAccountLable(label);
 		lockstatus ? acct->lock() : acct->unlock();
 		sqlite3_finalize(stmt);
 		return acct;
@@ -264,7 +278,7 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 	int custid = 0;
 	float balance = 0;
 
-	string sql = "SELECT * FROM ACCOUNTS WHERE OWNER = ?";
+	string sql = "SELECT ID FROM ACCOUNTS WHERE OWNER = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
@@ -286,16 +300,9 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
 		accountid = sqlite3_column_int(stmt, 0);
-		lockstatus = sqlite3_column_int(stmt, 1);
-		custid = sqlite3_column_int(stmt, 2);
-		balance = sqlite3_column_int(stmt, 3);
 	}
 
-	Account *acct = new Account();
-	acct->setId(accountid);
-	acct->setBalance(balance);
-	acct->setCustomerId(custid);
-	lockstatus ? acct->lock() : acct->unlock();
+	Account *acct = retrieveAccount(accountid);
 
 	sqlite3_finalize(stmt);
 	return acct;
@@ -919,7 +926,7 @@ vector<Account*> Database::getAllAccounts() {
 	int balance;
 	vector<Account*> list;
 
-	string sql = "SELECT * from ACCOUNTS;";
+	string sql = "SELECT ID from ACCOUNTS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
@@ -935,17 +942,9 @@ vector<Account*> Database::getAllAccounts() {
 			break;
 		if (step == SQLITE_ROW) {
 			accountid = sqlite3_column_int(stmt, 0);
-			lockstatus = sqlite3_column_int(stmt, 1);
-			custid = sqlite3_column_int(stmt, 2);
-			balance = sqlite3_column_int(stmt, 3);
-
-			Account *acct = new Account();
-			acct->setId(accountid);
-			acct->setBalance(balance);
-			acct->setCustomerId(custid);
-			lockstatus ? acct->lock() : acct->unlock();
-
+			Account *acct = retrieveAccount(accountid);
 			list.push_back(acct);
+
 		} else {
 			cerr << "Error retrieving accounts info from the database" << endl;
 			sqlite3_finalize(stmt);

@@ -110,7 +110,7 @@ bool Session::printAccountInfo(Account *acct) {
 
 	string status = acct->isLocked() ? "Yes" : "No";
 	struct libscols_table *tb;
-	struct libscols_line *line, *accountid, *balance, *stat, *owner;
+	struct libscols_line *line, *accountid, *balance, *stat, *owner, *label;
 	setlocale(LC_ALL, "");
 
 	tb = scols_new_table();
@@ -118,17 +118,19 @@ bool Session::printAccountInfo(Account *acct) {
 	line = accountid = scols_table_new_line(tb, NULL);
 	scols_line_set_data(line, 0, string("ID: "
 			+ to_string(acct->getId())).c_str());
+
+	line = label = scols_table_new_line(tb, accountid);
+	scols_line_set_data(line, 0, string("Label: "
+				+ acct->getAccountLabel()).c_str());
 	line = balance = scols_table_new_line(tb, accountid);
 	scols_line_set_data(line, 0, string("Balance: "
 			+ to_string(acct->getBalance())).c_str());
-
 	if (acct_owner) {
 		line = owner = scols_table_new_line(tb, accountid);
 		scols_line_set_data(line, 0, string("Owner: "
 				+ acct_owner->getFirstName()
 				+ " " + acct_owner->getLastName()).c_str());
 	}
-
 	line = stat = scols_table_new_line(tb, accountid);
 	scols_line_set_data(line, 0, string("Locked: " + status).c_str());
 
@@ -551,8 +553,15 @@ void Ui::ui_create_account() {
 		return;
 	}
 
+	string label;
+	do {
+		cout << "Enter account label: ";
+		cin >> label;
+	} while (!label.length());
+
 	acct->setCustomerId(cust->getId());
 	acct->setBalance(0);
+	acct->setAccountLable(label);
 
 	if (!m_session->createAccount(acct)) {
 		cerr << "Error creating an account" << endl;
@@ -600,6 +609,14 @@ void Ui::ui_update_account() {
 
 	if (newbalance > 0)
 		acct->setBalance(newbalance);
+
+	string label;
+	do {
+		cout << "Enter account label: ";
+		cin >> label;
+	} while (!label.length());
+
+	acct->setAccountLable(label);
 
 	if (!m_session->createAccount(acct))
 		cerr << "Error creating an account" << endl;

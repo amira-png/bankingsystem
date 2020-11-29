@@ -8,6 +8,9 @@
 #ifndef SRC_ACCOUNT_H_
 #define SRC_ACCOUNT_H_
 
+#include <string>
+
+using namespace std;
 
 class Account{
 
@@ -15,10 +18,11 @@ private:
 	bool bLocked;
 	int m_id;
 	float m_balance;
+	string m_label;
 	int m_customerId;
 
 public:
-	Account() : bLocked(true), m_id(0), m_balance(0), m_customerId(0) {}
+	Account() : bLocked(true), m_id(0), m_balance(0), m_label(""), m_customerId(0) {}
 	virtual ~Account() = default;
 	void lock(){bLocked = true;}
 	void unlock(){bLocked = false;}
@@ -28,12 +32,15 @@ public:
 		this->bLocked = acct.bLocked;
 		this->m_balance = acct.m_balance;
 		this->m_customerId = acct.m_customerId;
+		this->m_label = acct.m_label;
 		return this;
 	}
 	void setId(const int id) {m_id = id;}
 	int getId() {return m_id;}
 	double getBalance() {return m_balance;}
 	void setBalance(float newBalance) {m_balance = newBalance;}
+	string getAccountLabel() {return m_label;}
+	void setAccountLable(const string label) {m_label = label;}
 	int getCustomerId() {return m_customerId;}
 	void setCustomerId(const int custid) {m_customerId = custid;}
 };
