@@ -120,7 +120,7 @@ bool Database::insertAccount(Account *acct) {
 	string sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?,?);";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare insert statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare insert statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -191,7 +191,7 @@ bool Database::deleteAccount(Account *acct) {
 	string sql = "DELETE FROM ACCOUNTS WHERE ID = ?;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare delete statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare delete statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -230,7 +230,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 	string sql = "SELECT * from ACCOUNTS WHERE ID = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -278,7 +278,7 @@ Account* Database::retrieveAccountByCustomer(const int customer_id) const{
 	string sql = "SELECT ID FROM ACCOUNTS WHERE OWNER = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -313,7 +313,7 @@ bool Database::insertPerson(Person *p) {
 	string sql = "INSERT OR REPLACE INTO PERSONS VALUES (?,?,?,?,?,?,?,?,?);";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare insert statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare insert statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		return false;
@@ -424,7 +424,7 @@ bool Database::deletePerson(Person *p) {
 	string sql = "DELETE FROM PERSONS WHERE USERNAME = ?;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare delete statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare delete statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -479,7 +479,7 @@ Person* Database::retrievePerson(const string &username) const {
 	string sql = "SELECT * from PERSONS WHERE USERNAME = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -719,7 +719,7 @@ int Database::generateAccountNumber() {
 	string sql = "SELECT MAX(ID) from ACCOUNTS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -749,7 +749,7 @@ int Database::generatePersonNumber() {
 	string sql = "SELECT MAX(ID) from PERSONS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_close(db);
 		cerr << "Couldn't generate a valid person number, please contact your administrator!!!"
@@ -780,7 +780,7 @@ vector<Person*> Database::getAllPersons(const int person_type) {
 	string sql = "SELECT USERNAME from PERSONS WHERE TYPE = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -824,7 +824,7 @@ bool Database::userExists(const string &username) const {
 	string sql = "SELECT * from PERSONS WHERE USERNAME = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -860,7 +860,7 @@ bool Database::accountExists(const int account_id) const {
 	string sql = "SELECT * from ACCOUNTS WHERE ID = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -897,7 +897,7 @@ vector<Account*> Database::getAllAccounts() {
 	string sql = "SELECT ID from ACCOUNTS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -933,7 +933,7 @@ int Database::getUsersCount() {
 	string sql = "SELECT COUNT(*) from PERSONS;";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
@@ -971,7 +971,7 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 	string sql = "SELECT * from PERSONS WHERE ID = (SELECT OWNER FROM ACCOUNTS WHERE ID = ?);";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
-		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
+		cerr << "Can't prepare select statement " << sql.c_str() << " " << rc
 				<< " " << sqlite3_errmsg(db) << endl;
 		sqlite3_finalize(stmt);
 		sqlite3_close(db);
