@@ -776,18 +776,11 @@ vector<Person*> Database::getAllPersons(const int person_type) {
 	const char *zErrMsg = nullptr;
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
-	int userid;
 	string uname;
-	string fname;
-	string lname;
-	string natid;
-	string password;
-	int usertype;
-	int lockstatus;
-	int caps;
+
 	vector<Person*> list;
 
-	string sql = "SELECT * from PERSONS WHERE TYPE = ?";
+	string sql = "SELECT USERNAME from PERSONS WHERE TYPE = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
 	if (SQLITE_OK != rc) {
 		cerr << "Can't prepare select statment " << sql.c_str() << " " << rc
@@ -811,29 +804,10 @@ vector<Person*> Database::getAllPersons(const int person_type) {
 		if (step == SQLITE_DONE)
 			break;
 		else if (step == SQLITE_ROW) {
-			userid = sqlite3_column_int(stmt, USERID);
-			uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,USERNAME)));
-			fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,FIRSTNAME)));
-			lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,LASTNAME)));
-			natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,NATIONALID)));
-			password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,PASSWORD)));
-			usertype = sqlite3_column_int(stmt, USERTYPE);
-			lockstatus = sqlite3_column_int(stmt, USERLOCK);
-			caps = sqlite3_column_int(stmt, USERCAPS);
+			uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
+			Person *person = retrievePerson(uname);
+			list.push_back(person);
 
-			if (usertype == person_type) { // Extra check
-				Person *person = new Person();
-				person->setId(userid);
-				person->setUserName(uname);
-				person->setFirstName(fname);
-				person->setLastName(lname);
-				person->setNationalId(natid);
-				person->setPassword(password);
-				person->setUserType(usertype);
-				lockstatus ? person->lock() : person->unlock();
-				person->setCaps(caps);
-				list.push_back(person);
-			}
 		} else {
 			cerr << "Error retrieving users info from the database" << endl;
 			sqlite3_finalize(stmt);
