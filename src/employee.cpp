@@ -20,6 +20,7 @@
  * Session methods
  * */
 
+
 bool Session::createAccount(Account *acct) {
 	if (!isAuthorized(Session::ACCOUNT_CREATE))
 		return false;
