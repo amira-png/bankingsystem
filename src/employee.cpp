@@ -554,7 +554,7 @@ void Ui::ui_create_account() {
 
 	acct->setCustomerId(cust->getId());
 	acct->setBalance(0);
-	acct->setAccountLable(label);
+	acct->setAccountLabel(label);
 
 	if (!m_session->createAccount(acct)) {
 		cerr << "Error creating an account" << endl;
@@ -609,7 +609,7 @@ void Ui::ui_update_account() {
 		cin >> label;
 	} while (!label.length());
 
-	acct->setAccountLable(label);
+	acct->setAccountLabel(label);
 
 	if (!m_session->createAccount(acct))
 		cerr << "Error creating an account" << endl;

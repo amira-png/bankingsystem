@@ -40,7 +40,7 @@ public:
 	double getBalance() {return m_balance;}
 	void setBalance(float newBalance) {m_balance = newBalance;}
 	string getAccountLabel() {return m_label;}
-	void setAccountLable(const string label) {m_label = label;}
+	void setAccountLabel(const string label) {m_label = label;}
 	int getCustomerId() {return m_customerId;}
 	void setCustomerId(const int custid) {m_customerId = custid;}
 };

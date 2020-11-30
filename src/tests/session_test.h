@@ -6,9 +6,7 @@
 #include "../employee.h"
 #include "../admin.h"
 #include "../database.h"
-#include "../database.cpp"
 #include "../session.h"
-#include "../session.cpp"
 
 using namespace std;
 using std::string;
@@ -19,6 +17,10 @@ public:
         SessionTest();
         ~SessionTest();
 	Session *sess;
+	Admin* makeAdmin(const string username);
+	Employee* makeEmployee(const string username);
+	Customer* makeCustomer(const string username);
+	Account* makeAccount(int owner);
 
 protected:
         virtual void SetUp();

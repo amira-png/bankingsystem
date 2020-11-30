@@ -257,7 +257,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 		acct->setId(accountid);
 		acct->setBalance(balance);
 		acct->setCustomerId(custid);
-		acct->setAccountLable(label);
+		acct->setAccountLabel(label);
 		lockstatus ? acct->lock() : acct->unlock();
 		sqlite3_finalize(stmt);
 		return acct;
