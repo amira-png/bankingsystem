@@ -15,7 +15,7 @@ void SessionTest::TearDown() {}
 void SessionTest::TestBody() {}
 
 
-TEST_F(SessionTest, createsuperuser) {
+TEST_F(SessionTest, CreateSuperUser) {
         SessionTest s;
 	Admin *super = new Admin();
 	super->setId(1);
@@ -38,7 +38,7 @@ TEST_F(SessionTest, createsuperuser) {
 
 }
 
-TEST_F(SessionTest, createadminuserNotLogged) {
+TEST_F(SessionTest, CreateAdminUser_NotLoggedIn_Session) {
     	SessionTest s;
 	Admin *admin = new Admin();
 	admin->setId(2);

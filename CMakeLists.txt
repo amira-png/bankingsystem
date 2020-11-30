@@ -18,8 +18,6 @@ add_executable(bankingsystem src/main.cpp)
 target_link_libraries(bankingsystem prog)
 
 
-
-
 project(sessiontest)
 
 enable_testing()
