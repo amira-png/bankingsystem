@@ -450,6 +450,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminCreate(true);
+	else tmp->cap_AdminCreate(false);
 	answer.clear();
 
 	do {
@@ -461,6 +462,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminUpdate(true);
+	else tmp->cap_AdminUpdate(false);
 	answer.clear();
 
 	do {
@@ -472,6 +474,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDelete(true);
+	else tmp->cap_AdminDelete(false);
 	answer.clear();
 
 	do {
@@ -483,6 +486,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminActivate(true);
+	else tmp->cap_AdminActivate(false);
 	answer.clear();
 
 	do {
@@ -494,6 +498,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDeactivate(true);
+	else tmp->cap_AdminDeactivate(false);
 	answer.clear();
 
 	do {
@@ -505,6 +510,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminListAll(true);
+	else tmp->cap_AdminListAll(false);
 	answer.clear();
 
 	do {
@@ -516,6 +522,7 @@ void Ui::ui_create_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminPrintInfo(true);
+	else tmp->cap_AdminPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->createAdmin(tmp)) {
@@ -566,6 +573,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminCreate(true);
+	else tmp->cap_AdminCreate(false);
 	answer.clear();
 
 	do {
@@ -577,6 +585,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminUpdate(true);
+	else tmp->cap_AdminUpdate(false);
 	answer.clear();
 
 	do {
@@ -588,6 +597,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDelete(true);
+	else tmp->cap_AdminDelete(false);
 	answer.clear();
 
 	do {
@@ -599,6 +609,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminActivate(true);
+	else tmp->cap_AdminActivate(false);
 	answer.clear();
 
 	do {
@@ -610,6 +621,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminDeactivate(true);
+	else tmp->cap_AdminDeactivate(false);
 	answer.clear();
 
 	do {
@@ -621,6 +633,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminListAll(true);
+	else tmp->cap_AdminListAll(false);
 	answer.clear();
 
 	do {
@@ -632,6 +645,7 @@ void Ui::ui_update_admin() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_AdminPrintInfo(true);
+	else tmp->cap_AdminPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->updateAdmin(tmp)) {
@@ -773,6 +787,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custCreate(true);
+	else tmp->cap_custCreate(false);
 	answer.clear();
 
 	do {
@@ -784,6 +799,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custUpdate(true);
+	else tmp->cap_custUpdate(false);
 	answer.clear();
 
 	do {
@@ -795,6 +811,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDelete(true);
+	else tmp->cap_custDelete(false);
 	answer.clear();
 
 	do {
@@ -806,6 +823,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custActivate(true);
+	else tmp->cap_custActivate(false);
 	answer.clear();
 
 	do {
@@ -817,6 +835,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDeactivate(true);
+	else tmp->cap_custDeactivate(false);
 	answer.clear();
 
 	do {
@@ -828,6 +847,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custListAll(true);
+	else tmp->cap_custListAll(false);
 	answer.clear();
 
 	do {
@@ -839,6 +859,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custPrintInfo(true);
+	else tmp->cap_custPrintInfo(false);
 	answer.clear();
 
 	do {
@@ -850,6 +871,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctCreate(true);
+	else tmp->cap_acctCreate(false);
 	answer.clear();
 
 	do {
@@ -861,6 +883,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctUpdate(true);
+	else tmp->cap_acctUpdate(false);
 	answer.clear();
 
 	do {
@@ -872,6 +895,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDelete(true);
+	else tmp->cap_acctDelete(false);
 	answer.clear();
 
 	do {
@@ -883,6 +907,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctActivate(true);
+	else tmp->cap_acctActivate(false);
 	answer.clear();
 
 	do {
@@ -894,6 +919,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDeactivate(true);
+	else tmp->cap_acctDeactivate(false);
 	answer.clear();
 
 	do {
@@ -905,6 +931,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctListAll(true);
+	else tmp->cap_acctListAll(false);
 	answer.clear();
 
 	do {
@@ -916,6 +943,7 @@ void Ui::ui_create_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctPrintInfo(true);
+	else tmp->cap_acctPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->createEmployee(tmp)) {
@@ -967,6 +995,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custCreate(true);
+	else tmp->cap_custCreate(false);
 	answer.clear();
 
 	do {
@@ -978,6 +1007,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custUpdate(true);
+	else tmp->cap_custUpdate(false);
 	answer.clear();
 
 	do {
@@ -989,6 +1019,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDelete(true);
+	else tmp->cap_custDelete(false);
 	answer.clear();
 
 	do {
@@ -1000,6 +1031,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custActivate(true);
+	else tmp->cap_custActivate(false);
 	answer.clear();
 
 	do {
@@ -1011,6 +1043,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custDeactivate(true);
+	else tmp->cap_custDeactivate(false);
 	answer.clear();
 
 	do {
@@ -1022,6 +1055,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custListAll(true);
+	else tmp->cap_custListAll(false);
 	answer.clear();
 
 	do {
@@ -1033,6 +1067,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_custPrintInfo(true);
+	else tmp->cap_custPrintInfo(false);
 	answer.clear();
 
 	do {
@@ -1044,6 +1079,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctCreate(true);
+	else tmp->cap_acctCreate(false);
 	answer.clear();
 
 	do {
@@ -1055,6 +1091,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctUpdate(true);
+	else tmp->cap_acctUpdate(false);
 	answer.clear();
 
 	do {
@@ -1066,6 +1103,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDelete(true);
+	else tmp->cap_acctDelete(false);
 	answer.clear();
 
 	do {
@@ -1077,6 +1115,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctActivate(true);
+	else tmp->cap_acctActivate(false);
 	answer.clear();
 
 	do {
@@ -1088,6 +1127,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctDeactivate(true);
+	else tmp->cap_acctDeactivate(false);
 	answer.clear();
 
 	do {
@@ -1099,6 +1139,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctListAll(true);
+	else tmp->cap_acctListAll(false);
 	answer.clear();
 
 	do {
@@ -1110,6 +1151,7 @@ void Ui::ui_update_employee() {
 
 	if (answer == "y" || answer == "Y")
 		tmp->cap_acctPrintInfo(true);
+	else tmp->cap_acctPrintInfo(false);
 	answer.clear();
 
 	if (!m_session->updateEmployee(tmp)) {
