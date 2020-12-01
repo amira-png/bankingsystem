@@ -97,52 +97,50 @@ Account* SessionTest::makeAccount(int owner) {
 
 TEST_F(SessionTest, CreateSuperUser) {
 	remove("future_bank.db");
-    SessionTest s;
+	SessionTest s;
 	Admin *super = makeAdmin("admin0");
 	EXPECT_TRUE(s.sess->createAdmin(super));
 }
 
 TEST_F(SessionTest, SuperUserLogin) {
-        SessionTest s;
-        EXPECT_TRUE(s.sess->login("admin0", "abc123"));
+	SessionTest s;
+	EXPECT_TRUE(s.sess->login("admin0", "abc123"));
 }
 
 TEST_F(SessionTest, CreateAdminUser_NotLoggedIn_Session) {
-    	SessionTest s;
+	SessionTest s;
 	Admin *admin = makeAdmin("admin1");
 	EXPECT_FALSE(s.sess->createAdmin(admin));
 }
 
 TEST_F(SessionTest, CreateAdminUser_LoggedIn_Session) {
-        SessionTest s;
+	SessionTest s;
 	s.sess->login("admin0", "abc123");
 	Admin *admin = makeAdmin("admin2");
-        EXPECT_TRUE(s.sess->createAdmin(admin));
+	EXPECT_TRUE(s.sess->createAdmin(admin));
 }
 
 TEST_F(SessionTest, CreateAdminUser_DUP_LoggedIn_Session) {
-        SessionTest s;
+	SessionTest s;
 	s.sess->login("admin0", "abc123");
 	Admin *admin = makeAdmin("admin3");
-        EXPECT_TRUE(s.sess->createAdmin(admin));
+	EXPECT_TRUE(s.sess->createAdmin(admin));
 }
 
 TEST_F(SessionTest, UpdateAdminUser_LoggedIn_Session) {
-        SessionTest s;
-        s.sess->login("admin0", "abc123");
-        Admin *admin = s.sess->getAdmin("admin2");
-        admin->setNationalId("834756");
-        admin->cap_AdminCreate(false);
-        admin->cap_AdminUpdate(false);
-        admin->cap_AdminDelete(false);
-        admin->cap_AdminActivate(true);
-        admin->cap_AdminDeactivate(true);
-        admin->cap_AdminPrintInfo(true);
-        admin->cap_AdminListAll(true);
-        EXPECT_TRUE(s.sess->updateAdmin(admin));
+	SessionTest s;
+	s.sess->login("admin0", "abc123");
+	Admin *admin = s.sess->getAdmin("admin2");
+	admin->setNationalId("834756");
+	admin->cap_AdminCreate(false);
+	admin->cap_AdminUpdate(false);
+	admin->cap_AdminDelete(false);
+	admin->cap_AdminActivate(true);
+	admin->cap_AdminDeactivate(true);
+	admin->cap_AdminPrintInfo(true);
+	admin->cap_AdminListAll(true);
+	EXPECT_TRUE(s.sess->updateAdmin(admin));
 }
-
-
 
 TEST_F(SessionTest, CreateCustomer1) {
 	SessionTest s;
@@ -150,7 +148,6 @@ TEST_F(SessionTest, CreateCustomer1) {
 	Customer *cust = makeCustomer("cust1");
 	EXPECT_TRUE(s.sess->createCustomer(cust));
 }
-
 
 TEST_F(SessionTest, CreateAccount1) {
 	SessionTest s;
@@ -160,9 +157,8 @@ TEST_F(SessionTest, CreateAccount1) {
 	acct->unlock();
 	s.sess->createAccount(acct);
 	cust->setAccount(acct);
-	EXPECT_TRUE(s.sess->updateCustomer(cust)); 
+	EXPECT_TRUE(s.sess->updateCustomer(cust));
 }
-
 
 TEST_F(SessionTest, CreateCustomer2) {
 	SessionTest s;
@@ -170,7 +166,6 @@ TEST_F(SessionTest, CreateCustomer2) {
 	Customer *cust = makeCustomer("cust2");
 	EXPECT_TRUE(s.sess->createCustomer(cust));
 }
-
 
 TEST_F(SessionTest, CreateAccount2) {
 	SessionTest s;
@@ -180,13 +175,12 @@ TEST_F(SessionTest, CreateAccount2) {
 	acct->unlock();
 	s.sess->createAccount(acct);
 	cust->setAccount(acct);
-	EXPECT_TRUE(s.sess->updateCustomer(cust)); 
+	EXPECT_TRUE(s.sess->updateCustomer(cust));
 }
 
-
 TEST_F(SessionTest, DepositAccount1) {
-        SessionTest s;
-        s.sess->login("cust1", "abc123");
+	SessionTest s;
+	s.sess->login("cust1", "abc123");
 	Customer *cust = s.sess->getCustomer("cust1");
 	s.sess->deposit(2000);
 	cust = s.sess->getCustomer("cust1");
@@ -194,46 +188,45 @@ TEST_F(SessionTest, DepositAccount1) {
 }
 
 TEST_F(SessionTest, DepositWrongAccount1) {
-        SessionTest s;
-        s.sess->login("cust2", "abc123");
-        Customer *cust = s.sess->getCustomer("cust2");
+	SessionTest s;
+	s.sess->login("cust2", "abc123");
+	Customer *cust = s.sess->getCustomer("cust2");
 	Account *acct = s.sess->getAccount(1);
 	acct->setBalance(2000);
-        EXPECT_FALSE(s.sess->updateAccount(acct));
+	EXPECT_FALSE(s.sess->updateAccount(acct));
 }
 
 TEST_F(SessionTest, WithdrawAccount1) {
-        SessionTest s;
-        s.sess->login("cust1", "abc123");
-        Customer *cust = s.sess->getCustomer("cust1");
-        s.sess->withdraw(1000);
+	SessionTest s;
+	s.sess->login("cust1", "abc123");
+	Customer *cust = s.sess->getCustomer("cust1");
+	s.sess->withdraw(1000);
 	cust = s.sess->getCustomer("cust1");
 	EXPECT_EQ(1000, cust->getAccount()->getBalance());
 }
 
 TEST_F(SessionTest, CustomerTransferFromOwnToAnother) {
-        SessionTest s;
-        s.sess->login("cust1", "abc123");
-        Customer *cust = s.sess->getCustomer("cust1");
-	s.sess->transfer(2,300);
+	SessionTest s;
+	s.sess->login("cust1", "abc123");
+	Customer *cust = s.sess->getCustomer("cust1");
+	s.sess->transfer(2, 300);
 	cust = s.sess->getCustomer("cust1");
-        EXPECT_EQ(700, cust->getAccount()->getBalance());
+	EXPECT_EQ(700, cust->getAccount()->getBalance());
 }
 
 TEST_F(SessionTest, CustomerTransferFromOwnToAnother_NoEnoghtCredit) {
-        SessionTest s;
-        s.sess->login("cust1", "abc123");
-        Customer *cust = s.sess->getCustomer("cust1");
-        EXPECT_FALSE(s.sess->transfer(2,900));
+	SessionTest s;
+	s.sess->login("cust1", "abc123");
+	Customer *cust = s.sess->getCustomer("cust1");
+	EXPECT_FALSE(s.sess->transfer(2, 900));
 }
 
 TEST_F(SessionTest, CreateEmployee1) {
-        SessionTest s;
+	SessionTest s;
 	s.sess->login("admin2", "abc123");
 	Employee *emp = makeEmployee("emp1");
 	EXPECT_TRUE(s.sess->createEmployee(emp));
 }
-
 
 TEST_F(SessionTest, CreateCustomer3) {
 	SessionTest s;
@@ -241,7 +234,6 @@ TEST_F(SessionTest, CreateCustomer3) {
 	Customer *cust = makeCustomer("cust3");
 	EXPECT_TRUE(s.sess->createCustomer(cust));
 }
-
 
 TEST_F(SessionTest, CreateAccount3) {
 	SessionTest s;
@@ -251,14 +243,13 @@ TEST_F(SessionTest, CreateAccount3) {
 	acct->unlock();
 	s.sess->createAccount(acct);
 	cust->setAccount(acct);
-	EXPECT_TRUE(s.sess->updateCustomer(cust)); 
+	EXPECT_TRUE(s.sess->updateCustomer(cust));
 }
 
-
 TEST_F(SessionTest, RemoveUpdCustPrivFromEmployee1) {
-        SessionTest s;
-        s.sess->login("admin2", "abc123");
-        Employee *emp = s.sess->getEmployee("emp1");
+	SessionTest s;
+	s.sess->login("admin2", "abc123");
+	Employee *emp = s.sess->getEmployee("emp1");
 	emp->cap_custUpdate(false);
 	s.sess->updateEmployee(emp);
 	s.sess->logout();
@@ -269,10 +260,10 @@ TEST_F(SessionTest, RemoveUpdCustPrivFromEmployee1) {
 }
 
 TEST_F(SessionTest, DeleteAdminUser_LoggedIn_Session) {
-        SessionTest s;
-        s.sess->login("admin0", "abc123");
-        Admin *admin = s.sess->getAdmin("admin2");
-        EXPECT_TRUE(s.sess->deleteAdmin(admin));
+	SessionTest s;
+	s.sess->login("admin0", "abc123");
+	Admin *admin = s.sess->getAdmin("admin2");
+	EXPECT_TRUE(s.sess->deleteAdmin(admin));
 }
 
 
