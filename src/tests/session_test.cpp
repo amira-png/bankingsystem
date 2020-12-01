@@ -1,6 +1,7 @@
 #include "session_test.h"
 #include <cstdlib>
 
+
 SessionTest::SessionTest() : sess(nullptr){
 	SetUp();
 }
@@ -95,7 +96,8 @@ Account* SessionTest::makeAccount(int owner) {
 }
 
 TEST_F(SessionTest, CreateSuperUser) {
-        SessionTest s;
+	remove("future_bank.db");
+    SessionTest s;
 	Admin *super = makeAdmin("admin0");
 	EXPECT_TRUE(s.sess->createAdmin(super));
 }
