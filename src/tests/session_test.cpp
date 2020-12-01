@@ -120,14 +120,20 @@ TEST_F(SessionTest, CreateAdminUser_LoggedIn_Session) {
 	SessionTest s;
 	s.sess->login("admin0", "abc123");
 	Admin *admin = makeAdmin("admin2");
-	EXPECT_TRUE(s.sess->createAdmin(admin));
+	if (s.sess->getAdmin("admin2"))
+		EXPECT_FALSE(s.sess->createAdmin(admin));
+	else
+		EXPECT_TRUE(s.sess->createAdmin(admin));
 }
 
 TEST_F(SessionTest, CreateAdminUser_DUP_LoggedIn_Session) {
 	SessionTest s;
 	s.sess->login("admin0", "abc123");
 	Admin *admin = makeAdmin("admin3");
-	EXPECT_TRUE(s.sess->createAdmin(admin));
+	if (s.sess->getAdmin("admin3"))
+		EXPECT_FALSE(s.sess->createAdmin(admin));
+	else
+		EXPECT_TRUE(s.sess->createAdmin(admin));
 }
 
 TEST_F(SessionTest, UpdateAdminUser_LoggedIn_Session) {
@@ -149,7 +155,10 @@ TEST_F(SessionTest, CreateCustomer1) {
 	SessionTest s;
 	s.sess->login("admin0", "abc123");
 	Customer *cust = makeCustomer("cust1");
-	EXPECT_TRUE(s.sess->createCustomer(cust));
+	if (s.sess->getCustomer("cust1"))
+		EXPECT_FALSE(s.sess->createCustomer(cust));
+	else
+		EXPECT_TRUE(s.sess->createCustomer(cust));
 }
 
 TEST_F(SessionTest, CreateAccount1) {
@@ -166,7 +175,10 @@ TEST_F(SessionTest, CreateCustomer2) {
 	SessionTest s;
 	s.sess->login("admin0", "abc123");
 	Customer *cust = makeCustomer("cust2");
-	EXPECT_TRUE(s.sess->createCustomer(cust));
+	if (s.sess->getCustomer("cust2"))
+		EXPECT_FALSE(s.sess->createCustomer(cust));
+	else
+		EXPECT_TRUE(s.sess->createCustomer(cust));
 }
 
 TEST_F(SessionTest, CreateAccount2) {
@@ -183,18 +195,11 @@ TEST_F(SessionTest, DepositAccount1) {
 	SessionTest s;
 	s.sess->login("cust1", "abc123");
 	Customer *cust = s.sess->getCustomer("cust1");
+	int balance = cust->getAccount()->getBalance();
+	s.sess->withdraw(balance);
 	s.sess->deposit(2000);
 	cust = s.sess->getCustomer("cust1");
 	EXPECT_EQ(2000, cust->getAccount()->getBalance());
-}
-
-TEST_F(SessionTest, DepositWrongAccount1) {
-	SessionTest s;
-	s.sess->login("cust2", "abc123");
-	Customer *cust = s.sess->getCustomer("cust2");
-	Account *acct = s.sess->getAccount(1);
-	acct->setBalance(2000);
-	EXPECT_FALSE(s.sess->updateAccount(acct));
 }
 
 TEST_F(SessionTest, WithdrawAccount1) {
@@ -210,12 +215,13 @@ TEST_F(SessionTest, CustomerTransferFromOwnToAnother) {
 	SessionTest s;
 	s.sess->login("cust1", "abc123");
 	Customer *cust = s.sess->getCustomer("cust1");
-	s.sess->transfer(2, 300);
+	Customer *cust2 = s.sess->getCustomer("cust2");
+	s.sess->transfer(cust2->getAccount()->getId(), 300);
 	cust = s.sess->getCustomer("cust1");
 	EXPECT_EQ(700, cust->getAccount()->getBalance());
 }
 
-TEST_F(SessionTest, CustomerTransferFromOwnToAnother_NoEnoghtCredit) {
+TEST_F(SessionTest, CustomerTransferFromOwnToAnother_NoEnoughCredit) {
 	SessionTest s;
 	s.sess->login("cust1", "abc123");
 	Customer *cust = s.sess->getCustomer("cust1");
@@ -226,14 +232,20 @@ TEST_F(SessionTest, CreateEmployee1) {
 	SessionTest s;
 	s.sess->login("admin2", "abc123");
 	Employee *emp = makeEmployee("emp1");
-	EXPECT_TRUE(s.sess->createEmployee(emp));
+	if (s.sess->getEmployee("emp1"))
+		EXPECT_FALSE(s.sess->createEmployee(emp));
+	else
+		EXPECT_TRUE(s.sess->createEmployee(emp));
 }
 
 TEST_F(SessionTest, CreateCustomer3) {
 	SessionTest s;
 	s.sess->login("emp1", "abc123");
 	Customer *cust = makeCustomer("cust3");
-	EXPECT_TRUE(s.sess->createCustomer(cust));
+	if (s.sess->getCustomer("cust3"))
+		EXPECT_FALSE(s.sess->createCustomer(cust));
+	else
+		EXPECT_TRUE(s.sess->createCustomer(cust));
 }
 
 TEST_F(SessionTest, CreateAccount3) {
