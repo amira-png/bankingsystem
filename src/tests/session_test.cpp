@@ -174,7 +174,6 @@ TEST_F(SessionTest, CreateAccount2) {
 	s.sess->login("admin0", "abc123");
 	Customer *cust = s.sess->getCustomer("cust2");
 	Account *acct = makeAccount(cust->getId());
-	acct->unlock();
 	s.sess->createAccount(acct);
 	cust->setAccount(acct);
 	EXPECT_TRUE(s.sess->updateCustomer(cust));
@@ -242,7 +241,6 @@ TEST_F(SessionTest, CreateAccount3) {
 	s.sess->login("emp1", "abc123");
 	Customer *cust = s.sess->getCustomer("cust3");
 	Account *acct = makeAccount(cust->getId());
-	acct->unlock();
 	s.sess->createAccount(acct);
 	cust->setAccount(acct);
 	EXPECT_TRUE(s.sess->updateCustomer(cust));
