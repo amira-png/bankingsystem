@@ -99,7 +99,10 @@ TEST_F(SessionTest, CreateSuperUser) {
 	remove("future_bank.db");
 	SessionTest s;
 	Admin *super = makeAdmin("admin0");
-	EXPECT_TRUE(s.sess->createAdmin(super));
+	if (s.sess->firstRun())
+		EXPECT_TRUE(s.sess->createAdmin(super));
+	else
+		EXPECT_FALSE(s.sess->createAdmin(super));
 }
 
 TEST_F(SessionTest, SuperUserLogin) {
