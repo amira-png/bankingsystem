@@ -19,22 +19,22 @@ void SessionTest::TestBody() {}
 Admin* SessionTest::makeAdmin(const string username) {
 	string natid = to_string(rand());
 	Admin *admin = new Admin();
-        admin->setId(sess->genUserId());
-        admin->setUserName(username);
-        admin->setFirstName(username+"_FirstName");
-        admin->setLastName(username+"_LastName");
-        admin->setNationalId(natid);
-        admin->setUserType(1);
-        string password = this->sess->encrypt("abc123");
-        admin->setPassword(password);
-        admin->cap_AdminCreate(true);
-        admin->cap_AdminUpdate(true);
-        admin->cap_AdminDelete(true);
-        admin->cap_AdminActivate(true);
-        admin->cap_AdminDeactivate(true);
-        admin->cap_AdminPrintInfo(true);
-        admin->cap_AdminListAll(true);
-        admin->unlock();
+	admin->setId(sess->genUserId());
+	admin->setUserName(username);
+	admin->setFirstName(username + "_FirstName");
+	admin->setLastName(username + "_LastName");
+	admin->setNationalId(natid);
+	admin->setUserType(1);
+	string password = this->sess->encrypt("abc123");
+	admin->setPassword(password);
+	admin->cap_AdminCreate(true);
+	admin->cap_AdminUpdate(true);
+	admin->cap_AdminDelete(true);
+	admin->cap_AdminActivate(true);
+	admin->cap_AdminDeactivate(true);
+	admin->cap_AdminPrintInfo(true);
+	admin->cap_AdminListAll(true);
+	admin->unlock();
 	return admin;
 }
 
@@ -43,8 +43,8 @@ Employee* SessionTest::makeEmployee(const string username) {
 	Employee *emp = new Employee();
 	emp->setId(sess->genUserId());
 	emp->setUserName(username);
-	emp->setFirstName(username+"_FirstName");
-	emp->setLastName(username+"_LastName");
+	emp->setFirstName(username + "_FirstName");
+	emp->setLastName(username + "_LastName");
 	emp->setNationalId(natid);
 	emp->setUserType(2);
 	string password = this->sess->encrypt("abc123");
@@ -53,16 +53,16 @@ Employee* SessionTest::makeEmployee(const string username) {
 	emp->cap_acctCreate(true);
 	emp->cap_acctUpdate(true);
 	emp->cap_acctDelete(true);
-	emp->cap_acctDeactivate(true); 
-	emp->cap_acctActivate(true); 
-	emp->cap_acctListAll(true); 
-	emp->cap_acctPrintInfo(true); 
+	emp->cap_acctDeactivate(true);
+	emp->cap_acctActivate(true);
+	emp->cap_acctListAll(true);
+	emp->cap_acctPrintInfo(true);
 	emp->cap_custCreate(true);
-	emp->cap_custUpdate(true); 
-	emp->cap_custDelete(true); 
-	emp->cap_custActivate(true); 
-	emp->cap_custDeactivate(true); 
-	emp->cap_custPrintInfo(true); 
+	emp->cap_custUpdate(true);
+	emp->cap_custDelete(true);
+	emp->cap_custActivate(true);
+	emp->cap_custDeactivate(true);
+	emp->cap_custPrintInfo(true);
 	emp->cap_custListAll(true);
 
 	emp->unlock();
@@ -70,21 +70,20 @@ Employee* SessionTest::makeEmployee(const string username) {
 }
 
 Customer* SessionTest::makeCustomer(const string username) {
-        string natid = to_string(rand());
-        Customer *customer = new Customer();
-        customer->setId(sess->genUserId());
-        customer->setUserName(username);
-        customer->setFirstName(username+"_FirstName");
-        customer->setLastName(username+"_LastName");
-        customer->setNationalId(natid);
-        customer->setUserType(3);
-        string password = this->sess->encrypt("abc123");
-        customer->setPassword(password);
+	string natid = to_string(rand());
+	Customer *customer = new Customer();
+	customer->setId(sess->genUserId());
+	customer->setUserName(username);
+	customer->setFirstName(username + "_FirstName");
+	customer->setLastName(username + "_LastName");
+	customer->setNationalId(natid);
+	customer->setUserType(3);
+	string password = this->sess->encrypt("abc123");
+	customer->setPassword(password);
 	customer->setAccount(nullptr);
-        customer->unlock();
-        return customer;
+	customer->unlock();
+	return customer;
 }
-
 
 Account* SessionTest::makeAccount(int owner) {
 	Account *account = new Account();
@@ -92,6 +91,7 @@ Account* SessionTest::makeAccount(int owner) {
 	account->setAccountLabel("Current");
 	account->setBalance(0);
 	account->setCustomerId(owner);
+	account->unlock();
 	return account;
 }
 
@@ -157,7 +157,6 @@ TEST_F(SessionTest, CreateAccount1) {
 	s.sess->login("admin0", "abc123");
 	Customer *cust = s.sess->getCustomer("cust1");
 	Account *acct = makeAccount(cust->getId());
-	acct->unlock();
 	s.sess->createAccount(acct);
 	cust->setAccount(acct);
 	EXPECT_TRUE(s.sess->updateCustomer(cust));
