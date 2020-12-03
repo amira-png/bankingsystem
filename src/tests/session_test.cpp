@@ -90,6 +90,7 @@ Account* SessionTest::makeAccount(int owner) {
 }
 
 TEST_F(SessionTest, CreateSuperUser) {
+	remove("future_bank.db");
 	SessionTest s;
 	Admin *super = makeAdmin("admin0");
 	if (s.sess->firstRun())
