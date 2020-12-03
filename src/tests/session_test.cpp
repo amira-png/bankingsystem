@@ -335,7 +335,7 @@ TEST_F(SessionTest, DeleteSuperAdmin) {
         EXPECT_TRUE(s.sess->deleteAdmin(admin));
 }
 
-TEST(Database, DISABLED_DeleteDatabaseFile) {
+TEST(Database, DeleteDatabaseFile) {
         EXPECT_FALSE(remove("future_bank.db")); // remove() returns 0 when the file is successfully deleted
 }
 
