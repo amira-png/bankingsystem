@@ -1,16 +1,11 @@
 #include "session_test.h"
 #include <cstdlib>
 
-
-SessionTest::SessionTest() : sess(nullptr){
-	SetUp();
-}
+SessionTest::SessionTest() : sess(nullptr){SetUp();}
 
 SessionTest::~SessionTest() {}
 
-void SessionTest::SetUp() {
-	sess = new Session();
-}
+void SessionTest::SetUp() {sess = new Session();}
 
 void SessionTest::TearDown() {}
 
@@ -64,7 +59,6 @@ Employee* SessionTest::makeEmployee(const string username) {
 	emp->cap_custDeactivate(true);
 	emp->cap_custPrintInfo(true);
 	emp->cap_custListAll(true);
-
 	emp->unlock();
 	return emp;
 }
@@ -96,7 +90,6 @@ Account* SessionTest::makeAccount(int owner) {
 }
 
 TEST_F(SessionTest, CreateSuperUser) {
-	remove("future_bank.db");
 	SessionTest s;
 	Admin *super = makeAdmin("admin0");
 	if (s.sess->firstRun())
@@ -278,4 +271,71 @@ TEST_F(SessionTest, DeleteAdminUser_LoggedIn_Session) {
 	EXPECT_TRUE(s.sess->deleteAdmin(admin));
 }
 
+
+TEST_F(SessionTest, DeleteAccount1) {
+        SessionTest s;
+        s.sess->login("emp1", "abc123");
+        Customer *cust = s.sess->getCustomer("cust1");
+        EXPECT_TRUE(s.sess->deleteAccount(cust->getAccount()));
+}
+
+TEST_F(SessionTest, DeleteAccount2) {
+        SessionTest s;
+        s.sess->login("emp1", "abc123");
+        Customer *cust = s.sess->getCustomer("cust2");
+        EXPECT_TRUE(s.sess->deleteAccount(cust->getAccount()));
+}
+
+TEST_F(SessionTest, DeleteAccount3) {
+        SessionTest s;
+        s.sess->login("emp1", "abc123");
+        Customer *cust = s.sess->getCustomer("cust3");
+        EXPECT_TRUE(s.sess->deleteAccount(cust->getAccount()));
+}
+
+TEST_F(SessionTest, DeleteCustomer1) {
+        SessionTest s;
+        s.sess->login("emp1", "abc123");
+        Customer *cust = s.sess->getCustomer("cust1");
+        EXPECT_TRUE(s.sess->deleteCustomer(cust));
+}
+
+TEST_F(SessionTest, DeleteCustomer2) {
+        SessionTest s;
+        s.sess->login("emp1", "abc123");
+        Customer *cust = s.sess->getCustomer("cust2");
+        EXPECT_TRUE(s.sess->deleteCustomer(cust));
+}
+
+TEST_F(SessionTest, DeleteCustomer3) {
+        SessionTest s;
+        s.sess->login("emp1", "abc123");
+        Customer *cust = s.sess->getCustomer("cust3");
+        EXPECT_TRUE(s.sess->deleteCustomer(cust));
+}
+
+TEST_F(SessionTest, DeleteEmployee1) {
+        SessionTest s;
+        s.sess->login("admin0", "abc123");
+        Employee *emp = s.sess->getEmployee("emp1");
+        EXPECT_TRUE(s.sess->deleteEmployee(emp));
+}
+
+TEST_F(SessionTest, DeleteAdmin3) {
+        SessionTest s;
+        s.sess->login("admin0", "abc123");
+        Admin *admin = s.sess->getAdmin("admin3");
+        EXPECT_TRUE(s.sess->deleteAdmin(admin));
+}
+
+TEST_F(SessionTest, DeleteSuperAdmin) {
+        SessionTest s;
+        s.sess->login("admin0", "abc123");
+        Admin *admin = s.sess->getAdmin("admin0");
+        EXPECT_TRUE(s.sess->deleteAdmin(admin));
+}
+
+TEST(Database, DISABLED_DeleteDatabaseFile) {
+        EXPECT_FALSE(remove("future_bank.db")); // remove() returns 0 when the file is successfully deleted
+}
 
