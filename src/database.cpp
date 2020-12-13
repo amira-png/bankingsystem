@@ -111,7 +111,7 @@ bool Database::createPersonsTable() {
 
 bool Database::insertAccount(Account *acct) {
 	const char *zErrMsg;
-	int rc;
+	int rc, column=1;
 	sqlite3_stmt *stmt;
 
 	string sql = "INSERT OR REPLACE INTO ACCOUNTS VALUES (?,?,?,?,?);";
@@ -124,7 +124,7 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 1, acct->getId());
+	rc = sqlite3_bind_int64(stmt, column++, acct->getId());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -133,7 +133,7 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 2, acct->isLocked());
+	rc = sqlite3_bind_int64(stmt, column++, acct->isLocked());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -142,7 +142,7 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 3, acct->getCustomerId());
+	rc = sqlite3_bind_int64(stmt, column++, acct->getCustomerId());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -151,7 +151,7 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_double(stmt, 4, acct->getBalance());
+	rc = sqlite3_bind_double(stmt, column++, acct->getBalance());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -160,7 +160,7 @@ bool Database::insertAccount(Account *acct) {
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 5, acct->getAccountLabel().c_str(),
+	rc = sqlite3_bind_text(stmt, column++, acct->getAccountLabel().c_str(),
 			acct->getAccountLabel().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
@@ -351,7 +351,7 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 
 bool Database::insertPerson(Person *p) {
 	const char *zErrMsg;
-	int rc;
+	int rc, column = 1;
 	sqlite3_stmt *stmt;
 
 	string sql = "INSERT OR REPLACE INTO PERSONS VALUES (?,?,?,?,?,?,?,?,?);";
@@ -363,7 +363,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 1, p->getId());
+	rc = sqlite3_bind_int64(stmt, column++, p->getId());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -372,7 +372,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 2, p->getUserName().c_str(),
+	rc = sqlite3_bind_text(stmt, column++, p->getUserName().c_str(),
 			p->getUserName().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
@@ -382,7 +382,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 3, p->getFirstName().c_str(),
+	rc = sqlite3_bind_text(stmt, column++, p->getFirstName().c_str(),
 			p->getFirstName().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
@@ -392,7 +392,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 4, p->getLastName().c_str(),
+	rc = sqlite3_bind_text(stmt, column++, p->getLastName().c_str(),
 			p->getLastName().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
@@ -402,7 +402,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 5, p->getNationalId().c_str(),
+	rc = sqlite3_bind_text(stmt, column++, p->getNationalId().c_str(),
 			p->getNationalId().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
@@ -412,7 +412,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_text(stmt, 6, p->getPassword().c_str(),
+	rc = sqlite3_bind_text(stmt, column++, p->getPassword().c_str(),
 			p->getPassword().length(), SQLITE_TRANSIENT);
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
@@ -422,7 +422,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 7, setUserType(p));
+	rc = sqlite3_bind_int64(stmt, column++, setUserType(p));
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " <<  rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -431,7 +431,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 8, p->isLocked());
+	rc = sqlite3_bind_int64(stmt, column++, p->isLocked());
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -440,7 +440,7 @@ bool Database::insertPerson(Person *p) {
 		return false;
 	}
 
-	rc = sqlite3_bind_int64(stmt, 9, computeUserCaps(p));
+	rc = sqlite3_bind_int64(stmt, column++, computeUserCaps(p));
 	if (SQLITE_OK != rc) {
 		cerr << "Error binding value in insert " << rc << " "
 				<< sqlite3_errmsg(db) << endl;
@@ -542,15 +542,16 @@ Person* Database::retrievePerson(const string &username) const {
 
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
+		int column = 1;
 		userid = sqlite3_column_int(stmt, USERID);
-		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,USERNAME)));
-		fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,FIRSTNAME)));
-		lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,LASTNAME)));
-		natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,NATIONALID)));
-		password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,PASSWORD)));
-		usertype = sqlite3_column_int(stmt, USERTYPE);
-		lockstatus = sqlite3_column_int(stmt, USERLOCK);
-		caps = sqlite3_column_int(stmt, USERCAPS);
+		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
+		fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
+		lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
+		natid = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
+		password = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
+		usertype = sqlite3_column_int(stmt, column++);
+		lockstatus = sqlite3_column_int(stmt, column++);
+		caps = sqlite3_column_int(stmt, column++);
 	}
 
 	if (usertype == Session::CUSTOMER) {
