@@ -11,16 +11,6 @@
 #include "session.h"
 #include <assert.h>
 
-#define USERID 0
-#define USERNAME 1
-#define FIRSTNAME 2
-#define LASTNAME 3
-#define NATIONALID 4
-#define PASSWORD 5
-#define USERTYPE 6
-#define USERLOCK 7
-#define USERCAPS 8
-
 using namespace std;
 
 Database::Database() : db(nullptr) {
@@ -245,11 +235,12 @@ Account* Database::retrieveAccount(const int account_id) const{
 
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
-		accountid = sqlite3_column_int(stmt, 0);
-		lockstatus = sqlite3_column_int(stmt, 1);
-		custid = sqlite3_column_int(stmt, 2);
-		balance = sqlite3_column_int(stmt, 3);
-		label = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)));
+		int column = 0;
+		accountid = sqlite3_column_int(stmt, column++);
+		lockstatus = sqlite3_column_int(stmt, column++);
+		custid = sqlite3_column_int(stmt, column++);
+		balance = sqlite3_column_int(stmt, column++);
+		label = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, column++)));
 	}
 
 	if (accountid > 0) {
@@ -337,7 +328,7 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
-		userid = sqlite3_column_int(stmt, USERID);
+		userid = sqlite3_column_int(stmt, 0);
 		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
 		Customer *person = dynamic_cast<Customer*>(retrievePerson(uname));
 		Account *acc = retrieveAccount(accountid);
@@ -542,8 +533,8 @@ Person* Database::retrievePerson(const string &username) const {
 
 	int step = sqlite3_step(stmt);
 	if (step == SQLITE_ROW) {
-		int column = 1;
-		userid = sqlite3_column_int(stmt, USERID);
+		int column = 0;
+		userid = sqlite3_column_int(stmt, column++);
 		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
 		fname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
 		lname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,column++)));
