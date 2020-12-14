@@ -157,8 +157,7 @@ bool Session::ListAllAccounts() {
 	if (!accounts.size())
 		return false;
 
-	for (Account *account : accounts)
-		printAccountInfo(account);
+	for (Account *account : accounts) printAccountInfo(account);
 
 	accounts.clear();
 	return true;
@@ -314,8 +313,7 @@ bool Session::ListAllCustomers() {
 	if (!customers.size())
 		return false;
 
-	for (Customer *customer : customers)
-		printCustomerInfo(customer);
+	for (Customer *customer : customers) printCustomerInfo(customer);
 
 	customers.clear();
 	return true;

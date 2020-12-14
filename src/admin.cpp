@@ -197,8 +197,7 @@ bool Session::ListAllAdmins() {
 		return false;
 	}
 
-	for (Admin *admin : admins)
-		printAdminInfo(admin);
+	for (Admin *admin : admins) printAdminInfo(admin);
 
 	admins.clear();
 	return true;
@@ -397,8 +396,7 @@ bool Session::ListAllEmployees() {
 	if (!employees.size())
 		return false;
 
-	for (Employee *emp : employees)
-		printEmployeeInfo(emp);
+	for (Employee *emp : employees) printEmployeeInfo(emp);
 
 	employees.clear();
 	return true;
