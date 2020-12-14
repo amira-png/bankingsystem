@@ -144,7 +144,7 @@ bool Session::printAccountInfo(Account *acct) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	if (acct) delete acct;
+	delete acct;
 	return true;
 }
 
@@ -302,7 +302,7 @@ bool Session::printCustomerInfo(Customer *customer) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	if (customer) delete customer;
+	delete customer;
 	return true;
 }
 
