@@ -33,6 +33,7 @@ bool Session::createAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
+	delete admin;
 	return true;
 }
 
@@ -50,6 +51,7 @@ bool Session::updateAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
+	delete admin;
 	return true;
 }
 
@@ -67,6 +69,7 @@ bool Session::deleteAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
+	delete admin;
 	return true;
 }
 
@@ -86,6 +89,7 @@ bool Session::deactivateAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
+	delete admin;
 	return true;
 }
 
@@ -105,6 +109,7 @@ bool Session::activateAdmin(Admin *admin) {
 		if (admin) delete admin;
 		return false;
 	}
+	delete admin;
 	return true;
 }
 
@@ -213,6 +218,7 @@ bool Session::createEmployee(Employee *emp) {
 		if (emp) delete emp;
 		return false;
 	}
+	delete emp;
 	return true;
 }
 
@@ -230,6 +236,7 @@ bool Session::updateEmployee(Employee *emp) {
 		if (emp) delete emp;
 		return false;
 	}
+	delete emp;
 	return true;
 }
 
@@ -247,6 +254,7 @@ bool Session::deleteEmployee(Employee *emp) {
 		if (emp) delete emp;
 		return false;
 	}
+	delete emp;
 	return true;
 }
 
@@ -266,6 +274,7 @@ bool Session::activateEmployee(Employee *emp) {
 		if (emp) delete emp;
 		return false;
 	}
+	delete emp;
 	return true;
 }
 
@@ -285,6 +294,7 @@ bool Session::deactivateEmployee(Employee *emp) {
 		if (emp) delete emp;
 		return false;
 	}
+	delete emp;
 	return true;
 }
 

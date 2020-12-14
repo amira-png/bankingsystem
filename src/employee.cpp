@@ -32,6 +32,7 @@ bool Session::createAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
+	delete acct;
 	return true;
 }
 
@@ -46,6 +47,7 @@ bool Session::updateAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
+	delete acct;
 	return true;
 }
 
@@ -60,6 +62,7 @@ bool Session::deleteAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
+	delete acct;
 	return true;
 }
 
@@ -76,6 +79,7 @@ bool Session::activateAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
+	delete acct;
 	return true;
 }
 
@@ -92,6 +96,7 @@ bool Session::deactivateAccount(Account *acct) {
 		if (acct) delete acct;
 		return false;
 	}
+	delete acct;
 	return true;
 }
 
@@ -173,6 +178,7 @@ bool Session::createCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
+	delete customer;
 	return true;
 }
 
@@ -190,6 +196,7 @@ bool Session::updateCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
+	delete customer;
 	return true;
 }
 
@@ -207,6 +214,7 @@ bool Session::deleteCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
+	delete customer;
 	return true;
 }
 
@@ -226,6 +234,7 @@ bool Session::activateCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
+	delete customer;
 	return true;
 }
 
@@ -245,6 +254,7 @@ bool Session::deactivateCustomer(Customer *customer) {
 		if (customer) delete customer;
 		return false;
 	}
+	delete customer;
 	return true;
 }
 
