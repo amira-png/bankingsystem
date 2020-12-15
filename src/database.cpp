@@ -581,6 +581,7 @@ Person* Database::retrievePerson(const string &username) const {
 		person->cap_acctDeactivate(caps & Session::ACCOUNT_DEACTIVATE);
 		person->cap_acctPrintInfo(caps & Session::ACCOUNT_PRINT_INFO);
 		person->cap_acctListAll(caps & Session::ACCOUNT_LIST_ALL);
+
 		person->cap_custCreate(caps & Session::CUSTOMER_CREATE);
 		person->cap_custUpdate(caps & Session::CUSTOMER_UPDATE);
 		person->cap_custDelete(caps & Session::CUSTOMER_DELETE);
@@ -618,6 +619,14 @@ Person* Database::retrievePerson(const string &username) const {
 		person->cap_custDeactivate(caps & Session::CUSTOMER_DEACTIVATE);
 		person->cap_custPrintInfo(caps & Session::CUSTOMER_PRINT_INFO);
 		person->cap_custListAll(caps & Session::CUSTOMER_LIST_ALL);
+
+		person->cap_EmployeeCreate(caps & Session::EMPLOYEE_CREATE);
+		person->cap_EmployeeUpdate(caps & Session::EMPLOYEE_UPDATE);
+		person->cap_EmployeeDelete(caps & Session::EMPLOYEE_DELETE);
+		person->cap_EmployeeActivate(caps & Session::EMPLOYEE_ACTIVATE);
+		person->cap_EmployeeDeactivate(caps & Session::EMPLOYEE_DEACTIVATE);
+		person->cap_EmployeePrintInfo(caps & Session::EMPLOYEE_PRINT_INFO);
+		person->cap_EmployeeListAll(caps & Session::EMPLOYEE_LIST_ALL);
 
 		person->cap_AdminCreate(caps & Session::ADMIN_CREATE);
 		person->cap_AdminUpdate(caps & Session::ADMIN_UPDATE);
