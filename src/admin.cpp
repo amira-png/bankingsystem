@@ -176,7 +176,8 @@ bool Session::printAdminInfo(Admin *admin) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	delete admin;
+	if (admin && admin->getUserName() != m_user->getUserName())
+		delete admin;
 	return true;
 }
 
@@ -384,7 +385,8 @@ bool Session::printEmployeeInfo(Employee *emp) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	delete emp;
+	if (emp && emp->getUserName() != m_user->getUserName())
+		delete emp;
 	return true;
 }
 

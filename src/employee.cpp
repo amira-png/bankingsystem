@@ -144,7 +144,8 @@ bool Session::printAccountInfo(Account *acct) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	delete acct;
+	if (acct && acct_owner && acct_owner->getId() != m_user->getId())
+		delete acct;
 	return true;
 }
 
@@ -301,7 +302,8 @@ bool Session::printCustomerInfo(Customer *customer) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	delete customer;
+	if (customer && customer->getId() != m_user->getId())
+		delete customer;
 	return true;
 }
 
