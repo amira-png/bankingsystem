@@ -194,9 +194,8 @@ bool Session::ListAllAdmins() {
 
 	vector<Admin*> admins = m_db->getAllAdmins();
 
-	if (!admins.size()) {
+	if (!admins.size())
 		return false;
-	}
 
 	for (Admin *admin : admins) printAdminInfo(admin);
 
