@@ -545,7 +545,8 @@ Person* Database::retrievePerson(const string &username) const {
 		caps = sqlite3_column_int(stmt, column++);
 	}
 
-	if (usertype == Session::CUSTOMER) {
+	switch(usertype) {
+	case Session::CUSTOMER: {
 		Customer *person = new Customer();
 		person->setId(userid);
 		person->setUserName(uname);
@@ -563,7 +564,7 @@ Person* Database::retrievePerson(const string &username) const {
 		return person;
 	}
 
-	else if (usertype == Session::EMPLOYEE) {
+	case Session::EMPLOYEE: {
 		Employee *person = new Employee();
 		person->setId(userid);
 		person->setUserName(uname);
@@ -593,7 +594,7 @@ Person* Database::retrievePerson(const string &username) const {
 		return person;
 	}
 
-	else if (usertype == Session::ADMIN) {
+	case Session::ADMIN: {
 		Admin *person = new Admin();
 		person->setId(userid);
 		person->setUserName(uname);
@@ -638,9 +639,9 @@ Person* Database::retrievePerson(const string &username) const {
 		sqlite3_finalize(stmt);
 		return person;
 	}
-	else
+	default:
 		return nullptr;
-
+	}
 	sqlite3_finalize(stmt);
 	return nullptr;
 }
