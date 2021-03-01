@@ -638,6 +638,9 @@ Person* Database::retrievePerson(const string &username) const {
 		sqlite3_finalize(stmt);
 		return person;
 	}
+	else
+		return nullptr;
+
 	sqlite3_finalize(stmt);
 	return nullptr;
 }
