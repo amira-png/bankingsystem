@@ -545,7 +545,7 @@ Person* Database::retrievePerson(const string &username) const {
 		caps = sqlite3_column_int(stmt, column++);
 	}
 
-	switch(usertype) {
+	switch (usertype) {
 	case Session::CUSTOMER: {
 		Customer *person = new Customer();
 		person->setId(userid);
