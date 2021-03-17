@@ -37,12 +37,12 @@ public:
 	}
 	void setId(const int id) {m_id = id;}
 	int getId() {return m_id;}
+	void setBalance(const float newBalance) {m_balance = newBalance;}
 	double getBalance() {return m_balance;}
-	void setBalance(float newBalance) {m_balance = newBalance;}
-	string getAccountLabel() {return m_label;}
 	void setAccountLabel(const string label) {m_label = label;}
-	int getCustomerId() {return m_customerId;}
+	string getAccountLabel() {return m_label;}
 	void setCustomerId(const int custid) {m_customerId = custid;}
+	int getCustomerId() {return m_customerId;}
 };
 
 #endif /* SRC_ACCOUNT_H_ */
