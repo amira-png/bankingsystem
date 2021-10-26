@@ -17,10 +17,10 @@ public:
         SessionTest();
         ~SessionTest();
 	Session *sess;
-	Admin* makeAdmin(const string username);
-	Employee* makeEmployee(const string username);
-	Customer* makeCustomer(const string username);
-	Account* makeAccount(int owner);
+	Admin* makeAdmin(const string& username) const;
+	Employee* makeEmployee(const string& username) const;
+	Customer* makeCustomer(const string& username) const;
+	Account* makeAccount(int owner) const;
 
 protected:
         virtual void SetUp();

@@ -47,7 +47,7 @@ void Ui::registerSuperAdmin() {
 	cout << "Registering the bank super administrator" << endl;
 	printNewLines(1);
 
-	Admin *super = new Admin();
+	auto *super = new Admin();
 	super->setId(m_session->genUserId());
 	cout << "User name: ";
 	cin >> username;
@@ -70,7 +70,7 @@ void Ui::registerSuperAdmin() {
 	super->setFirstName(firstname);
 	super->setLastName(lastname);
 	super->setNationalId(nationalid);
-	super->setPassword(m_session->encrypt(password));
+	super->setPassword(Session::encrypt(password));
 	super->unlock();
 	super->cap_AdminCreate(true);
 	super->cap_AdminUpdate(true);
@@ -95,17 +95,17 @@ void Ui::showWelcomeScreen() {
 
 	vector<string> b;
 
-	b.push_back("8888888888       888                                  888888b.                     888");
-	b.push_back("888              888                                  888  \"88b                    888");
-	b.push_back("888              888                                  888  .88P                    888");
-	b.push_back("8888888 888  888 888888 888  888 888d888 .d88b.       8888888K.   8888b.  88888b.  888  888");
-	b.push_back("888     888  888 888    888  888 888P\"  d8P  Y8b      888  \"Y88b     \"88b 888 \"88b 888 .88P");
-	b.push_back("888     888  888 888    888  888 888    88888888      888    888 .d888888 888  888 888888K");
-	b.push_back("888     Y88b 888 Y88b.  Y88b 888 888    Y8b.          888   d88P 888  888 888  888 888 \"88b");
-	b.push_back("888      \"Y88888  \"Y888  \"Y88888 888     \"Y8888       8888888P\"  \"Y888888 888  888 888  888");
+	b.emplace_back("8888888888       888                                  888888b.                     888");
+	b.emplace_back("888              888                                  888  \"88b                    888");
+	b.emplace_back("888              888                                  888  .88P                    888");
+	b.emplace_back("8888888 888  888 888888 888  888 888d888 .d88b.       8888888K.   8888b.  88888b.  888  888");
+	b.emplace_back("888     888  888 888    888  888 888P\"  d8P  Y8b      888  \"Y88b     \"88b 888 \"88b 888 .88P");
+	b.emplace_back("888     888  888 888    888  888 888    88888888      888    888 .d888888 888  888 888888K");
+	b.emplace_back("888     Y88b 888 Y88b.  Y88b 888 888    Y8b.          888   d88P 888  888 888  888 888 \"88b");
+	b.emplace_back("888      \"Y88888  \"Y888  \"Y88888 888     \"Y8888       8888888P\"  \"Y888888 888  888 888  888");
 
-	for (vector<string>::iterator it = b.begin(); it != b.end(); ++it) {
-		cout << *it << endl;
+	for (auto & it : b) {
+		cout << it << endl;
 		usleep(100000);
 	}
 
@@ -175,92 +175,92 @@ void Ui::ui_change_own_password() {
 void Ui::getCallBack(const string &desc) {
 
 	if ("Main Menu" == desc)
-		m_execute = std::bind(&Ui::run, this);
+		m_execute = [this] { run(); };
 
 	if ("Create Administrator" == desc)
-		m_execute = std::bind(&Ui::ui_create_admin, this);
+		m_execute = [this] { ui_create_admin(); };
 	if ("Update Administrator" == desc)
-		m_execute = std::bind(&Ui::ui_update_admin, this);
+		m_execute = [this] { ui_update_admin(); };
 	if ("Delete Administrator" == desc)
-		m_execute = std::bind(&Ui::ui_delete_admin, this);
+		m_execute = [this] { ui_delete_admin(); };
 	if ("Activate Administrator" == desc)
-		m_execute = std::bind(&Ui::ui_activate_admin, this);
+		m_execute = [this] { ui_activate_admin(); };
 	if ("Deactivate Administrator" == desc)
-		m_execute = std::bind(&Ui::ui_deactivate_admin, this);
+		m_execute = [this] { ui_deactivate_admin(); };
 	if ("Print Administrator Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_admin, this);
+		m_execute = [this] { ui_print_admin(); };
 	if ("Print my Administrator Information" == desc)
-			m_execute = std::bind(&Ui::ui_print_own_admin, this);
+			m_execute = [this] { ui_print_own_admin(); };
 	if ("List All Administrators" == desc)
-		m_execute = std::bind(&Ui::ui_listall_admin, this);
+		m_execute = [this] { ui_listall_admin(); };
 
 	if ("Create Employee" == desc)
-		m_execute = std::bind(&Ui::ui_create_employee, this);
+		m_execute = [this] { ui_create_employee(); };
 	if ("Update Employee" == desc)
-		m_execute = std::bind(&Ui::ui_update_employee, this);
+		m_execute = [this] { ui_update_employee(); };
 	if ("Delete Employee" == desc)
-		m_execute = std::bind(&Ui::ui_delete_employee, this);
+		m_execute = [this] { ui_delete_employee(); };
 	if ("Activate Employee" == desc)
-		m_execute = std::bind(&Ui::ui_activate_employee, this);
+		m_execute = [this] { ui_activate_employee(); };
 	if ("Deactivate Employee" == desc)
-		m_execute = std::bind(&Ui::ui_deactivate_employee, this);
+		m_execute = [this] { ui_deactivate_employee(); };
 	if ("Print Employee Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_employee, this);
+		m_execute = [this] { ui_print_employee(); };
 	if ("Print my Employee Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_own_employee, this);
+		m_execute = [this] { ui_print_own_employee(); };
 	if ("List All Employees" == desc)
-		m_execute = std::bind(&Ui::ui_listall_employee, this);
+		m_execute = [this] { ui_listall_employee(); };
 
 	if ("Create Account" == desc)
-		m_execute = std::bind(&Ui::ui_create_account, this);
+		m_execute = [this] { ui_create_account(); };
 	if ("Update Account" == desc)
-		m_execute = std::bind(&Ui::ui_update_account, this);
+		m_execute = [this] { ui_update_account(); };
 	if ("Delete Account" == desc)
-		m_execute = std::bind(&Ui::ui_delete_account, this);
+		m_execute = [this] { ui_delete_account(); };
 	if ("Activate Account" == desc)
-		m_execute = std::bind(&Ui::ui_activate_account, this);
+		m_execute = [this] { ui_activate_account(); };
 	if ("Deactivate Account" == desc)
-		m_execute = std::bind(&Ui::ui_deactivate_account, this);
+		m_execute = [this] { ui_deactivate_account(); };
 	if ("Print Account Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_account, this);
+		m_execute = [this] { ui_print_account(); };
 	if ("List All Accounts" == desc)
-		m_execute = std::bind(&Ui::ui_listall_account, this);
+		m_execute = [this] { ui_listall_account(); };
 	if ("Transfer Money between accounts" == desc)
-		m_execute = std::bind(&Ui::ui_transfer, this);
+		m_execute = [this] { ui_transfer(); };
 	if ("Deposit Money to Customer" == desc)
-		m_execute = std::bind(&Ui::ui_deposit, this);
+		m_execute = [this] { ui_deposit(); };
 
 	if ("Create a new Customer" == desc)
-		m_execute = std::bind(&Ui::ui_create_customer, this);
+		m_execute = [this] { ui_create_customer(); };
 	if ("Update Existing Customer" == desc)
-		m_execute = std::bind(&Ui::ui_update_customer, this);
+		m_execute = [this] { ui_update_customer(); };
 	if ("Delete Customer" == desc)
-		m_execute = std::bind(&Ui::ui_delete_customer, this);
+		m_execute = [this] { ui_delete_customer(); };
 	if ("Activate Customer" == desc)
-		m_execute = std::bind(&Ui::ui_activate_customer, this);
+		m_execute = [this] { ui_activate_customer(); };
 	if ("Deactivate Customer" == desc)
-		m_execute = std::bind(&Ui::ui_deactivate_customer, this);
+		m_execute = [this] { ui_deactivate_customer(); };
 	if ("Print Customer Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_customer, this);
+		m_execute = [this] { ui_print_customer(); };
 	if ("List All Customers" == desc)
-		m_execute = std::bind(&Ui::ui_listall_customer, this);
+		m_execute = [this] { ui_listall_customer(); };
 	if ("Print my customer Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_own_customer, this);
+		m_execute = [this] { ui_print_own_customer(); };
 	if ("Print my account Information" == desc)
-		m_execute = std::bind(&Ui::ui_print_own_account, this);
+		m_execute = [this] { ui_print_own_account(); };
 	if ("Transfer money to another Account" == desc)
-		m_execute = std::bind(&Ui::ui_transfer_own, this);
+		m_execute = [this] { ui_transfer_own(); };
 	if ("Deposit" == desc)
-		m_execute = std::bind(&Ui::ui_deposit_own, this);
+		m_execute = [this] { ui_deposit_own(); };
 	if ("Withdraw" == desc)
-		m_execute = std::bind(&Ui::ui_withdraw, this);
+		m_execute = [this] { ui_withdraw(); };
 
 	if ("Change Password" == desc)
-		m_execute = std::bind(&Ui::ui_change_password, this);
+		m_execute = [this] { ui_change_password(); };
 	if ("Change own Password" == desc)
-		m_execute = std::bind(&Ui::ui_change_own_password, this);
+		m_execute = [this] { ui_change_own_password(); };
 	if ("Logout" == desc)
-		m_execute = std::bind(&Ui::logout, this);
+		m_execute = [this] { logout(); };
 	if ("Exit" == desc) {
 		cout << "Bye Bye" << endl;
 		exit(0);
@@ -268,9 +268,8 @@ void Ui::getCallBack(const string &desc) {
 }
 
 void Ui::listWhatToDo() {
-	for (map<int, string>::iterator it = m_operationsMap.begin();
-			it != m_operationsMap.end(); ++it)
-		cout << it->first << " " << it->second << endl;
+    for (auto it = m_operationsMap.begin();
+         it != m_operationsMap.end(); ++it) { cout << it->first << " " << it->second << endl; }
 }
 
 void Ui::logout() {
@@ -285,7 +284,7 @@ void Ui::logout() {
 	run();
 }
 
-int Ui::run() {
+[[noreturn]] int Ui::run() {
 
 	string username, password;
 
@@ -302,10 +301,10 @@ int Ui::run() {
 	}
 
 	vector<string> v = m_session->getSessionCapabilities();
-	m_capabilitiesLabels.push_back("Main Menu");
+	m_capabilitiesLabels.emplace_back("Main Menu");
 	copy(v.begin(), v.end(), back_inserter(m_capabilitiesLabels));
-	m_capabilitiesLabels.push_back("Logout");
-	m_capabilitiesLabels.push_back("Exit");
+	m_capabilitiesLabels.emplace_back("Logout");
+	m_capabilitiesLabels.emplace_back("Exit");
 	v.clear();
 	int counter = 1;
 	for (string &capability : m_capabilitiesLabels) {
@@ -332,7 +331,7 @@ int Ui::run() {
 				+ "Select " + m_session->getSessionUserType() + " Operation: ";
 		cout << prompt;
 		cin >> operation;
-		while (1) {
+		while (true) {
 			if (cin.fail()) {
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -352,5 +351,4 @@ int Ui::run() {
 		getCallBack(m_operationsMap.find(operation)->second);
 		m_execute();
 	}
-	return 0;
 }

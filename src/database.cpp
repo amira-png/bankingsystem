@@ -9,7 +9,7 @@
 #include <string>
 #include "database.h"
 #include "session.h"
-#include <assert.h>
+#include <cassert>
 
 using namespace std;
 
@@ -35,7 +35,7 @@ Database::~Database() {
 
 bool Database::initDB() {
 	int rc;
-	rc = sqlite3_open_v2(DBNAME, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+	rc = sqlite3_open_v2(DBNAME, &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
 	if (rc) {
 		cerr << "Error opening the future bank database: " << sqlite3_errmsg(db) << endl;
 		return false;
@@ -59,7 +59,7 @@ bool Database::createAccountsTable() {
 			"LABEL			TEXT		NOT NULL,"
 			"FOREIGN KEY(OWNER)	REFERENCES	PERSONS(ID));";
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
+	rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &zErrMsg);
 
 	if (rc != SQLITE_OK) {
 		cerr << "SQL error: " << zErrMsg << endl;
@@ -87,7 +87,7 @@ bool Database::createPersonsTable() {
 			"CAPS             INT     NOT NULL,"
 			"PRIMARY KEY (ID));";
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &zErrMsg);
+	rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &zErrMsg);
 
 	if (rc != SQLITE_OK) {
 		cerr << "SQL error: " << zErrMsg << endl;
@@ -212,7 +212,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 	int lockstatus = 0;
 	int custid = 0;
 	float balance = 0;
-	string label = "";
+	string label;
 
 	string sql = "SELECT * from ACCOUNTS WHERE ID = ?";
 	rc = sqlite3_prepare_v2(db, sql.c_str(), sql.length(), &stmt, &zErrMsg);
@@ -244,7 +244,7 @@ Account* Database::retrieveAccount(const int account_id) const{
 	}
 
 	if (accountid > 0) {
-		Account *acct = new Account();
+		auto *acct = new Account();
 		acct->setId(accountid);
 		acct->setBalance(balance);
 		acct->setCustomerId(custid);
@@ -298,11 +298,11 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
 	int userid = 0;
-	string uname = "";
-	string fname = "";
-	string lname = "";
-	string natid = "";
-	string password = "";
+	string uname;
+	string fname;
+	string lname;
+	string natid;
+	string password;
 	int usertype = 0;
 	int lockstatus = 0;
 	int caps = 0;
@@ -330,7 +330,7 @@ Customer* Database::retrieveCustomerByAccount(const int accountid) const {
 	if (step == SQLITE_ROW) {
 		userid = sqlite3_column_int(stmt, 0);
 		uname = string(reinterpret_cast<const char*>(sqlite3_column_text(stmt,0)));
-		Customer *person = dynamic_cast<Customer*>(retrievePerson(uname));
+		auto *person = dynamic_cast<Customer*>(retrievePerson(uname));
 		Account *acc = retrieveAccount(accountid);
 		if (acc) person->setAccount(acc);
 		sqlite3_finalize(stmt);
@@ -502,11 +502,11 @@ Person* Database::retrievePerson(const string &username) const {
 	sqlite3_stmt *stmt = nullptr;
 	int rc;
 	int userid = 0;
-	string uname = "";
-	string fname = "";
-	string lname = "";
-	string natid = "";
-	string password = "";
+	string uname;
+	string fname;
+	string lname;
+	string natid;
+	string password;
 	int usertype = 0;
 	int lockstatus = 0;
 	int caps = 0;
@@ -547,7 +547,7 @@ Person* Database::retrievePerson(const string &username) const {
 
 	switch (usertype) {
 	case Session::CUSTOMER: {
-		Customer *person = new Customer();
+		auto *person = new Customer();
 		person->setId(userid);
 		person->setUserName(uname);
 		person->setFirstName(fname);
@@ -565,7 +565,7 @@ Person* Database::retrievePerson(const string &username) const {
 	}
 
 	case Session::EMPLOYEE: {
-		Employee *person = new Employee();
+		auto *person = new Employee();
 		person->setId(userid);
 		person->setUserName(uname);
 		person->setFirstName(fname);
@@ -595,7 +595,7 @@ Person* Database::retrievePerson(const string &username) const {
 	}
 
 	case Session::ADMIN: {
-		Admin *person = new Admin();
+		auto *person = new Admin();
 		person->setId(userid);
 		person->setUserName(uname);
 		person->setFirstName(fname);
@@ -659,7 +659,7 @@ int Database::computeUserCaps(Person *p) {
 		break;
 
 	case Session::EMPLOYEE: {
-		Employee *emp = dynamic_cast<Employee*>(p);
+		auto *emp = dynamic_cast<Employee*>(p);
 		if (emp->canCreateAccount())
 			allcaps.push_back(Session::ACCOUNT_CREATE);
 		if (emp->canUpdateAccount())
@@ -691,7 +691,7 @@ int Database::computeUserCaps(Person *p) {
 		break;
 	}
 	case Session::ADMIN: {
-		Admin *adm = dynamic_cast<Admin*>(p);
+		auto *adm = dynamic_cast<Admin*>(p);
 		if (adm->canCreateAdmin())
 			allcaps.push_back(Session::ADMIN_CREATE);
 		if (adm->canUpdateAdmin())
@@ -754,8 +754,8 @@ int Database::computeUserCaps(Person *p) {
 		break;
 	}
 
-	for (vector<int>::iterator it = allcaps.begin(); it != allcaps.end(); ++it)
-		usercaps |= *it;
+	for (int & allcap : allcaps)
+		usercaps |= allcap;
 	return usercaps;
 }
 
@@ -1005,9 +1005,9 @@ vector<Person*> Database::getAllPersons(const int person_type) {
 vector<Admin*> Database::getAllAdmins() {
 	vector<Admin*> admins;
 	vector<Person*> persons = getAllPersons(Session::ADMIN);
-	if (!persons.size()) return vector<Admin*>();
+	if (persons.empty()) return {};
 	for (Person *p : persons) {
-		Admin *adm = dynamic_cast<Admin*>(p);
+		auto *adm = dynamic_cast<Admin*>(p);
 		int caps = p->getCaps();
 		if (caps & Session::ADMIN_CREATE) adm->cap_AdminCreate(true);
 		if (caps & Session::ADMIN_UPDATE) adm->cap_AdminUpdate(true);
@@ -1019,16 +1019,16 @@ vector<Admin*> Database::getAllAdmins() {
 		admins.push_back(adm);
 	}
 	persons.clear();
-	if (admins.size()) return admins;
-	return vector<Admin*>();
+	if (!admins.empty()) return admins;
+	return {};
 }
 
 vector<Employee*> Database::getAllEmployees() {
 	vector<Employee*> employees;
 	vector<Person*> persons = getAllPersons(Session::EMPLOYEE);
-	if (!persons.size()) return vector<Employee*>();
+	if (persons.empty()) return {};
 	for (Person *p : persons) {
-		Employee *emp = dynamic_cast<Employee*>(p);
+		auto *emp = dynamic_cast<Employee*>(p);
 		int caps = p->getCaps();
 		if (caps & Session::CUSTOMER_CREATE)  emp->cap_custCreate(true);
 		if (caps & Session::CUSTOMER_UPDATE) emp->cap_custUpdate(true);
@@ -1047,21 +1047,21 @@ vector<Employee*> Database::getAllEmployees() {
 		employees.push_back(emp);
 	}
 	persons.clear();
-	if (employees.size()) return employees;
-	return vector<Employee*>();
+	if (!employees.empty()) return employees;
+	return {};
 }
 
 vector<Customer*> Database::getAllCustomers() {
 	vector<Customer*> customers;
 	vector<Person*> persons = getAllPersons(Session::CUSTOMER);
-	if (!persons.size()) return vector<Customer*>();
+	if (persons.empty()) return {};
 	for (Person *p : persons) {
-		Customer *customer = dynamic_cast<Customer*>(p);
+		auto *customer = dynamic_cast<Customer*>(p);
 		Account *acc = this->retrieveAccountByCustomer(customer->getId());
 		if (acc) customer->setAccount(acc);
 		customers.push_back(customer);
 	}
 	persons.clear();
-	if (customers.size()) return customers;
-	return vector<Customer*>();
+	if (!customers.empty()) return customers;
+	return {};
 }

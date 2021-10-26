@@ -28,10 +28,10 @@ private:
 	std::function<void(void)> m_execute;
 	void getCallBack(const string &desc);
 	map<int, string> m_operationsMap;
-	inline void printNewLines(int c);
+	static inline void printNewLines(int c);
 
 	void registerSuperAdmin();
-	void showWelcomeScreen();
+	static void showWelcomeScreen();
 	void listWhatToDo();
 	void logout();
 
@@ -83,7 +83,8 @@ private:
 public:
 	Ui();
 	~Ui();
-	int run();
+
+    [[noreturn]] int run();
 };
 
 #endif /* SRC_USERINTERFACE_H_ */

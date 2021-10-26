@@ -26,11 +26,11 @@ class Database {
 private:
 	sqlite3 *db;
 	bool initDB();
-	int setUserType(Person *p);
-	int computeUserCaps(Person *p);
+	static int setUserType(Person *p);
+	static int computeUserCaps(Person *p);
 	bool createAccountsTable();
 	bool createPersonsTable();
-	vector<Person*> getAllPersons(const int person_type);
+	vector<Person*> getAllPersons(int person_type);
 
 public:
 	Database();
@@ -38,15 +38,15 @@ public:
 
 	bool insertAccount(Account *acct);
 	bool deleteAccount(Account *acct);
-	Account* retrieveAccount(const int account_id) const;
-	Account* retrieveAccountByCustomer(const int customer_id) const;
-	Customer* retrieveCustomerByAccount(const int accountid) const;
+	Account* retrieveAccount(int account_id) const;
+	Account* retrieveAccountByCustomer(int customer_id) const;
+	Customer* retrieveCustomerByAccount(int accountid) const;
 
 	bool insertPerson(Person *p);
 	bool deletePerson(Person *p);
 	Person* retrievePerson(const string &username) const;
 	bool userExists(const string &username) const;
-	bool accountExists(const int account_id) const;
+	bool accountExists(int account_id) const;
 
 	int generateAccountNumber();
 	int generatePersonNumber();

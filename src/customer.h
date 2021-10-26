@@ -18,9 +18,9 @@ private:
 	Account *m_account;
 public:
 	Customer() : m_account(nullptr) {}
-	virtual ~Customer() = default;
-	void lock() {Person::bLocked = true;}
-	void unlock() {Person::bLocked = false;}
+	~Customer() override = default;
+	void lock() override {Person::bLocked = true;}
+	void unlock() override {Person::bLocked = false;}
 	bool isLocked(){return Person::bLocked;}
 	void setAccount(Account *acct) {m_account = acct;}
 	Account* getAccount() {return this->m_account;}

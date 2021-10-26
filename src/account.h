@@ -26,7 +26,7 @@ public:
 	virtual ~Account() = default;
 	void lock(){bLocked = true;}
 	void unlock(){bLocked = false;}
-	bool isLocked() {return bLocked;}
+	bool isLocked() const {return bLocked;}
 	Account* operator = (const Account &acct) {
 		this->m_id = acct.m_id;
 		this->bLocked = acct.bLocked;
@@ -36,13 +36,13 @@ public:
 		return this;
 	}
 	void setId(const int id) {m_id = id;}
-	int getId() {return m_id;}
+	int getId() const {return m_id;}
 	void setBalance(const float newBalance) {m_balance = newBalance;}
-	double getBalance() {return m_balance;}
-	void setAccountLabel(const string label) {m_label = label;}
+	double getBalance() const {return m_balance;}
+	void setAccountLabel(const string& label) {m_label = label;}
 	string getAccountLabel() {return m_label;}
 	void setCustomerId(const int custid) {m_customerId = custid;}
-	int getCustomerId() {return m_customerId;}
+	int getCustomerId() const {return m_customerId;}
 };
 
 #endif /* SRC_ACCOUNT_H_ */

@@ -11,7 +11,7 @@
 #include <limits>
 #ifdef __linux__
 #include <libsmartcols/libsmartcols.h>
-#include <locale.h>
+#include <clocale>
 #endif
 
 using namespace std;
@@ -21,7 +21,7 @@ using namespace std;
  * */
 
 bool Session::withdraw(const float sum) {
-	Customer *cust = dynamic_cast<Customer*>(m_user);
+	auto *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
 
@@ -33,7 +33,7 @@ bool Session::withdraw(const float sum) {
 		return false;
 
 	cust->getAccount()->setBalance(oldBalance - sum);
-	// Stricktly verify since it is user money
+	// Strictly verify since it is user money
 	if (cust->getAccount()->getBalance() == (oldBalance - sum))
 		if (m_db->insertAccount(cust->getAccount()))
 			return true;
@@ -41,7 +41,7 @@ bool Session::withdraw(const float sum) {
 }
 
 bool Session::transfer(const int to, const float sum) {
-	Customer *cust = dynamic_cast<Customer*>(this->m_user);
+	auto *cust = dynamic_cast<Customer*>(this->m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
 
@@ -55,10 +55,11 @@ bool Session::transfer(const int to, const float sum) {
 	Account *toAccount = m_db->retrieveAccount(to);
 	if (toAccount) {
 		cust->getAccount()->setBalance(oldBalance - sum);
-		int oldAccountBalance = toAccount->getBalance();
+        int oldAccountBalance;
+        oldAccountBalance = toAccount->getBalance();
 		toAccount->setBalance(oldAccountBalance + sum);
 
-		// Stricktly verify since it is user money
+		// Strictly verify since it is user money
 		if (toAccount->getBalance() == (oldAccountBalance + sum))
 			if (m_db->insertAccount(cust->getAccount())
 					&& m_db->insertAccount(toAccount))
@@ -68,7 +69,7 @@ bool Session::transfer(const int to, const float sum) {
 }
 
 bool Session::deposit(const float sum) {
-	Customer *cust = dynamic_cast<Customer*>(m_user);
+	auto *cust = dynamic_cast<Customer*>(m_user);
 	if (!cust || !bIsLoggedIn)
 		return false;
 
@@ -78,7 +79,7 @@ bool Session::deposit(const float sum) {
 	float oldBalance = cust->getAccount()->getBalance();
 	cust->getAccount()->setBalance(sum + oldBalance);
 
-	// Stricktly verify since it is user money
+	// Strictly verify since it is user money
 	if (cust->getAccount()->getBalance() == (oldBalance + sum))
 		if (m_db->insertAccount(cust->getAccount()))
 			return true;
@@ -86,13 +87,13 @@ bool Session::deposit(const float sum) {
 }
 
 bool Session::printCustomerInfo() {
-	Customer *cust = dynamic_cast<Customer*>(m_user);
+	auto *cust = dynamic_cast<Customer*>(m_user);
 	if (!bIsLoggedIn || !cust) return false;
 	return printCustomerInfo(cust);
 }
 
 bool Session::printAccountInfo() {
-	Customer *cust = dynamic_cast<Customer*>(m_user);
+	auto *cust = dynamic_cast<Customer*>(m_user);
 	if (!bIsLoggedIn) return false;
 	if (cust->getAccount()->getId() == 0) return false;
 	return printAccountInfo(cust->getAccount());
@@ -109,7 +110,7 @@ void Ui::ui_transfer_own() {
 	cout << "Enter destination account number: ";
 	cin >> account_number;
 
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -121,7 +122,7 @@ void Ui::ui_transfer_own() {
 
 	cout << "Enter sum: ";
 	cin >> sum;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -136,14 +137,14 @@ void Ui::ui_transfer_own() {
 		return;
 	}
 	else
-		cout << "Successfull transfer" << endl;
+		cout << "Successful transfer" << endl;
 }
 
 void Ui::ui_deposit_own() {
 	float sum;
 	cout << "Enter sum: ";
 	cin >> sum;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -158,14 +159,14 @@ void Ui::ui_deposit_own() {
 		return;
 	}
 	else
-		cout << "Successfull deposit" << endl;
+		cout << "Successful deposit" << endl;
 }
 
 void Ui::ui_withdraw() {
 	float sum;
 	cout << "Enter sum: ";
 	cin >> sum;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -180,7 +181,7 @@ void Ui::ui_withdraw() {
 		return;
 	}
 	else
-		cout << "Successfull withdrawal" << endl;
+		cout << "Successful withdrawal" << endl;
 }
 
 void Ui::ui_print_own_customer() {

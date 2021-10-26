@@ -3,7 +3,7 @@
 
 SessionTest::SessionTest() : sess(nullptr){SetUp();}
 
-SessionTest::~SessionTest() {}
+SessionTest::~SessionTest() = default;
 
 void SessionTest::SetUp() {sess = new Session();}
 
@@ -11,16 +11,16 @@ void SessionTest::TearDown() {}
 
 void SessionTest::TestBody() {}
 
-Admin* SessionTest::makeAdmin(const string username) {
+Admin* SessionTest::makeAdmin(const string& username) const {
 	string natid = to_string(rand());
-	Admin *admin = new Admin();
+	auto *admin = new Admin();
 	admin->setId(sess->genUserId());
 	admin->setUserName(username);
 	admin->setFirstName(username + "_FirstName");
 	admin->setLastName(username + "_LastName");
 	admin->setNationalId(natid);
 	admin->setUserType(1);
-	string password = this->sess->encrypt("abc123");
+	string password = Session::encrypt("abc123");
 	admin->setPassword(password);
 	admin->cap_AdminCreate(true);
 	admin->cap_AdminUpdate(true);
@@ -33,16 +33,16 @@ Admin* SessionTest::makeAdmin(const string username) {
 	return admin;
 }
 
-Employee* SessionTest::makeEmployee(const string username) {
+Employee* SessionTest::makeEmployee(const string& username) const {
 	string natid = to_string(rand());
-	Employee *emp = new Employee();
+	auto *emp = new Employee();
 	emp->setId(sess->genUserId());
 	emp->setUserName(username);
 	emp->setFirstName(username + "_FirstName");
 	emp->setLastName(username + "_LastName");
 	emp->setNationalId(natid);
 	emp->setUserType(2);
-	string password = this->sess->encrypt("abc123");
+	string password = Session::encrypt("abc123");
 	emp->setPassword(password);
 
 	emp->cap_acctCreate(true);
@@ -63,23 +63,23 @@ Employee* SessionTest::makeEmployee(const string username) {
 	return emp;
 }
 
-Customer* SessionTest::makeCustomer(const string username) {
+Customer* SessionTest::makeCustomer(const string& username) const {
 	string natid = to_string(rand());
-	Customer *customer = new Customer();
+	auto *customer = new Customer();
 	customer->setId(sess->genUserId());
 	customer->setUserName(username);
 	customer->setFirstName(username + "_FirstName");
 	customer->setLastName(username + "_LastName");
 	customer->setNationalId(natid);
 	customer->setUserType(3);
-	string password = this->sess->encrypt("abc123");
+	string password = Session::encrypt("abc123");
 	customer->setPassword(password);
 	customer->setAccount(nullptr);
 	customer->unlock();
 	return customer;
 }
 
-Account* SessionTest::makeAccount(int owner) {
+Account* SessionTest::makeAccount(int owner) const {
 	Account *account = new Account();
 	account->setId(sess->genAccountId());
 	account->setAccountLabel("Current");

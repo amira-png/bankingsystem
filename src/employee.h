@@ -38,7 +38,7 @@ public:
 				bAcctListAll(false), bAcctPrintInfo(false), bCustCreate(false),
 				bCustUpdate(false), bCustDelete(false), bCustActivate(false), bCustDeactivate(false),
 				bCustListAll(false), bCustPrintInfo(false) {}
-	virtual ~Employee() = default;
+	~Employee() override = default;
 
 	void cap_acctCreate(bool value) {bAcctCreate = value;}
 	void cap_acctUpdate(bool value) {bAcctUpdate = value;}
@@ -54,23 +54,23 @@ public:
 	void cap_custDeactivate(bool value) {bCustDeactivate = value;}
 	void cap_custPrintInfo(bool value) {bCustPrintInfo = value;}
 	void cap_custListAll(bool value) {bCustListAll = value;}
-	void lock() {Person::bLocked = true;}
-	void unlock() {Person::bLocked = false;}
+	void lock() override {Person::bLocked = true;}
+	void unlock() override {Person::bLocked = false;}
 
-	bool canCreateAccount() {return bAcctCreate;}
-	bool canUpdateAccount() {return bAcctUpdate;}
-	bool canDeleteAccount() {return bAcctDelete;}
-	bool canDeactivateAccount() {return bAcctDeactivate;}
-	bool canActivateAccount() {return bAcctActivate;}
-	bool canListAllAccounts() {return bAcctListAll;}
-	bool canPrintAccountInfo() {return bAcctPrintInfo;}
-	bool canPrintCustomerInfo() {return bCustPrintInfo;}
-	bool canListAllCustomers() {return bCustListAll;}
-	bool canCreateCustomer() {return bCustCreate;}
-	bool canUpdateCustomer() {return bCustUpdate;}
-	bool canDeleteCustomer() {return bCustDelete;}
-	bool canActivateCustomer() {return bCustActivate;}
-	bool canDeactivateCustomer() {return bCustDeactivate;}
+	bool canCreateAccount() const {return bAcctCreate;}
+	bool canUpdateAccount() const {return bAcctUpdate;}
+	bool canDeleteAccount() const {return bAcctDelete;}
+	bool canDeactivateAccount() const {return bAcctDeactivate;}
+	bool canActivateAccount() const {return bAcctActivate;}
+	bool canListAllAccounts() const {return bAcctListAll;}
+	bool canPrintAccountInfo() const {return bAcctPrintInfo;}
+	bool canPrintCustomerInfo() const {return bCustPrintInfo;}
+	bool canListAllCustomers() const {return bCustListAll;}
+	bool canCreateCustomer() const {return bCustCreate;}
+	bool canUpdateCustomer() const {return bCustUpdate;}
+	bool canDeleteCustomer() const {return bCustDelete;}
+	bool canActivateCustomer() const {return bCustActivate;}
+	bool canDeactivateCustomer() const {return bCustDeactivate;}
 };
 
 #endif /* SRC_EMPLOYEE_H_ */

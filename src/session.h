@@ -85,8 +85,8 @@ public:
 		UNKNOWN, ADMIN, EMPLOYEE, CUSTOMER
 	};
 
-	bool firstRun();
-	bool isLoggedIn() {
+	bool firstRun() const;
+	bool isLoggedIn() const {
 		return bIsLoggedIn;
 	}
 	bool login(const string &username, const string &password);
@@ -94,7 +94,7 @@ public:
 	bool changePassword(Person *p, const string &newpassword);
 	bool changePassword(const string &newpassword);
 	bool verifyPassword(const string &password);
-	string encrypt(const string &word) const;
+	static string encrypt(const string &word) ;
 
 	vector<string> getSessionCapabilities() {
 		return m_sessionCapabilities;
@@ -102,22 +102,22 @@ public:
 
 	Person* getPerson(const string &username);
 	Customer* getCustomer(const string &username);
-	Customer* getCustomerByAccount(const int accountid);
+	Customer* getCustomerByAccount(int accountid);
 	Employee* getEmployee(const string &username);
 	Admin* getAdmin(const string &username);
-	Account* getAccount(const int accountid);
-	Account* getAccountByCustomer(const int customerid);
+	Account* getAccount(int accountid);
+	Account* getAccountByCustomer(int customerid);
 	string getSessionUser();
 	string getSessionUserType();
 	int genUserId();
 	int genAccountId();
 
 	// Customer methods
-	bool withdraw(const float sum);
-	bool transfer(const int to, const float sum);
+	bool withdraw(float sum);
+	bool transfer(int to, float sum);
 	bool printCustomerInfo();
 	bool printAccountInfo();
-	bool deposit(const float sum);
+	bool deposit(float sum);
 
 	// Employee methods
 	bool createAccount(Account *acct);
@@ -130,8 +130,8 @@ public:
 	bool deleteCustomer(Customer *customer);
 	bool activateCustomer(Customer *customer);
 	bool deactivateCustomer(Customer *customer);
-	bool transfer(Account *from, Account *to, const float sum);
-	bool deposit(Account *acct, const float sum);
+	bool transfer(Account *from, Account *to, float sum);
+	bool deposit(Account *acct, float sum);
 	bool ListAllCustomers();
 	bool printCustomerInfo(Customer *cust);
 	bool printAccountInfo(Account *acct);

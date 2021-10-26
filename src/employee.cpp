@@ -5,12 +5,12 @@
  *      Author: amira
  */
 
-#include <assert.h>
+#include <cassert>
 #include <typeinfo>
 #ifdef __linux__
 #include <unistd.h>
 #include <libsmartcols/libsmartcols.h>
-#include <locale.h>
+#include <clocale>
 #endif
 #include <limits>
 #include "session.h"
@@ -29,7 +29,7 @@ bool Session::createAccount(Account *acct) {
 		return false;
 
 	if (!m_db->insertAccount(acct)) {
-		if (acct) delete acct;
+		delete acct;
 		return false;
 	}
 	delete acct;
@@ -44,7 +44,7 @@ bool Session::updateAccount(Account *acct) {
 		return false;
 
 	if (!m_db->insertAccount(acct)) {
-		if (acct) delete acct;
+		delete acct;
 		return false;
 	}
 	delete acct;
@@ -59,7 +59,7 @@ bool Session::deleteAccount(Account *acct) {
 		return false;
 
 	if (!m_db->deleteAccount(acct)) {
-		if (acct) delete acct;
+		delete acct;
 		return false;
 	}
 	delete acct;
@@ -76,7 +76,7 @@ bool Session::activateAccount(Account *acct) {
 	acct->unlock();
 
 	if (!m_db->insertAccount(acct)) {
-		if (acct) delete acct;
+		delete acct;
 		return false;
 	}
 	delete acct;
@@ -93,7 +93,7 @@ bool Session::deactivateAccount(Account *acct) {
 	acct->lock();
 
 	if (!m_db->insertAccount(acct)) {
-		if (acct) delete acct;
+		delete acct;
 		return false;
 	}
 	delete acct;
@@ -105,10 +105,7 @@ bool Session::printAccountInfo(Account *acct) {
 		return false;
 
 	Customer *acct_owner;
-	if (acct)
-		acct_owner = getCustomerByAccount(acct->getId());
-	else
-		return false;
+    acct_owner = getCustomerByAccount(acct->getId());
 
 	if (!isAuthorized(Session::ACCOUNT_PRINT_INFO)
 			&& (acct_owner->getId() != m_user->getId()))
@@ -121,7 +118,7 @@ bool Session::printAccountInfo(Account *acct) {
 
 	tb = scols_new_table();
 	scols_table_new_column(tb, "", 0.1, SCOLS_FL_TREE);
-	line = accountid = scols_table_new_line(tb, NULL);
+	line = accountid = scols_table_new_line(tb, nullptr);
 	scols_line_set_data(line, 0, string("ID: "
 				+ to_string(acct->getId())).c_str());
 
@@ -144,7 +141,7 @@ bool Session::printAccountInfo(Account *acct) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	if (acct && acct_owner && acct_owner->getId() != m_user->getId())
+	if (acct_owner && acct_owner->getId() != m_user->getId())
 		delete acct;
 	return true;
 }
@@ -155,7 +152,7 @@ bool Session::ListAllAccounts() {
 
 	vector<Account*> accounts = m_db->getAllAccounts();
 
-	if (!accounts.size())
+	if (accounts.empty())
 		return false;
 
 	for (Account *account : accounts) printAccountInfo(account);
@@ -175,7 +172,7 @@ bool Session::createCustomer(Customer *customer) {
 		return false;
 
 	if (!m_db->insertPerson(customer)) {
-		if (customer) delete customer;
+		delete customer;
 		return false;
 	}
 	delete customer;
@@ -193,7 +190,7 @@ bool Session::updateCustomer(Customer *customer) {
 		return false;
 
 	if (!m_db->insertPerson(customer)) {
-		if (customer) delete customer;
+		delete customer;
 		return false;
 	}
 	delete customer;
@@ -211,7 +208,7 @@ bool Session::deleteCustomer(Customer *customer) {
 		return false;
 
 	if (!m_db->deletePerson(customer)) {
-		if (customer) delete customer;
+		delete customer;
 		return false;
 	}
 	delete customer;
@@ -231,7 +228,7 @@ bool Session::activateCustomer(Customer *customer) {
 	customer->unlock();
 
 	if (!m_db->insertPerson(customer)) {
-		if (customer) delete customer;
+		delete customer;
 		return false;
 	}
 	delete customer;
@@ -251,7 +248,7 @@ bool Session::deactivateCustomer(Customer *customer) {
 	customer->lock();
 
 	if (!m_db->insertPerson(customer)){
-		if (customer) delete customer;
+		delete customer;
 		return false;
 	}
 	delete customer;
@@ -276,7 +273,7 @@ bool Session::printCustomerInfo(Customer *customer) {
 	tb = scols_new_table();
 	scols_table_new_column(tb, "", 0.1, SCOLS_FL_TREE);
 
-	line = username = scols_table_new_line(tb, NULL);
+	line = username = scols_table_new_line(tb, nullptr);
 	scols_line_set_data(line, 0, string(customer->getUserName()).c_str());
 	line = fullname = scols_table_new_line(tb, username);
 	scols_line_set_data(line, 0, string("Name: "
@@ -302,7 +299,7 @@ bool Session::printCustomerInfo(Customer *customer) {
 	scols_unref_table(tb);
 	cout << endl;
 
-	if (customer && customer->getId() != m_user->getId())
+	if (customer->getId() != m_user->getId())
 		delete customer;
 	return true;
 }
@@ -312,7 +309,7 @@ bool Session::ListAllCustomers() {
 		return false;
 
 	vector<Customer*> customers = m_db->getAllCustomers();
-	if (!customers.size())
+	if (customers.empty())
 		return false;
 
 	for (Customer *customer : customers) printCustomerInfo(customer);
@@ -322,7 +319,7 @@ bool Session::ListAllCustomers() {
 }
 
 bool Session::printEmployeeInfo() {
-	Employee *emp = dynamic_cast<Employee*>(m_user);
+	auto *emp = dynamic_cast<Employee*>(m_user);
 	if (!bIsLoggedIn || !emp) return false;
 	return printEmployeeInfo(emp);
 }
@@ -341,12 +338,12 @@ bool Session::transfer(Account *from, Account *to, const float sum) {
 	to->setBalance(newToBalance);
 
 	if (!m_db->insertAccount(from)){
-		if (from) delete from;
+		delete from;
 		return false;
 	}
 
 	if (!m_db->insertAccount(to)){
-		if (to) delete to;
+		delete to;
 		return false;
 	}
 	return true;
@@ -363,7 +360,7 @@ bool Session::deposit(Account *acct, const float sum) {
 	acct->setBalance(newBalance);
 
 	if (!m_db->insertAccount(acct)){
-		if (acct) delete acct;
+		delete acct;
 		return false;
 	}
 
@@ -391,7 +388,7 @@ void Ui::ui_create_customer() {
 	cout << "Registering a new customer" << endl;
 	cout << endl;
 
-	Customer *tmp = new Customer();
+	auto *tmp = new Customer();
 	tmp->setId(m_session->genUserId());
 
 	cout << "User name: ";
@@ -417,7 +414,7 @@ void Ui::ui_create_customer() {
 	tmp->setFirstName(firstname);
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
-	tmp->setPassword(m_session->encrypt(password));
+	tmp->setPassword(Session::encrypt(password));
 	tmp->lock();
 
 	tmp->setAccount(nullptr);
@@ -469,7 +466,7 @@ void Ui::ui_update_customer() {
 }
 
 void Ui::ui_delete_customer() {
-	string username = "";
+	string username;
 	Customer *tmp;
 	cout << "Enter Customer's user name to delete: ";
 	cin >> username;
@@ -545,9 +542,9 @@ void Ui::ui_listall_customer() {
 }
 
 void Ui::ui_create_account() {
-	Account *acct = new Account();
+	auto *acct = new Account();
 	acct->setId(m_session->genAccountId());
-	string customer_name = "";
+	string customer_name;
 	cout << "Enter customer name: ";
 	cin >> customer_name;
 	Customer *cust = m_session->getCustomer(customer_name);
@@ -579,7 +576,7 @@ void Ui::ui_update_account() {
 	cout << "Enter account number: ";
 	cin >> account_number;
 
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -600,7 +597,7 @@ void Ui::ui_update_account() {
 	cout << "Enter new balance: ";
 	cin >> newbalance;
 
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -633,7 +630,7 @@ void Ui::ui_delete_account() {
 	int account_number;
 	cout << "Enter Account Number: ";
 	cin >> account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -658,7 +655,7 @@ void Ui::ui_activate_account() {
 	int account_number;
 	cout << "Enter Account Number: ";
 	cin >> account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -674,8 +671,8 @@ void Ui::ui_activate_account() {
 	}
 	if (!m_session->activateAccount(acct))
 		cerr << "Failed to activate account" << endl;
-	 else
-		cout << "Account activated succesfully" << endl;
+    else
+		cout << "Account activated successfully" << endl;
 }
 
 void Ui::ui_deactivate_account() {
@@ -683,7 +680,7 @@ void Ui::ui_deactivate_account() {
 	int account_number;
 	cout << "Enter Account Number: ";
 	cin >> account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -709,7 +706,7 @@ void Ui::ui_print_account() {
 	int account_number;
 	cout << "Enter account number:";
 	cin >> account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -739,7 +736,7 @@ void Ui::ui_transfer() {
 
 	cout << "Enter source account number: ";
 	cin >> source_account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -757,7 +754,7 @@ void Ui::ui_transfer() {
 
 	cout << "Enter destination account number: ";
 	cin >> destination_account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -776,7 +773,7 @@ void Ui::ui_transfer() {
 
 	cout << "Enter sum: ";
 	cin >> sum;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -799,7 +796,7 @@ void Ui::ui_deposit() {
 
 	cout << "Enter account number: ";
 	cin >> account_number;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -817,7 +814,7 @@ void Ui::ui_deposit() {
 
 	cout << "Enter sum: ";
 	cin >> sum;
-	while (1) {
+	while (true) {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');

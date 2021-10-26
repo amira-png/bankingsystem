@@ -41,18 +41,19 @@ public:
 	void setUserType(const int type) {m_type = type;}
 	void setCaps(size_t caps) {m_caps = caps;}
 
-	int    getId()        {return m_id;}
-	int    getUserType()  {return m_type;}
+	int    getId() const        {return m_id;}
+	int    getUserType() const  {return m_type;}
 	string getFirstName() {return m_firstName;}
 	string getLastName()  {return m_lastName;}
 	string getNationalId(){return m_nationalId;}
 	string getPassword()  {return m_password;}
 	string getUserName()  {return m_userName;}
-	size_t getCaps()	  {return m_caps;}
+	size_t getCaps() const	  {return m_caps;}
 
-	void lock(){bLocked = true;}
-	void unlock() {bLocked = false;}
-	bool isLocked() {return bLocked;}
+    virtual void lock(){bLocked = true;}
+
+    virtual void unlock() {bLocked = false;}
+	bool isLocked() const {return bLocked;}
 };
 
 #endif /* SRC_PERSON_H_ */

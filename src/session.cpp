@@ -14,7 +14,7 @@ Session::Session() :
 	m_sessionCapabilities.clear();
 	m_totalUsers = m_db->getUsersCount();
 	if (m_totalUsers == 0)
-		m_sessionCapabilities.push_back("First Run");
+		m_sessionCapabilities.emplace_back("First Run");
 }
 
 Session::~Session() {
@@ -22,7 +22,7 @@ Session::~Session() {
 	delete m_user;
 }
 
-string Session::encrypt(const string &word) const {
+string Session::encrypt(const string &word) {
 #ifdef __linux__
 	unsigned char hash[SHA256_DIGEST_LENGTH];
 	SHA256_CTX sha256;
@@ -31,8 +31,8 @@ string Session::encrypt(const string &word) const {
 	SHA256_Final(hash, &sha256);
 	string result = string();
 	stringstream sstream;
-	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-		sstream << hex << (int) hash[i];
+	for (unsigned char i : hash) {
+		sstream << hex << (int) i;
 		result = sstream.str();
 	}
 #elif _WIN32
@@ -95,19 +95,19 @@ bool Session::changePassword(Person *p, const string &newpassword) {
 
 	switch (p->getUserType()) {
 	case Session::CUSTOMER: {
-		Customer *cust = dynamic_cast<Customer*>(p);
+		auto *cust = dynamic_cast<Customer*>(p);
 		if (!this->updateCustomer(cust))
 			return false;
 		break;
 	}
 	case Session::EMPLOYEE: {
-		Employee *emp = dynamic_cast<Employee*>(p);
+		auto *emp = dynamic_cast<Employee*>(p);
 		if (!this->updateEmployee(emp))
 			return false;
 		break;
 	}
 	case Session::ADMIN: {
-		Admin *adm = dynamic_cast<Admin*>(p);
+		auto *adm = dynamic_cast<Admin*>(p);
 		if (!this->updateAdmin(adm))
 			return false;
 		break;
@@ -150,121 +150,121 @@ void Session::setSessionCapabilities() {
 	setUserType();
 	switch (m_userType) {
 	case CUSTOMER: {
-		Customer *tmpcust = dynamic_cast<Customer*>(m_user);
+		auto *tmpcust = dynamic_cast<Customer*>(m_user);
 		if (tmpcust->getAccount() && tmpcust->getAccount()->getId() != 0) {
-			m_sessionCapabilities.push_back("Transfer money to another Account");
-			m_sessionCapabilities.push_back("Deposit");
-			m_sessionCapabilities.push_back("Withdraw");
-			m_sessionCapabilities.push_back("Print my account Information");
+			m_sessionCapabilities.emplace_back("Transfer money to another Account");
+			m_sessionCapabilities.emplace_back("Deposit");
+			m_sessionCapabilities.emplace_back("Withdraw");
+			m_sessionCapabilities.emplace_back("Print my account Information");
 		}
-		m_sessionCapabilities.push_back("Print my customer Information");
-		m_sessionCapabilities.push_back("Change own Password");
+		m_sessionCapabilities.emplace_back("Print my customer Information");
+		m_sessionCapabilities.emplace_back("Change own Password");
 		break;
 	}
 	case EMPLOYEE: {
 
-		Employee *tmpemp = dynamic_cast<Employee*>(m_user);
+		auto *tmpemp = dynamic_cast<Employee*>(m_user);
 		if (tmpemp->canCreateAccount())
-			m_sessionCapabilities.push_back("Create Account");
+			m_sessionCapabilities.emplace_back("Create Account");
 		if (tmpemp->canUpdateAccount())
-			m_sessionCapabilities.push_back("Update Account");
+			m_sessionCapabilities.emplace_back("Update Account");
 		if (tmpemp->canDeleteAccount())
-			m_sessionCapabilities.push_back("Delete Account");
+			m_sessionCapabilities.emplace_back("Delete Account");
 		if (tmpemp->canActivateAccount())
-			m_sessionCapabilities.push_back("Activate Account");
+			m_sessionCapabilities.emplace_back("Activate Account");
 		if (tmpemp->canDeactivateAccount())
-			m_sessionCapabilities.push_back("Deactivate Account");
+			m_sessionCapabilities.emplace_back("Deactivate Account");
 		if (tmpemp->canPrintAccountInfo()) {
-			m_sessionCapabilities.push_back("Print Account Information");
+			m_sessionCapabilities.emplace_back("Print Account Information");
 			if (tmpemp->canListAllAccounts())
-				m_sessionCapabilities.push_back("List All Accounts");
+				m_sessionCapabilities.emplace_back("List All Accounts");
 		}
 		if (tmpemp->canCreateCustomer())
-			m_sessionCapabilities.push_back("Create a new Customer");
+			m_sessionCapabilities.emplace_back("Create a new Customer");
 		if (tmpemp->canUpdateCustomer())
-			m_sessionCapabilities.push_back("Update Existing Customer");
+			m_sessionCapabilities.emplace_back("Update Existing Customer");
 		if (tmpemp->canDeleteCustomer())
-			m_sessionCapabilities.push_back("Delete Customer");
+			m_sessionCapabilities.emplace_back("Delete Customer");
 		if (tmpemp->canActivateCustomer())
-			m_sessionCapabilities.push_back("Activate Customer");
+			m_sessionCapabilities.emplace_back("Activate Customer");
 		if (tmpemp->canDeactivateCustomer())
-			m_sessionCapabilities.push_back("Deactivate Customer");
+			m_sessionCapabilities.emplace_back("Deactivate Customer");
 		if (tmpemp->canPrintCustomerInfo()) {
-			m_sessionCapabilities.push_back("Print Customer Information");
+			m_sessionCapabilities.emplace_back("Print Customer Information");
 			if (tmpemp->canListAllCustomers())
-				m_sessionCapabilities.push_back("List All Customers");
+				m_sessionCapabilities.emplace_back("List All Customers");
 		}
-		m_sessionCapabilities.push_back("Print my Employee Information");
-		m_sessionCapabilities.push_back("Transfer Money between accounts");
-		m_sessionCapabilities.push_back("Deposit Money to Customer");
-		m_sessionCapabilities.push_back("Change Password");
-		m_sessionCapabilities.push_back("Change own Password");
+		m_sessionCapabilities.emplace_back("Print my Employee Information");
+		m_sessionCapabilities.emplace_back("Transfer Money between accounts");
+		m_sessionCapabilities.emplace_back("Deposit Money to Customer");
+		m_sessionCapabilities.emplace_back("Change Password");
+		m_sessionCapabilities.emplace_back("Change own Password");
 		break;
 	}
 	case ADMIN: {
-		Admin *tmpadmin = dynamic_cast<Admin*>(m_user);
+		auto *tmpadmin = dynamic_cast<Admin*>(m_user);
 		if (tmpadmin->canCreateAdmin())
-			m_sessionCapabilities.push_back("Create Administrator");
+			m_sessionCapabilities.emplace_back("Create Administrator");
 		if (tmpadmin->canUpdateAdmin())
-			m_sessionCapabilities.push_back("Update Administrator");
+			m_sessionCapabilities.emplace_back("Update Administrator");
 		if (tmpadmin->canDeleteAdmin())
-			m_sessionCapabilities.push_back("Delete Administrator");
+			m_sessionCapabilities.emplace_back("Delete Administrator");
 		if (tmpadmin->canActivateAdmin())
-			m_sessionCapabilities.push_back("Activate Administrator");
+			m_sessionCapabilities.emplace_back("Activate Administrator");
 		if (tmpadmin->canDeactivateAdmin())
-			m_sessionCapabilities.push_back("Deactivate Administrator");
+			m_sessionCapabilities.emplace_back("Deactivate Administrator");
 		if (tmpadmin->canPrintAdminInfo()) {
-			m_sessionCapabilities.push_back("Print Administrator Information");
+			m_sessionCapabilities.emplace_back("Print Administrator Information");
 			if (tmpadmin->canListAllAdmin())
-				m_sessionCapabilities.push_back("List All Administrators");
+				m_sessionCapabilities.emplace_back("List All Administrators");
 		}
 		if (tmpadmin->canCreateEmployee())
-			m_sessionCapabilities.push_back("Create Employee");
+			m_sessionCapabilities.emplace_back("Create Employee");
 		if (tmpadmin->canUpdateEmployee())
-			m_sessionCapabilities.push_back("Update Employee");
+			m_sessionCapabilities.emplace_back("Update Employee");
 		if (tmpadmin->canDeleteEmployee())
-			m_sessionCapabilities.push_back("Delete Employee");
+			m_sessionCapabilities.emplace_back("Delete Employee");
 		if (tmpadmin->canActivateEmployee())
-			m_sessionCapabilities.push_back("Activate Employee");
+			m_sessionCapabilities.emplace_back("Activate Employee");
 		if (tmpadmin->canDeactivateEmployee())
-			m_sessionCapabilities.push_back("Deactivate Employee");
+			m_sessionCapabilities.emplace_back("Deactivate Employee");
 		if (tmpadmin->canPrintEmployeeInfo())
-			m_sessionCapabilities.push_back("Print Employee Information");
+			m_sessionCapabilities.emplace_back("Print Employee Information");
 		if (tmpadmin->canListAllEmployee())
-			m_sessionCapabilities.push_back("List All Employees");
+			m_sessionCapabilities.emplace_back("List All Employees");
 		if (tmpadmin->canCreateAccount())
-			m_sessionCapabilities.push_back("Create Account");
+			m_sessionCapabilities.emplace_back("Create Account");
 		if (tmpadmin->canUpdateAccount())
-			m_sessionCapabilities.push_back("Update Account");
+			m_sessionCapabilities.emplace_back("Update Account");
 		if (tmpadmin->canDeleteAccount())
-			m_sessionCapabilities.push_back("Delete Account");
+			m_sessionCapabilities.emplace_back("Delete Account");
 		if (tmpadmin->canActivateAccount())
-			m_sessionCapabilities.push_back("Activate Account");
+			m_sessionCapabilities.emplace_back("Activate Account");
 		if (tmpadmin->canDeactivateAccount())
-			m_sessionCapabilities.push_back("Deactivate Account");
+			m_sessionCapabilities.emplace_back("Deactivate Account");
 		if (tmpadmin->canListAllAccounts())
-			m_sessionCapabilities.push_back("List All Accounts");
+			m_sessionCapabilities.emplace_back("List All Accounts");
 		if (tmpadmin->canPrintAccountInfo())
-			m_sessionCapabilities.push_back("Print Account Information");
+			m_sessionCapabilities.emplace_back("Print Account Information");
 		if (tmpadmin->canCreateCustomer())
-			m_sessionCapabilities.push_back("Create a new Customer");
+			m_sessionCapabilities.emplace_back("Create a new Customer");
 		if (tmpadmin->canUpdateCustomer())
-			m_sessionCapabilities.push_back("Update Existing Customer");
+			m_sessionCapabilities.emplace_back("Update Existing Customer");
 		if (tmpadmin->canDeleteCustomer())
-			m_sessionCapabilities.push_back("Delete Customer");
+			m_sessionCapabilities.emplace_back("Delete Customer");
 		if (tmpadmin->canActivateCustomer())
-			m_sessionCapabilities.push_back("Activate Customer");
+			m_sessionCapabilities.emplace_back("Activate Customer");
 		if (tmpadmin->canDeactivateCustomer())
-			m_sessionCapabilities.push_back("Deactivate Customer");
+			m_sessionCapabilities.emplace_back("Deactivate Customer");
 		if (tmpadmin->canPrintCustomerInfo())
-			m_sessionCapabilities.push_back("Print Customer Information");
+			m_sessionCapabilities.emplace_back("Print Customer Information");
 		if (tmpadmin->canListAllCustomers())
-			m_sessionCapabilities.push_back("List All Customers");
-		m_sessionCapabilities.push_back("Print my Administrator Information");
-		m_sessionCapabilities.push_back("Transfer Money between accounts");
-		m_sessionCapabilities.push_back("Deposit Money to Customer");
-		m_sessionCapabilities.push_back("Change Password");
-		m_sessionCapabilities.push_back("Change own Password");
+			m_sessionCapabilities.emplace_back("List All Customers");
+		m_sessionCapabilities.emplace_back("Print my Administrator Information");
+		m_sessionCapabilities.emplace_back("Transfer Money between accounts");
+		m_sessionCapabilities.emplace_back("Deposit Money to Customer");
+		m_sessionCapabilities.emplace_back("Change Password");
+		m_sessionCapabilities.emplace_back("Change own Password");
 		break;
 	}
 	default:
@@ -292,7 +292,7 @@ Account* Session::getAccount(const int accountid) {
 	return m_db->retrieveAccount(accountid);
 }
 
-bool Session::firstRun() {
+bool Session::firstRun() const {
 	return (m_totalUsers == 0);
 }
 

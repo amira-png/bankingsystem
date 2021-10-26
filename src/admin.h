@@ -53,7 +53,7 @@ public:
 		Employee::cap_custListAll(true);
 		Employee::lock();
 	}
-	virtual ~Admin() = default;
+	~Admin() override = default;
 	void cap_AdminCreate(bool value) {bAdminCreate = value;}
 	void cap_AdminUpdate(bool value) {bAdminUpdate = value;}
 	void cap_AdminDelete(bool value) {bAdminDelete = value;}
@@ -70,21 +70,21 @@ public:
 	void cap_EmployeeActivate(bool value) {bEmployeeActivate = value;}
 	void cap_EmployeeDeactivate(bool value) {bEmployeeDeactivate = value;}
 
-	bool canCreateAdmin() {return bAdminCreate;}
-	bool canUpdateAdmin() {return bAdminUpdate;}
-	bool canDeleteAdmin() {return bAdminDelete;}
-	bool canActivateAdmin() {return bAdminActivate;}
-	bool canDeactivateAdmin() {return bAdminDeactivate;}
-	bool canListAllAdmin() {return bAdminListAll;}
-	bool canPrintAdminInfo() {return bAdminPrintInfo;}
+	bool canCreateAdmin() const {return bAdminCreate;}
+	bool canUpdateAdmin() const {return bAdminUpdate;}
+	bool canDeleteAdmin() const {return bAdminDelete;}
+	bool canActivateAdmin() const {return bAdminActivate;}
+	bool canDeactivateAdmin() const {return bAdminDeactivate;}
+	bool canListAllAdmin() const {return bAdminListAll;}
+	bool canPrintAdminInfo() const {return bAdminPrintInfo;}
 
-	bool canCreateEmployee() {return bEmployeeCreate;}
-	bool canUpdateEmployee() {return bEmployeeUpdate;}
-	bool canDeleteEmployee() {return bEmployeeDelete;}
-	bool canPrintEmployeeInfo() {return bEmployeePrintInfo;}
-	bool canListAllEmployee() {return bEmployeeListAll;}
-	bool canActivateEmployee() {return bEmployeeActivate;}
-	bool canDeactivateEmployee() {return bEmployeeDeactivate;}
+	bool canCreateEmployee() const {return bEmployeeCreate;}
+	bool canUpdateEmployee() const {return bEmployeeUpdate;}
+	bool canDeleteEmployee() const {return bEmployeeDelete;}
+	bool canPrintEmployeeInfo() const {return bEmployeePrintInfo;}
+	bool canListAllEmployee() const {return bEmployeeListAll;}
+	bool canActivateEmployee() const {return bEmployeeActivate;}
+	bool canDeactivateEmployee() const {return bEmployeeDeactivate;}
 };
 
 #endif /* SRC_ADMIN_H_ */

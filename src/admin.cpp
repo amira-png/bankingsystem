@@ -5,14 +5,14 @@
  *  Created on: Oct 19, 2020
  *      Author: amira
  */
-#include <assert.h>
+#include <cassert>
 #include <typeinfo>
 #include "session.h"
 #include "userinterface.h"
 #ifdef __linux__
 #include <unistd.h>
 #include <libsmartcols/libsmartcols.h>
-#include <locale.h>
+#include <clocale>
 #endif
 
 /*
@@ -30,7 +30,7 @@ bool Session::createAdmin(Admin *admin) {
 		return false;
 
 	if (!m_db->insertPerson(admin)){
-		if (admin) delete admin;
+		delete admin;
 		return false;
 	}
 	delete admin;
@@ -48,7 +48,7 @@ bool Session::updateAdmin(Admin *admin) {
 		return false;
 
 	if (!m_db->insertPerson(admin)){
-		if (admin) delete admin;
+		delete admin;
 		return false;
 	}
 	delete admin;
@@ -66,7 +66,7 @@ bool Session::deleteAdmin(Admin *admin) {
 		return false;
 
 	if (!m_db->deletePerson(admin)){
-		if (admin) delete admin;
+		delete admin;
 		return false;
 	}
 	delete admin;
@@ -86,7 +86,7 @@ bool Session::deactivateAdmin(Admin *admin) {
 	admin->lock();
 
 	if (!m_db->insertPerson(admin)){
-		if (admin) delete admin;
+		delete admin;
 		return false;
 	}
 	delete admin;
@@ -106,7 +106,7 @@ bool Session::activateAdmin(Admin *admin) {
 	admin->unlock();
 
 	if (!m_db->insertPerson(admin)) {
-		if (admin) delete admin;
+		delete admin;
 		return false;
 	}
 	delete admin;
@@ -139,7 +139,7 @@ bool Session::printAdminInfo(Admin *admin) {
 	tb = scols_new_table();
 	scols_table_new_column(tb, "", 0.1, SCOLS_FL_TREE);
 
-	line = username = scols_table_new_line(tb, NULL);
+	line = username = scols_table_new_line(tb, nullptr);
 	scols_line_set_data(line, 0, string(admin->getUserName()).c_str());
 	line = fullname = scols_table_new_line(tb, username);
 	scols_line_set_data(line, 0, string("Name: "
@@ -182,7 +182,7 @@ bool Session::printAdminInfo(Admin *admin) {
 }
 
 bool Session::printAdminInfo() {
-	Admin *admin = dynamic_cast<Admin*>(m_user);
+	auto *admin = dynamic_cast<Admin*>(m_user);
 	if (!bIsLoggedIn || !admin)
 		return false;
 	return printAdminInfo(admin);
@@ -194,7 +194,7 @@ bool Session::ListAllAdmins() {
 
 	vector<Admin*> admins = m_db->getAllAdmins();
 
-	if (!admins.size())
+	if (admins.empty())
 		return false;
 
 	for (Admin *admin : admins) printAdminInfo(admin);
@@ -214,7 +214,7 @@ bool Session::createEmployee(Employee *emp) {
 		return false;
 
 	if (!m_db->insertPerson(emp)) {
-		if (emp) delete emp;
+		delete emp;
 		return false;
 	}
 	delete emp;
@@ -232,7 +232,7 @@ bool Session::updateEmployee(Employee *emp) {
 		return false;
 
 	if (!m_db->insertPerson(emp)) {
-		if (emp) delete emp;
+		delete emp;
 		return false;
 	}
 	delete emp;
@@ -250,7 +250,7 @@ bool Session::deleteEmployee(Employee *emp) {
 		return false;
 
 	if (!m_db->deletePerson(emp)){
-		if (emp) delete emp;
+		delete emp;
 		return false;
 	}
 	delete emp;
@@ -270,7 +270,7 @@ bool Session::activateEmployee(Employee *emp) {
 	emp->unlock();
 
 	if (!m_db->insertPerson(emp)){
-		if (emp) delete emp;
+		delete emp;
 		return false;
 	}
 	delete emp;
@@ -290,7 +290,7 @@ bool Session::deactivateEmployee(Employee *emp) {
 	emp->lock();
 
 	if (!m_db->insertPerson(emp)){
-		if (emp) delete emp;
+		delete emp;
 		return false;
 	}
 	delete emp;
@@ -323,7 +323,7 @@ bool Session::printEmployeeInfo(Employee *emp) {
 	tb = scols_new_table();
 	scols_table_new_column(tb, "", 0.1, SCOLS_FL_TREE);
 
-	line = username = scols_table_new_line(tb, NULL);
+	line = username = scols_table_new_line(tb, nullptr);
 	scols_line_set_data(line, 0, string(emp->getUserName()).c_str());
 	line = fullname = scols_table_new_line(tb, username);
 	scols_line_set_data(line, 0, string("Name: "
@@ -394,7 +394,7 @@ bool Session::ListAllEmployees() {
 		return false;
 
 	vector<Employee*> employees = m_db->getAllEmployees();
-	if (!employees.size())
+	if (employees.empty())
 		return false;
 
 	for (Employee *emp : employees) printEmployeeInfo(emp);
@@ -419,7 +419,7 @@ void Ui::ui_create_admin() {
 	cout << "Registering an administrator" << endl;
 	cout << endl;
 
-	Admin *tmp = new Admin();
+	auto *tmp = new Admin();
 	tmp->setId(m_session->genUserId());
 
 	cout << "User name: ";
@@ -445,10 +445,10 @@ void Ui::ui_create_admin() {
 	tmp->setFirstName(firstname);
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
-	tmp->setPassword(m_session->encrypt(password));
+	tmp->setPassword(Session::encrypt(password));
 	tmp->lock();
 
-	string answer = "";
+	string answer;
 
 	do {
 		cout << "Can create other Administrators? (y/N): ";
@@ -546,7 +546,7 @@ void Ui::ui_update_admin() {
 	string firstname;
 	string lastname;
 	string nationalid;
-	string answer = "";
+	string answer;
 	Admin *tmp;
 
 	cout << "Updating an administrator" << endl;
@@ -665,7 +665,7 @@ void Ui::ui_update_admin() {
 }
 
 void Ui::ui_delete_admin() {
-	string username = "";
+	string username;
 	Admin *tmp;
 	cout << "Enter administrator's user name to delete: ";
 	cin >> username;
@@ -756,7 +756,7 @@ void Ui::ui_create_employee() {
 	cout << "Registering an Employee" << endl;
 	cout << endl;
 
-	Employee *tmp = new Employee();
+	auto *tmp = new Employee();
 	tmp->setId(m_session->genUserId());
 
 	cout << "User name: ";
@@ -782,10 +782,10 @@ void Ui::ui_create_employee() {
 	tmp->setFirstName(firstname);
 	tmp->setLastName(lastname);
 	tmp->setNationalId(nationalid);
-	tmp->setPassword(m_session->encrypt(password));
+	tmp->setPassword(Session::encrypt(password));
 	tmp->lock();
 
-	string answer = "";
+	string answer;
 
 	do {
 		cout << "Can create customer? (y/N): ";
@@ -968,7 +968,7 @@ void Ui::ui_update_employee() {
 	string firstname;
 	string lastname;
 	string nationalid;
-	string answer = "";
+	string answer;
 	Employee *tmp;
 
 	cout << "Updating an Employee" << endl;
@@ -1171,7 +1171,7 @@ void Ui::ui_update_employee() {
 }
 
 void Ui::ui_delete_employee() {
-	string username = "";
+	string username;
 	Employee *tmp;
 	cout << "Enter Emplyee's user name to delete: ";
 	cin >> username;
