@@ -268,8 +268,7 @@ void Ui::getCallBack(const string &desc) {
 }
 
 void Ui::listWhatToDo() {
-    for (auto it = m_operationsMap.begin();
-         it != m_operationsMap.end(); ++it) { cout << it->first << " " << it->second << endl; }
+    for (auto & it : m_operationsMap) { cout << it.first << " " << it.second << endl; }
 }
 
 void Ui::logout() {

@@ -620,7 +620,7 @@ void Ui::ui_update_account() {
 
 	if (!m_session->createAccount(acct))
 		cerr << "Error creating an account" << endl;
-	 else {
+    else {
 		cout << "Account created successfully" << endl;
 		delete acct;
 	}
@@ -699,7 +699,7 @@ void Ui::ui_deactivate_account() {
 		cerr << "Failed to deactivate account" << endl;
 		return;
 	} else
-		cout << "Account deactivated succesfully" << endl;
+		cout << "Account deactivated successfully" << endl;
 }
 
 void Ui::ui_print_account() {
@@ -787,7 +787,7 @@ void Ui::ui_transfer() {
 		cerr << "Amount or bank accounts are invalid" << endl;
 	}
 	else
-		cout << "Successfull transfer" << endl;
+		cout << "Successful transfer" << endl;
 }
 
 void Ui::ui_deposit() {
@@ -827,6 +827,6 @@ void Ui::ui_deposit() {
 		cerr << "Amount or bank account are invalid" << endl;
 	}
 	else
-		cout << "Successfull deposit" << endl;
+		cout << "Successful deposit" << endl;
 }
 

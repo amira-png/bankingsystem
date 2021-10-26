@@ -2,16 +2,16 @@ cmake_minimum_required (VERSION 2.6)
 
 project (bankingsystem)
 
-ADD_LIBRARY(prog 
-    src/admin.cpp 
-    src/employee.cpp 
-    src/customer.cpp 
-    src/database.cpp 
-    src/session.cpp 
-    src/userinterface.cpp 
+ADD_LIBRARY(prog
+    src/admin.cpp
+    src/employee.cpp
+    src/customer.cpp
+    src/database.cpp
+    src/session.cpp
+    src/userinterface.cpp
 )
 
-target_link_libraries(prog -lcrypto) 
+target_link_libraries(prog -lcrypto)
 target_link_libraries(prog -lsmartcols)
 target_link_libraries(prog -lsqlite3)
 add_executable(bankingsystem src/main.cpp)
